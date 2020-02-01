@@ -1,0 +1,253 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	casual20: {
+		file: casual20.fnt
+	}
+	casual24: {
+		file: casual24.fnt
+	}
+	kurale24: {
+		file: kurale24.fnt
+	}
+	title32: {
+		file: title32.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	button_press_col: {
+		r: 1
+		g: 0
+		b: 0.9540558
+		a: 1
+	}
+	button_recolor: {
+		r: 0
+		g: 0.07356459
+		b: 0.37
+		a: 1
+	}
+	checked_color: {
+		r: 0
+		g: 0.9285555
+		b: 1
+		a: 1
+	}
+	slider_color: {
+		r: 0
+		g: 1
+		b: 0.9642203
+		a: 1
+	}
+	slider_pressed_color: {
+		r: 0
+		g: 0.4
+		b: 0.38071117
+		a: 1
+	}
+	text_field_color: {
+		r: 0.037212014
+		g: 0.028400004
+		b: 0.5
+		a: 1
+	}
+	text_field_color2: {
+		r: 0.12799996
+		g: 0.8159788
+		b: 0.85333335
+		a: 1
+	}
+	title_color: {
+		r: 0.21348606
+		g: 0.19211109
+		b: 0.4333333
+		a: 1
+	}
+	white: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	background2: {
+		name: background
+		color: {
+			r: 0.13200003
+			g: 0.46689826
+			b: 0.72
+			a: 1
+		}
+	}
+	scroll2: {
+		name: scroll
+		color: {
+			r: 0.58300006
+			g: 0.68816674
+			b: 0.88333344
+			a: 1
+		}
+	}
+	button2: {
+		name: button
+		color: button_recolor
+	}
+	textfield_c: {
+		name: textfield
+		color: text_field_color
+	}
+	textfield-selected_c: {
+		name: textfield-selected
+		color: text_field_color2
+	}
+	dote_select_text: {
+		name: dote
+		color: text_field_color
+	}
+	dote_cursor: {
+		name: dote
+		color: text_field_color2
+	}
+	slider-knob_c: {
+		name: slider-knob
+		color: slider_color
+	}
+	slider_c: {
+		name: slider
+		color: slider_color
+	}
+	slider-knob-pressed_c: {
+		name: slider-knob-pressed
+		color: slider_pressed_color
+	}
+	slider-before_c: {
+		name: slider-before
+		color: slider_color
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: background
+		down: background2
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: {
+		checkboxOn: checkbox_on
+		checkboxOff: checkbox_off
+		font: casual24
+		fontColor: white
+		checkedFontColor: checked_color
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+	default: {
+		font: title32
+		fontColor: white
+		downFontColor: button_press_col
+		up: button
+		down: button2
+	}
+	cancel: {
+		imageUp: cancel
+		font: title32
+		fontColor: white
+		downFontColor: button_press_col
+		up: button
+		down: button2
+	}
+	ok: {
+		imageUp: ok
+		font: title32
+		fontColor: white
+		downFontColor: button_press_col
+		up: button
+		down: button2
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: casual24
+	}
+	title: {
+		font: title32
+	}
+	advira: {
+		font: casual20
+	}
+	kurale: {
+		font: kurale24
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+	default: {
+		background: background2
+		vScroll: scroll2
+		vScrollKnob: scroll_knob
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+	default-horizontal: {
+		knobDown: slider-knob-pressed_c
+		background: slider_c
+		knob: slider-knob_c
+		knobBefore: slider-before_c
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: title32
+		fontColor: white
+		downFontColor: button_press_col
+		up: button
+		down: button2
+	}
+	buttonMin: {
+		font: casual24
+		fontColor: white
+		downFontColor: checked_color
+		up: background
+		down: background2
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: casual24
+		fontColor: black
+		focusedFontColor: white
+		background: textfield_c
+		focusedBackground: textfield-selected_c
+		cursor: dote_cursor
+		selection: dote_select_text
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+		background: background2
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: background
+		titleFont: title32
+		titleFontColor: white
+	}
+	octagon: {
+		background: window2
+		titleFont: title32
+		titleFontColor: white
+	}
+	rules_ram: {
+		titleFont: title32
+		titleFontColor: white
+		stageBackground: Window
+	}
+}
+}

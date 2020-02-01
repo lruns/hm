@@ -1,0 +1,22 @@
+package ru.neyvan.hm.surprises;
+
+/**
+ * Created by AndyGo on 21.02.2018.
+ */
+
+public class WarpSurprise extends Surprise {
+    public final float speedWarp;
+    public WarpSurprise(float maxTime, float speedWarp) {
+        super(maxTime);
+        this.speedWarp = speedWarp;
+    }
+
+    @Override
+    public void draw(float delta) {
+
+    }
+
+    public float getSpeedWarp() {
+        return speedWarp;
+    }
+}
