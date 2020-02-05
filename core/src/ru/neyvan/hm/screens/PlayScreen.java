@@ -70,23 +70,24 @@ public class PlayScreen extends ScreenAdapter {
     private boolean clicked = false;
     private Surprise curDisplaySurprise;
     private Explosion explosion;
+    public static final int SURPRISE = -1;
 
-    private float barFullness; //0.0 - 1.0
-    private float speedChangeBar;
+
     private float timeState;
     private int state;
-    private static final int WAITING_CLICK = 1;
-    private static final int AFTER_CLICK = 2;
-    private static final int NOT_CLICK = 3;
-    private static final int CHANGE = 4;
-    private static final int FALSE_NOT_CLICK = 5;
-    private static final int EXPLOSION = 6;
-    private static final int WIN = 7;
-    private static final int LOSER = 8;
+    private static final int START_GAME = 0; // ?
+    private static final int EXPECT_CLICK = 1; // Wait click of user on game circle
+    private static final int PRAISE_OR_SHAIME = 2; // Show player effects that show he guessed
+                                                    // number(surprise) or not
+                                                   // and fill bar cirlce (when he click)
+    private static final int CHANGE_ON_CIRCLE = 3; // After PRAISE_OR_SHAIME change number(surprise) on next
+    private static final int WIN = 41; // Player win -> next level or episode
+    private static final int LOSER = 42; // Player lose and we can propose him advertising in exchange for life
 
     private int lifes;
     private int score;
 
+    // Start new episode
     public PlayScreen(int clickedEpisode) {
         try {
             json = new Json();
@@ -118,7 +119,10 @@ public class PlayScreen extends ScreenAdapter {
         sides = new Sides(stage, time);
         gameCircle = new GameCircle(this, time);
         bottomPause = new BottomPause(this);
+    }
 
+    // Continue last saved game
+    public PlayScreen(){
 
     }
 
@@ -126,11 +130,19 @@ public class PlayScreen extends ScreenAdapter {
         InputProcessor backProcessor = new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
-                if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK)) back();
+                if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK))
+                    if(state != START_GAME) changePause();
                 return false;
             }
         };
-        InputMultiplexer multiplexer = new InputMultiplexer(stage, backProcessor);
+        InputProcessor clickProcessor = new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if ((keycode == Input.Keys.ENTER) && state == EXPECT_CLICK) clicked = true;
+                return false;
+            }
+        };
+        InputMultiplexer multiplexer = new InputMultiplexer(stage, backProcessor, clickProcessor);
         Gdx.input.setInputProcessor(multiplexer);
         streamEnergy.create((int) (camera.viewportWidth / 2), 0, 1f, 0.3f, camera.viewportHeight);
         gui.start();
@@ -159,30 +171,16 @@ public class PlayScreen extends ScreenAdapter {
         if(pause)return;
         timeState -= delta;
         switch (state){
-            case WAITING_CLICK:
-                barFullness += speedChangeBar * delta;
-                gameCircle.updateBar(delta, barFullness);
-                if(timeState<0){ // it didn't click
-                    state = NOT_CLICK;
-                    timeState = timeAfterStep*0.5f;
-                    if (currentNumber == -1) { //now is not number, it is surprise
-                        if(!goodSurprise()){
-                            congratulation(timeState); //player missed a bad surprise
-                        }else{
-                            disgrace(timeState); //player missed a good surprise
-                        }
-                    } else if (checkMove()) {
-                        congratulation(timeState); //number is not pressed by player and number is false => player did correct solution
-                    } else {
-                        state = FALSE_NOT_CLICK;
-                        timeState = 1.0f;
-                        disgrace(timeState); //number is not pressed by player and number is true => player did mistake
-                        break;
-                    }
+            case EXPECT_CLICK:
+                gameCircle.updateBar(delta);
+                if(timeState<0){
+                    if(clicked) circleClicked();
+                    else circleNotClicked();
+                    state = PRAISE_OR_SHAIME;
+                    timeState = timeAfterStep / 2;
                 }
                 break;
-            case AFTER_CLICK:
-                //speedChangeBar = (1.0f - barFullness)/timeState;
+            case PRAISE_OR_SHAIME:
                 barFullness += speedChangeBar * delta;
                 gameCircle.updateBar(delta, barFullness);
                 if(timeState<0){
@@ -207,7 +205,7 @@ public class PlayScreen extends ScreenAdapter {
             case CHANGE:
 
                 if (timeState<0){
-                    if(clicked && currentNumber == -1){
+                    if(clicked && currentNumber == SURPRISE){
 
                     }
                     if(win){
@@ -261,7 +259,7 @@ public class PlayScreen extends ScreenAdapter {
 //            timeStep += speedChangeTS;
 //            timeAfterStep += speedChangeTS;
 //            if (!clicked & turn) { //it is end of player's turn and player didn't click
-//                if (currentNumber == -1) {
+//                if (currentNumber == SURPRISE) {
 //                    neutrally(); //surprise is not activated by player
 //                } else if (checkMove()) {
 //                    congratulation(); //number is not pressed by player and number is false => player did correct solution
@@ -281,13 +279,14 @@ public class PlayScreen extends ScreenAdapter {
 //        gameCircle.updateBar(delta, turn ? (timeStep - timeJump) / timeStep : timeJump / timeAfterStep);
     }
 
+
     private void jumpToStateChange() {
         state = CHANGE;
         timeState = timeAfterStep*0.5f;
         barFullness = 0;
     }
 
-    private boolean goodSurprise() {
+    private boolean isGoodSurprise() {
         if(curDisplaySurprise instanceof Explosion || curDisplaySurprise instanceof FullFreezing ||
                 curDisplaySurprise instanceof HelpSurprise) return true;
         if(curDisplaySurprise instanceof ChangeSpeedTime){
@@ -342,11 +341,12 @@ public class PlayScreen extends ScreenAdapter {
 
 
     public void circleClicked() {
+        speedChangeBar = (1.0f - barFullness)/timeState;
         clicked = true;
         state = AFTER_CLICK;
         timeState = timeAfterStep * 0.5f;
         speedChangeBar = (1.0f-barFullness)/(0.3f*timeState);
-        if (currentNumber == -1) { //now is not number, it is surprise
+        if (currentNumber == SURPRISE) { //now is not number, it is surprise
             if(goodSurprise()){
                 congratulation(timeState); //player activate a good surprise
                 if (curDisplaySurprise instanceof GiftAndTrap){
@@ -380,6 +380,22 @@ public class PlayScreen extends ScreenAdapter {
         Gdx.app.log("circle", "click");
     }
 
+    private void circleNotClicked() {
+        speedChangeBar = 0;
+        timeState = timeAfterStep*0.5f;
+        if (currentNumber == SURPRISE) { //now is not number, it is surprise
+            if(!isGoodSurprise())
+                congratulation(timeState); //player missed a bad surprise
+            else disgrace(timeState); //player missed a good surprise
+        }else{
+            if (checkMove())
+                congratulation(timeState); //number is not pressed by player and number is false => player did correct solution
+            else
+                disgrace(timeState); //number is not pressed by player and number is true => player did mistake
+        }
+    }
+
+
     private boolean checkMove() {
         for (Check check : level.getChecksOfMove()) {
             check.makeOperation(level.getTerms(), level.getChecksOfMove(), currentNumber);
@@ -398,12 +414,16 @@ public class PlayScreen extends ScreenAdapter {
     }
 
     public void back() {
+        saveGame();
         Gdx.input.setInputProcessor(null);
         HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
 
         gui.back();
         sides.back();
         gameCircle.back();
+    }
+    public void saveGame(){
+
     }
 
     public void changePause() {
@@ -419,6 +439,9 @@ public class PlayScreen extends ScreenAdapter {
             gameCircle.setVisiblePlay(pause);
         }
     }
+
+
+
 
     @Override
     public void resize(int width, int height) {

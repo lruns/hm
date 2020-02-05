@@ -28,6 +28,7 @@ import ru.neyvan.hm.actors.LifesBox;
 import ru.neyvan.hm.screens.PlayScreen;
 
 /**
+ * This class only for indications of lifes, scores, progress and change for game pause
  * Created by AndyGo on 25.11.2017.
  */
 public class GUI {
@@ -48,6 +49,7 @@ public class GUI {
 
     private int referenceScore;
     private int nowScore;
+
 
     public GUI(final PlayScreen parent, float time){
         this.parent = parent;

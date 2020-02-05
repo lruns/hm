@@ -12,10 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.sun.istack.internal.NotNull;
 
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.CircleShaderActor;
@@ -36,6 +38,9 @@ import static com.badlogic.gdx.graphics.GL20.GL_TEXTURE0;
 import static com.badlogic.gdx.graphics.GL20.GL_TEXTURE1;
 
 /**
+ * This class for graphical changes of game, not for game logic!
+ * You can change number with function {@link GameCircle#displayNextOnCircle}
+ *
  * Created by AndyGo on 01.01.2018.
  */
 
@@ -48,8 +53,15 @@ public class GameCircle {
     //private TextNum numberText;
     private CircleShaderActor circleBar;
     private PlayScreen parent;
+    private final float MAX_BAR = 0.9999f;
+    private final float MIN_BAR = 0.0001f;
+    private float barFullness; //0.0 - 1.0
+    private float speedChangeBar;
     private float timeExplosion;
     private int remainingExplosions;
+
+    // for testing
+    private Label testText;
 
     public GameCircle(final PlayScreen parent, float time){
         this.parent = parent;
@@ -69,6 +81,8 @@ public class GameCircle {
 
         //numberText = new TextNum(String.valueOf(1), Color.WHITE, stack.getWidth(), stack.getHeight());
         //stack.addActor(numberText);
+
+        testText = new Label("0", parent.getSkin());
 
         circleBar = new CircleShaderActor(Color.BLUE);
         circleBar.setSize(stack.getWidth(), stack.getHeight());
@@ -99,14 +113,50 @@ public class GameCircle {
         imgMinCircle.setSize(stack.getWidth()*0.15f, stack.getHeight()*0.15f);
         imgMinCircle.setPosition(stack.getX()+stack.getWidth()/2 - imgMinCircle.getWidth()/2, stack.getY()-imgMinCircle.getHeight()*0.25f);
         parent.getStage().addActor(imgMinCircle);
-    }
-    public void changeNumber(int number){
-        //numberText.setText(String.valueOf(number));
+
+        barFullness = 0.001f;
+        speedChangeBar = 0;
+
     }
 
-    public void displayIconSurprise(Surprise surprise){
-        //numberText.setSurprise(surprise);
+    /**
+     * Prepare next number for showing on circle
+     * @param number
+     */
+    public void displayNextOnCircle(int number){
+        //numberText.setText(String.valueOf(number));
+        testText.setText(String.valueOf(number));
     }
+    /**
+     * Prepare next number for showing on circle
+     * @param surprise
+     */
+    public void displayNextOnCircle(Surprise surprise){
+        //numberText.setSurprise(surprise);
+        testText.setText("Surprise!");
+    }
+
+    // These three functions responsible for work bar around circle
+    // First two functions point where to aim. Don't forget update bar!
+    public void resetBar(float time){
+        speedChangeBar = -(barFullness - MIN_BAR) / time;
+    }
+    public void fillBar(float time){
+        speedChangeBar = (MAX_BAR - barFullness) / time;
+    }
+    public void updateBar(float delta){
+//        circleBar.reloadCenterPosition();
+        barFullness += delta * speedChangeBar;
+        if(barFullness > MAX_BAR)
+            barFullness = MAX_BAR;
+        else if (barFullness < MIN_BAR)
+            barFullness = MIN_BAR;
+        circleBar.setOpen(barFullness);
+    }
+
+
+
+
     public void start() {
         stack.addAction(Actions.alpha(0));
         stack.addAction(Actions.fadeIn(time));
@@ -124,6 +174,22 @@ public class GameCircle {
         timeExplosion = parent.getExplosion().getMaxTimeExplosion();
         remainingExplosions = parent.getExplosion().getMaxNumberExplosions();
     }
+
+
+    public void setVisiblePlay(boolean pause) {
+        imgPlay.setVisible(pause);
+        //numberText.setVisible(!pause);
+        circleBar.setVisible(!pause);
+        imgMinCircle.setVisible(!pause);
+    }
+
+    public void setColor(Color color) {
+        circleBar.setColor(color);
+    }
+
+
+
+
     public void updateExplosion(float delta){
         timeExplosion -= delta;
         if(timeExplosion<0){
@@ -140,24 +206,9 @@ public class GameCircle {
         timeExplosion = parent.getExplosion().getMaxTimeExplosion();
     }
 
-    public void updateBar(float delta, float currentBar){
-//        circleBar.reloadCenterPosition();
-        if(currentBar >= 1){
-            currentBar = 0.999f;
-        }
-        circleBar.setOpen(currentBar);
-    }
 
-    public void setVisiblePlay(boolean pause) {
-        imgPlay.setVisible(pause);
-        //numberText.setVisible(!pause);
-        circleBar.setVisible(!pause);
-        imgMinCircle.setVisible(!pause);
-    }
 
-    public void setColor(Color color) {
-        circleBar.setColor(color);
-    }
+
 
     public void dispose(){
        // numberText.dispose();
