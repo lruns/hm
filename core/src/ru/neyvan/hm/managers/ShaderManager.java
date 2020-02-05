@@ -46,8 +46,8 @@ public class ShaderManager implements Manager {
     public void dispose() {
         circle.dispose();
         fontShader.dispose();
-        transitionShader.dispose();
-        burnShader.dispose();
+      //  transitionShader.dispose();
+       // burnShader.dispose();
         explosionShader.dispose();
     }
 

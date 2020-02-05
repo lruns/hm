@@ -8,6 +8,7 @@ public class Rotation extends Surprise {
     private float speed;
     private boolean oneCircle;
     private float rotation; //in degrees 0-360
+    public Rotation(){super();}
     public Rotation(float maxTime, float speed, boolean oneCircle) {
         super(maxTime);
         this.speed = speed;

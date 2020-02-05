@@ -5,6 +5,7 @@ package ru.neyvan.hm.terms;
  */
 
 public class SquareNumber extends Term {
+    public SquareNumber(){super();}
     public SquareNumber(int ID) {
         super(ID);
     }

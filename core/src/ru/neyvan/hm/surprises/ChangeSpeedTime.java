@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 
 public class ChangeSpeedTime extends Surprise{
     private float multiplierTime;
+    public ChangeSpeedTime(){super();}
     public ChangeSpeedTime(float maxTime, float multiplierTime) {
         super(maxTime);
         this.multiplierTime = multiplierTime;

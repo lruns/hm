@@ -5,6 +5,7 @@ package ru.neyvan.hm.surprises;
  */
 
 public class HelpSurprise extends Surprise {
+    public HelpSurprise(){super();}
     public HelpSurprise(float maxTime) {
         super(maxTime);
     }

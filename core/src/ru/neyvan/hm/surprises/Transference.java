@@ -12,6 +12,7 @@ public class Transference extends Surprise {
     private float radius;
     private float maxHeight;
     private float maxWidth;
+    public Transference(){super();}
     public Transference(float maxTime, float firstSpeedX, float firstSpeedY) {
         super(maxTime);
         this.speedX = firstSpeedX;

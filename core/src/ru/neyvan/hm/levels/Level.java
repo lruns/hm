@@ -1,6 +1,5 @@
-package ru.neyvan.hm.json_creater;
+package ru.neyvan.hm.levels;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.neyvan.hm.surprises.Surprise;
@@ -10,7 +9,7 @@ import ru.neyvan.hm.terms.Term;
  * Created by AndyGo on 08.01.2018.
  */
 
-public class Level implements Serializable{
+public class Level{
     // Data about count of level, episode, background
     private int episode;
     private int count_level;

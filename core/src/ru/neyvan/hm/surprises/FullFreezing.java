@@ -5,6 +5,7 @@ package ru.neyvan.hm.surprises;
  */
 
 public class FullFreezing extends Surprise {
+    public FullFreezing(){super();}
     public FullFreezing(float maxTime) {
         super(maxTime);
     }

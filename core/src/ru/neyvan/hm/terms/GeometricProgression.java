@@ -6,6 +6,7 @@ package ru.neyvan.hm.terms;
 
 public class GeometricProgression extends Term {
     private int first, commonRatio;
+    public GeometricProgression(){super();}
     public GeometricProgression(int ID, int first, int commonRatio) {
         super(ID);
         this.first = first;

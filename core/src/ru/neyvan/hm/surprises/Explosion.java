@@ -1,5 +1,8 @@
 package ru.neyvan.hm.surprises;
 
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+
 /**
  * Created by AndyGo on 21.02.2018.
  */
@@ -7,6 +10,7 @@ package ru.neyvan.hm.surprises;
 public class Explosion extends Surprise {
     private int numExplosions;
     private final float maxTimeExplosion;
+    public Explosion(){super(); maxTimeExplosion = 1.0f;}
     public Explosion(float maxTime, int numExplosions) {
         super(maxTime);
         maxTimeExplosion = maxTime/numExplosions;
@@ -30,4 +34,5 @@ public class Explosion extends Surprise {
     public float getMaxTimeExplosion() {
         return maxTimeExplosion;
     }
+
 }

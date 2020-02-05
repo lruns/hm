@@ -1,25 +1,23 @@
-package ru.neyvan.hm.json_creater;
+package ru.neyvan.hm.levels;
+
 
 import com.badlogic.gdx.Gdx;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.Json;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
+
 public class MyFrame extends JFrame {
-    private final String[] FILTER = {"json", "Level Files (*.json)"};
+
     public String message;
     public boolean allOk;
+    Json json;
+    FileHandle fileHandle;
     MyFrame() {
 
     }
@@ -35,13 +33,13 @@ public class MyFrame extends JFrame {
         dialog.setMultiSelectionEnabled(false); // Разрешить выбор нескольки файлов
         dialog.showOpenDialog(this);
         //this.dispose();
+
         Level level = null;
         try {
-            FileInputStream fis = new FileInputStream(dialog.getSelectedFile());
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            level = (Level) ois.readObject();
-            ois.close();
-
+            json = new Json();
+            fileHandle = Gdx.files.absolute(dialog.getSelectedFile().getAbsolutePath());
+            level = json.fromJson(Level.class,
+                    Base64Coder.decodeString(fileHandle.readString()));
         } catch (Exception e) {
             System.out.println("Exception thrown during open file: " + e.toString());
         }
@@ -65,34 +63,17 @@ public class MyFrame extends JFrame {
         // Если файл выбран, то представим его в сообщении
         if (result == JFileChooser.APPROVE_OPTION ) {
             allOk = true;
-            FileOutputStream fout = null;
-            ObjectOutputStream oos = null;
             try {
                 String text = fileChooser.getSelectedFile()+"";
                 if(!text.contains(".lvl")){
                     text+=".lvl";
                 }
-                fout = new FileOutputStream(text);
-                oos = new ObjectOutputStream(fout);
-                oos.writeObject(level);
+                json = new Json();
+                fileHandle = Gdx.files.absolute(text);
+                fileHandle.writeString(Base64Coder.encodeString(json.prettyPrint(level)),false);
             } catch (Exception ex) {
                 message = ex.toString();
                 allOk =false;
-            } finally {
-                if (fout != null) {
-                    try {
-                        fout.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (oos != null) {
-                    try {
-                        oos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
             return allOk;
         }

@@ -5,6 +5,7 @@ package ru.neyvan.hm.terms;
  */
 
 public class Simple extends Term {
+    public Simple(){super();}
     public Simple(int ID) {
         super(ID);
     }

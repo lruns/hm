@@ -6,6 +6,8 @@ package ru.neyvan.hm.terms;
 
 public class ArithmeticProgression extends Term {
     private int first, difference;
+
+    public ArithmeticProgression(){super();}
     public ArithmeticProgression(int ID, int first, int difference) {
         super(ID);
         this.first = first;

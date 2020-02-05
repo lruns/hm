@@ -6,6 +6,8 @@ package ru.neyvan.hm.terms;
 
 public class AdditionNumerals extends Term{
     private int ideal;
+
+    public AdditionNumerals(){super();}
     public AdditionNumerals(int ID, int ideal){
         super(ID);
         this.ideal = ideal;

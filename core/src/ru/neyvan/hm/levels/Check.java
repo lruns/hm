@@ -1,4 +1,4 @@
-package ru.neyvan.hm.json_creater;
+package ru.neyvan.hm.levels;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,6 +19,12 @@ public class Check implements Serializable{
     private int idSecondOperand;
     private boolean result;
 
+    public Check(){
+        this.ID = 0;
+        this.typeOfOperation = 1;
+        this.idFirstOperand = 97;
+        this.idSecondOperand = 98;
+    }
     public Check(int ID, int typeOfOperation, int idFirstOperand, int idSecondOperand){
         this.ID = ID;
         this.typeOfOperation = typeOfOperation;

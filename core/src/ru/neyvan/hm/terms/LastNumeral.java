@@ -8,6 +8,7 @@ public class LastNumeral extends Term {
     private int numberPosition; // 0 - ones, 1 - tens, 2 - hundreds
     private int lastNumeral;
     private int power;
+    public LastNumeral(){super();}
     public LastNumeral(int ID, int numberPosition, int lastNumeral) {
         super(ID);
         this.numberPosition = numberPosition;

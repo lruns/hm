@@ -13,6 +13,7 @@ public class GiftAndTrap extends Surprise {
     private int type;
     private int number;
 
+    public GiftAndTrap(){super();}
     public GiftAndTrap(float maxTime, int type, int number) {
         super(maxTime);
         this.type = type;

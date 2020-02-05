@@ -1,4 +1,4 @@
-package ru.neyvan.hm.json_creater;
+package ru.neyvan.hm.levels;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;

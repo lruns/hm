@@ -1,14 +1,17 @@
 package ru.neyvan.hm.surprises;
 
-import java.io.Serializable;
+
+import com.badlogic.gdx.utils.Json;
 
 /**
  * Created by AndyGo on 08.01.2018.
  */
 
-public abstract class Surprise implements Serializable{
+public abstract class Surprise  {
     private final float maxTime;
     private float time;
+
+    public Surprise(){this.maxTime = 1.0f;}
     public Surprise(float maxTime){
         this.maxTime = maxTime;
     }

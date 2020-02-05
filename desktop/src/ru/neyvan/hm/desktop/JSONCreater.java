@@ -1,19 +1,11 @@
 package ru.neyvan.hm.desktop;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
 
-import org.lwjgl.Sys;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
-import ru.neyvan.hm.Constants;
-import ru.neyvan.hm.json_creater.Main;
+import ru.neyvan.hm.levels.Main;
 
 
 /**

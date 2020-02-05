@@ -1,4 +1,4 @@
-package ru.neyvan.hm.json_creater;
+package ru.neyvan.hm.levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -787,7 +787,6 @@ public class ScreenLevelEditor extends ScreenAdapter {
         Json json = new Json(JsonWriter.OutputType.minimal);
     }
 
-    private DesktopWorker desktopWorker;
 
     private void saveFile(final Runnable runnable){
         String error = new String();

@@ -6,6 +6,8 @@ package ru.neyvan.hm.surprises;
 
 public class WarpSurprise extends Surprise {
     public final float speedWarp;
+
+    public WarpSurprise(){super(); speedWarp = 1.0f;}
     public WarpSurprise(float maxTime, float speedWarp) {
         super(maxTime);
         this.speedWarp = speedWarp;

@@ -15,6 +15,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.io.FileInputStream;
@@ -28,8 +30,8 @@ import ru.neyvan.hm.effects.StreamEnergy;
 import ru.neyvan.hm.game.GUI;
 import ru.neyvan.hm.game.GameCircle;
 import ru.neyvan.hm.game.Sides;
-import ru.neyvan.hm.json_creater.Check;
-import ru.neyvan.hm.json_creater.Level;
+import ru.neyvan.hm.levels.Check;
+import ru.neyvan.hm.levels.Level;
 import ru.neyvan.hm.surprises.ChangeSpeedTime;
 import ru.neyvan.hm.surprises.Explosion;
 import ru.neyvan.hm.surprises.FullFreezing;
@@ -58,6 +60,8 @@ public class PlayScreen extends ScreenAdapter {
     private boolean pause;
 
     private Level level;
+    private Json json;
+    private FileHandle fileHandle;
     private int currentNumber;
     private int countMove;
     private float accelerationSpeedChangeTS, speedChangeTS, timeStep, timeAfterStep;
@@ -84,16 +88,14 @@ public class PlayScreen extends ScreenAdapter {
     private int score;
 
     public PlayScreen(int clickedEpisode) {
-        FileHandle file = Gdx.files.internal("episodes/level1.lvl");
-        level = null;
         try {
-            FileInputStream fis = new FileInputStream(file.file());
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            level = (Level) ois.readObject();
-            ois.close();
+            json = new Json();
+            fileHandle = Gdx.files.internal("episodes/level1.lvl");
+            level = json.fromJson(Level.class,
+                    Base64Coder.decodeString(fileHandle.readString()));
 
         } catch (Exception e) {
-            System.out.println("Exception thrown during open level: " + e.toString());
+            System.out.println("Exception thrown during open level file: " + e.toString());
         }
         timeStep = level.getTimeStep();
         timeAfterStep = level.getTimeAfterStep();
