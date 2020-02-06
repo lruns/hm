@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.sun.istack.internal.NotNull;
 
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.CircleShaderActor;
@@ -83,6 +82,9 @@ public class GameCircle {
         //stack.addActor(numberText);
 
         testText = new Label("0", parent.getSkin());
+        testText.setFontScale(5);
+        testText.setAlignment(Align.center);
+        stack.addActor(testText);
 
         circleBar = new CircleShaderActor(Color.BLUE);
         circleBar.setSize(stack.getWidth(), stack.getHeight());
@@ -103,7 +105,9 @@ public class GameCircle {
         stack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.circleClicked();
+
+                //PROBLEM!!!
+                //parent.circleClicked();
             }
         });
 
@@ -117,6 +121,10 @@ public class GameCircle {
         barFullness = 0.001f;
         speedChangeBar = 0;
 
+    }
+
+    public void update(float delta){
+        updateBar(delta);
     }
 
     /**
@@ -137,20 +145,30 @@ public class GameCircle {
     }
 
     // These three functions responsible for work bar around circle
-    // First two functions point where to aim. Don't forget update bar!
+    // First disappear bar instantly
+    // Another two functions point where to aim.
+    public void resetBar(){
+        //with some effect
+        barFullness = MIN_BAR;
+        speedChangeBar = 0;
+    }
     public void resetBar(float time){
         speedChangeBar = -(barFullness - MIN_BAR) / time;
     }
     public void fillBar(float time){
         speedChangeBar = (MAX_BAR - barFullness) / time;
     }
-    public void updateBar(float delta){
+
+    private void updateBar(float delta){
 //        circleBar.reloadCenterPosition();
         barFullness += delta * speedChangeBar;
-        if(barFullness > MAX_BAR)
+        if(barFullness > MAX_BAR) {
             barFullness = MAX_BAR;
-        else if (barFullness < MIN_BAR)
+            speedChangeBar = 0;
+        }else if (barFullness < MIN_BAR) {
             barFullness = MIN_BAR;
+            speedChangeBar = 0;
+        }
         circleBar.setOpen(barFullness);
     }
 

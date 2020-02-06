@@ -11,6 +11,7 @@ import ru.neyvan.hm.managers.TextureManager;
 import ru.neyvan.hm.managers.MusicManager;
 import ru.neyvan.hm.managers.SoundManager;
 import ru.neyvan.hm.screens.MenuScreen;
+import ru.neyvan.hm.screens.PlayScreen;
 import ru.neyvan.hm.screens.WelcomeScreen;
 
 /**
@@ -62,7 +63,8 @@ public class HM extends Game {
             setScreen(new WelcomeScreen());
         }else{
             initManagers();
-            setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
+            //setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
+            setScreen(new PlayScreen(1));
         }
     }
 
@@ -77,21 +79,21 @@ public class HM extends Game {
 
     float timeDebug = 0;
     float time = 0;
-    float maxTime = 1;
+    float maxTime = 5;
     @Override
     public void render() {
         super.render();
-        if(Gdx.app.getLogLevel() == Application.LOG_DEBUG){
-            timeDebug += Gdx.graphics.getDeltaTime();
-            if(timeDebug > maxTime){
-                time+=timeDebug;
-                timeDebug = 0;
-                Gdx.app.debug("Time", time+"");
-                Gdx.app.debug("FPS", Gdx.graphics.getFramesPerSecond()+" S");
-                Gdx.app.debug("JavaHeap", Gdx.app.getJavaHeap()/1048576+" MB");
-                Gdx.app.debug("NativeHeap", Gdx.app.getNativeHeap()/1048576+" MB");
-            }
-        }
+//        if(Gdx.app.getLogLevel() == Application.LOG_DEBUG){
+//            timeDebug += Gdx.graphics.getDeltaTime();
+//            if(timeDebug > maxTime){
+//                time+=timeDebug;
+//                timeDebug = 0;
+//                Gdx.app.debug("Time", time+"");
+//                Gdx.app.debug("FPS", Gdx.graphics.getFramesPerSecond()+" S");
+//                Gdx.app.debug("JavaHeap", Gdx.app.getJavaHeap()/1048576+" MB");
+//                //Gdx.app.debug("NativeHeap", Gdx.app.getNativeHeap()/1048576+" MB");
+//            }
+//        }
 
     }
 

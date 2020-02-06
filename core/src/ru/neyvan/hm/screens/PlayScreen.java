@@ -56,7 +56,7 @@ public class PlayScreen extends ScreenAdapter {
     private Sides sides;
     private GameCircle gameCircle;
     private BottomPause bottomPause;
-    private float time;
+    private float timeGUIAnimation;
     private boolean pause;
 
     private Level level;
@@ -75,6 +75,7 @@ public class PlayScreen extends ScreenAdapter {
 
     private float timeState;
     private int state;
+    //                                STATES OF GAME                                    //
     private static final int START_GAME = 0; // ?
     private static final int EXPECT_CLICK = 1; // Wait click of user on game circle
     private static final int PRAISE_OR_SHAIME = 2; // Show player effects that show he guessed
@@ -86,6 +87,9 @@ public class PlayScreen extends ScreenAdapter {
 
     private int lifes;
     private int score;
+
+    private  float debugTime = 0;
+
 
     // Start new episode
     public PlayScreen(int clickedEpisode) {
@@ -103,9 +107,10 @@ public class PlayScreen extends ScreenAdapter {
         speedChangeTS = level.getSpeedChangeTS();
         accelerationSpeedChangeTS = level.getAccelerationSpeedChangeTS();
         currentNumber = level.getFirstNumber();
-        countMove = 0;
+        countMove = -1;
 
-        time = 1f;
+        timeGUIAnimation = 1f;
+        state = START_GAME;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
         batch = new SpriteBatch();
@@ -115,10 +120,18 @@ public class PlayScreen extends ScreenAdapter {
 
         stage = new Stage(new FitViewport(Constants.WIDTH, Constants.HEIGHT));
         skin = HM.game.texture.skin;
-        gui = new GUI(this, time);
-        sides = new Sides(stage, time);
-        gameCircle = new GameCircle(this, time);
+        gui = new GUI(this, timeGUIAnimation);
+        sides = new Sides(stage, timeGUIAnimation);
+        gameCircle = new GameCircle(this, timeGUIAnimation);
+        normalCircle();
         bottomPause = new BottomPause(this);
+
+        lifes = 20;
+        score = 0;
+        timeState = 3f;
+        gui.setBeginScore(score);
+        gui.setLifes(lifes);
+
     }
 
     // Continue last saved game
@@ -138,7 +151,7 @@ public class PlayScreen extends ScreenAdapter {
         InputProcessor clickProcessor = new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
-                if ((keycode == Input.Keys.ENTER) && state == EXPECT_CLICK) clicked = true;
+                if ((keycode == Input.Keys.SPACE) && state == EXPECT_CLICK) clicked = true;
                 return false;
             }
         };
@@ -148,6 +161,7 @@ public class PlayScreen extends ScreenAdapter {
         gui.start();
         sides.start();
         gameCircle.start();
+        Gdx.app.debug("Statements", "start START_GAME");
     }
 
     @Override
@@ -167,47 +181,54 @@ public class PlayScreen extends ScreenAdapter {
     public void update(float delta) {
         stage.act(delta);
         gui.update(delta);
+        debugTime += delta;
 
         if(pause)return;
+        gameCircle.update(delta);
+        streamEnergy.update(delta);
         timeState -= delta;
+
         switch (state){
+            case START_GAME:
+                if(timeState > 0) break;
+                startGame();
+                nextNumberOrSurprise();
+                gameCircle.fillBar(timeState * 0.3f);
+                Gdx.app.debug("Time", debugTime + " s");
+                Gdx.app.debug("Statements", "start EXPECT_CLICK");
+
+                break;
             case EXPECT_CLICK:
-                gameCircle.updateBar(delta);
                 if(timeState<0){
                     if(clicked) circleClicked();
                     else circleNotClicked();
                     state = PRAISE_OR_SHAIME;
-                    timeState = timeAfterStep / 2;
+                    timeState = timeAfterStep*0.5f;
+                    gameCircle.fillBar(timeState * 0.3f);
+                    Gdx.app.debug("Time", debugTime + " s");
+                    Gdx.app.debug("Statements", "start PRAISE_OR_SHAIME");
                 }
                 break;
             case PRAISE_OR_SHAIME:
-                barFullness += speedChangeBar * delta;
-                gameCircle.updateBar(delta, barFullness);
                 if(timeState<0){
-                    if(curDisplaySurprise instanceof Explosion){
-                        explosion = (Explosion) curDisplaySurprise;
-                        state = EXPLOSION;
-                        timeState = explosion.getMaxTime();
-                        gameCircle.setColor(Color.RED);
-                        speedChangeBar = 1.0f / timeState;
-                        barFullness = 0;
-                        break;
-                    }
-                    jumpToStateChange();
-                }
-                break;
-            case NOT_CLICK:
-                if(timeState<0){
-                    state = CHANGE;
+//                    if(curDisplaySurprise instanceof Explosion){
+//                        explosion = (Explosion) curDisplaySurprise;
+//                        state = EXPLOSION;
+//                        timeState = explosion.getMaxTime();
+//                        gameCircle.setColor(Color.RED);
+//
+//                        break;
+//                    }
+                    state = CHANGE_ON_CIRCLE;
                     timeState = timeAfterStep*0.5f;
+                    gameCircle.resetBar(timeState*0.1f);
+
+                    Gdx.app.debug("Time", debugTime + " s");
+                    Gdx.app.debug("Statements", "start CHANGE_ON_CIRCLE");
                 }
                 break;
-            case CHANGE:
-
+            case CHANGE_ON_CIRCLE:
                 if (timeState<0){
-                    if(clicked && currentNumber == SURPRISE){
-
-                    }
                     if(win){
                         state = WIN;
                         timeState = 3.0f;
@@ -216,32 +237,35 @@ public class PlayScreen extends ScreenAdapter {
                         timeState = 3.0f;
                     }
                     nextNumberOrSurprise();
-                    state = WAITING_CLICK;
+                    state = EXPECT_CLICK;
                     speedChangeTS += accelerationSpeedChangeTS;
                     timeStep += speedChangeTS;
                     timeAfterStep += speedChangeTS;
                     clicked = false;
+                    timeState = timeStep;
+                    gameCircle.fillBar(timeState);
+                    normalCircle();
+                    Gdx.app.debug("Time", debugTime + " s");
+                    Gdx.app.debug("Statements", "start EXPECT_CLICK");
                 }
                 break;
-            case FALSE_NOT_CLICK:
-                //burn number
-                if(timeState<0){
-                    jumpToStateChange();
-                }
-                break;
-            case EXPLOSION:
-                gameCircle.updateExplosion(delta);
-                if(timeState<0){
-
-                }
-                break;
+//            case EXPLOSION:
+//                gameCircle.updateExplosion(delta);
+//                if(timeState<0){
+//
+//                }
+//                break;
             case WIN:
+                if (timeState<0)
+                    back();
                 break;
             case LOSER:
+                if (timeState<0)
+                    back();
                 break;
         }
 
-        streamEnergy.update(delta);
+
 
 //        if (pause) return;
 //        if (win) {
@@ -279,11 +303,63 @@ public class PlayScreen extends ScreenAdapter {
 //        gameCircle.updateBar(delta, turn ? (timeStep - timeJump) / timeStep : timeJump / timeAfterStep);
     }
 
+    public void startGame(){
+        state = EXPECT_CLICK; timeState = timeStep;
+    }
 
-    private void jumpToStateChange() {
-        state = CHANGE;
+
+    private void circleClicked() {
+        if (currentNumber == SURPRISE) { //now is not number, it is surprise
+            if(isGoodSurprise()){
+                congratulation(1f); //player activate a good surprise
+                if (curDisplaySurprise instanceof GiftAndTrap){
+                    GiftAndTrap cat = (GiftAndTrap)(curDisplaySurprise);
+                    if(cat.getType() == GiftAndTrap.SUPER_LIFE){
+                        lifes = lifes + cat.getNumber();
+                        gui.setLifes(lifes);
+                    }else{
+                        score = score + cat.getNumber();
+                        gui.setNewScore(score);
+                    }
+                }
+            }else{
+                disgrace(1f); //player activate a bad surprise
+                if (curDisplaySurprise instanceof GiftAndTrap){
+                    GiftAndTrap cat = (GiftAndTrap)(curDisplaySurprise);
+                    if(cat.getType() == GiftAndTrap.DEBUF_LIFE){
+                        lifes = lifes - Math.abs(cat.getNumber());
+                        gui.setLifes(lifes);
+                    }else{
+                        score = score - Math.abs(cat.getNumber());
+                        gui.setNewScore(score);
+                    }
+                }
+            }
+        } else if (checkMove(true)) {
+            congratulation(1f); //number is pressed by player and number is true => player did correct solution
+        } else {
+            disgrace(1f); //number is pressed by player and number is false => player did mistake
+            lifes --;
+            gui.setLifes(lifes);
+        }
+        Gdx.app.log("circle", "click");
+    }
+
+    private void circleNotClicked() {
         timeState = timeAfterStep*0.5f;
-        barFullness = 0;
+        if (currentNumber == SURPRISE) { //now is not number, it is surprise
+            if(!isGoodSurprise())
+                congratulation(1f); //player missed a bad surprise
+            else disgrace(1f); //player missed a good surprise
+        }else{
+            if (checkMove(false)) {
+                congratulation(1f); //number is not pressed by player and number is false => player did correct solution
+            }else{
+                disgrace(1f); //number is not pressed by player and number is true => player did mistake
+                lifes--;
+                gui.setLifes(lifes);
+            }
+        }
     }
 
     private boolean isGoodSurprise() {
@@ -311,7 +387,7 @@ public class PlayScreen extends ScreenAdapter {
             if (MathUtils.random() > 0.9 || (level.getCountOfMoves() - countMove < 10)) {
                 int i = MathUtils.random(0, level.getSurprises().size() - 1);
                 curDisplaySurprise = level.getSurprises().get(countEffects);
-                gameCircle.displayIconSurprise(curDisplaySurprise);
+                gameCircle.displayNextOnCircle(curDisplaySurprise);
                 level.getSurprises().remove(i);
                 return;
             }
@@ -321,12 +397,12 @@ public class PlayScreen extends ScreenAdapter {
                 if (level.isOutOfOrderAppearanceSurprise()) {
                     int i = MathUtils.random(0, level.getSurprises().size() - 1);
                     curDisplaySurprise = level.getSurprises().get(countEffects);
-                    gameCircle.displayIconSurprise(curDisplaySurprise);
+                    gameCircle.displayNextOnCircle(curDisplaySurprise);
                     level.getSurprises().remove(i);
                     return;
                 }
                 curDisplaySurprise = level.getSurprises().get(countEffects);
-                gameCircle.displayIconSurprise(curDisplaySurprise);
+                gameCircle.displayNextOnCircle(curDisplaySurprise);
                 countEffects++;
                 return;
             }
@@ -336,81 +412,30 @@ public class PlayScreen extends ScreenAdapter {
         } else {
             currentNumber += level.getDeltaNumbers();
         }
-        gameCircle.changeNumber(currentNumber);
+        gameCircle.displayNextOnCircle(currentNumber);
     }
 
 
-    public void circleClicked() {
-        speedChangeBar = (1.0f - barFullness)/timeState;
-        clicked = true;
-        state = AFTER_CLICK;
-        timeState = timeAfterStep * 0.5f;
-        speedChangeBar = (1.0f-barFullness)/(0.3f*timeState);
-        if (currentNumber == SURPRISE) { //now is not number, it is surprise
-            if(goodSurprise()){
-                congratulation(timeState); //player activate a good surprise
-                if (curDisplaySurprise instanceof GiftAndTrap){
-                    GiftAndTrap cat = (GiftAndTrap)(curDisplaySurprise);
-                    if(cat.getType() == GiftAndTrap.SUPER_LIFE){
-                        lifes = lifes + cat.getNumber();
-                        gui.setLifes(lifes);
-                    }else{
-                        score = score + cat.getNumber();
-                        gui.setNewScore(score);
-                    }
-                }
-            }else{
-                disgrace(timeState); //player activate a bad surprise
-                if (curDisplaySurprise instanceof GiftAndTrap){
-                    GiftAndTrap cat = (GiftAndTrap)(curDisplaySurprise);
-                    if(cat.getType() == GiftAndTrap.DEBUF_LIFE){
-                        lifes = lifes - Math.abs(cat.getNumber());
-                        gui.setLifes(lifes);
-                    }else{
-                        score = score - Math.abs(cat.getNumber());
-                        gui.setNewScore(score);
-                    }
-                }
-            }
-        } else if (checkMove()) {
-            congratulation(timeState); //number is pressed by player and number is true => player did correct solution
-        } else {
-            disgrace(timeState); //number is pressed by player and number is false => player did mistake
-        }
-        Gdx.app.log("circle", "click");
-    }
-
-    private void circleNotClicked() {
-        speedChangeBar = 0;
-        timeState = timeAfterStep*0.5f;
-        if (currentNumber == SURPRISE) { //now is not number, it is surprise
-            if(!isGoodSurprise())
-                congratulation(timeState); //player missed a bad surprise
-            else disgrace(timeState); //player missed a good surprise
-        }else{
-            if (checkMove())
-                congratulation(timeState); //number is not pressed by player and number is false => player did correct solution
-            else
-                disgrace(timeState); //number is not pressed by player and number is true => player did mistake
-        }
-    }
-
-
-    private boolean checkMove() {
+    private boolean checkMove(boolean wasClicked) {
         for (Check check : level.getChecksOfMove()) {
             check.makeOperation(level.getTerms(), level.getChecksOfMove(), currentNumber);
         }
-        return clicked == level.getChecksOfMove().get(level.getChecksOfMove().size() - 1).getResult();
+        return wasClicked == level.getChecksOfMove().get(level.getChecksOfMove().size() - 1).getResult();
     }
 
     private void congratulation(float duration) {
         gameCircle.setColor(Color.GREEN);
-        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, 1, true);
+        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
+    }
+
+    private void normalCircle() {
+        gameCircle.setColor(Color.BLUE);
+        //shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
     }
 
     private void disgrace(float duration) {
         gameCircle.setColor(Color.RED);
-        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, 1, true);
+        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
     }
 
     public void back() {
