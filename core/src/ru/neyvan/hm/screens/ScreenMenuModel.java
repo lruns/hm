@@ -81,9 +81,12 @@ public class ScreenMenuModel implements Screen {
 
     public float posX(Actor actor, float percent){
         return stage.getWidth()*percent-actor.getWidth()/2;
+    }
+    public static float posX(Stage stage, Actor actor, float percent){
+        return stage.getWidth()*percent-actor.getWidth()/2;
 
     }
-    public float posY(Actor actor, float percent){
+    public static float posY(Stage stage, Actor actor, float percent){
         return stage.getHeight()*percent-actor.getHeight()/2;
     }
 }

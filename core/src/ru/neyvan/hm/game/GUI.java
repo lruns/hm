@@ -40,9 +40,10 @@ public class GUI {
     private Table tableLeft;
     private Button btnPause;
     private ProgressBar bar;
+    private Sides sides;
     private Stage stage;
     private Skin skin;
-    private float time;
+    private float timeAnimation;
 
     private ImageButton.ImageButtonStyle pauseStyle;
     private TextureRegionDrawable playMin, playClickMin, pauseClick, pause;
@@ -51,11 +52,11 @@ public class GUI {
     private int nowScore;
 
 
-    public GUI(final PlayScreen parent, float time){
+    public GUI(final PlayScreen parent, float timeAnimation){
         this.parent = parent;
         this.stage = parent.getStage();
         this.skin = parent.getSkin();
-        this.time = time;
+        this.timeAnimation = timeAnimation;
         tableLeft = new Table();
         tableLeft.setSize(0.8f*stage.getWidth(), 0.135f*stage.getHeight());
         tableLeft.setPosition(0, stage.getHeight()-tableLeft.getHeight());
@@ -95,13 +96,17 @@ public class GUI {
         panel.addActor(tableLeft); panel.addActor(btnPause);
         panel.setPosition(0, stage.getHeight());
         stage.addActor(panel);
+
+        sides = new Sides(stage, timeAnimation);
         //btnPause.setBackground());
     }
     public void start() {
-        panel.addAction(Actions.moveTo(0, 0, time, Interpolation.pow2));
+        panel.addAction(Actions.moveTo(0, 0, timeAnimation, Interpolation.pow2));
+        sides.start();
     }
     public void back() {
-        panel.addAction(Actions.moveTo(0, stage.getHeight(), time, Interpolation.pow2));
+        panel.addAction(Actions.moveTo(0, stage.getHeight(), timeAnimation, Interpolation.pow2));
+        sides.back();
     }
     public void update(float delta){
         if(nowScore != referenceScore){
