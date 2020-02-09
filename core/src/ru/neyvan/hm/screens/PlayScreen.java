@@ -93,15 +93,7 @@ public class PlayScreen extends ScreenAdapter {
 
     // Start new episode
     public PlayScreen(int clickedEpisode) {
-        try {
-            json = new Json();
-            fileHandle = Gdx.files.internal("episodes/level1.lvl");
-            level = json.fromJson(Level.class,
-                    Base64Coder.decodeString(fileHandle.readString()));
-
-        } catch (Exception e) {
-            System.out.println("Exception thrown during open level file: " + e.toString());
-        }
+        
         timeStep = level.getTimeStep();
         timeAfterStep = level.getTimeAfterStep();
         speedChangeTS = level.getSpeedChangeTS();

@@ -16,10 +16,10 @@ public class MyFrame extends JFrame {
 
     public String message;
     public boolean allOk;
-    Json json;
-    FileHandle fileHandle;
-    MyFrame() {
+    public LevelLoader levelLoader;
 
+    MyFrame() {
+        levelLoader = new LevelLoader();
     }
     public Level openFile(){
         JFileChooser dialog = new JFileChooser();
@@ -36,10 +36,7 @@ public class MyFrame extends JFrame {
 
         Level level = null;
         try {
-            json = new Json();
-            fileHandle = Gdx.files.absolute(dialog.getSelectedFile().getAbsolutePath());
-            level = json.fromJson(Level.class,
-                    Base64Coder.decodeString(fileHandle.readString()));
+            levelLoader.load(dialog.getSelectedFile().getAbsolutePath());
         } catch (Exception e) {
             System.out.println("Exception thrown during open file: " + e.toString());
         }
@@ -64,14 +61,13 @@ public class MyFrame extends JFrame {
         if (result == JFileChooser.APPROVE_OPTION ) {
             allOk = true;
             try {
-                String text = fileChooser.getSelectedFile()+"";
-                if(!text.contains(".lvl")){
-                    text+=".lvl";
+                String path = fileChooser.getSelectedFile()+"";
+                if(!path.contains(".lvl")){
+                    path+=".lvl";
                 }
-                json = new Json();
-                fileHandle = Gdx.files.absolute(text);
-                fileHandle.writeString(Base64Coder.encodeString(json.prettyPrint(level)),false);
-            } catch (Exception ex) {
+                levelLoader.save(level, path);
+                
+            } catch (GdxRuntimeException ex) {
                 message = ex.toString();
                 allOk =false;
             }
