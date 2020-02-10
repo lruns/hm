@@ -1,51 +1,243 @@
 package ru.neyvan.hm.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Base64Coder;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.util.List;
 
-import ru.neyvan.hm.BottomPause;
-import ru.neyvan.hm.Constants;
-import ru.neyvan.hm.HM;
-import ru.neyvan.hm.effects.Shine;
-import ru.neyvan.hm.effects.StreamEnergy;
+import ru.neyvan.hm.game.Game;
 import ru.neyvan.hm.game.GUI;
-import ru.neyvan.hm.game.GameCircle;
-import ru.neyvan.hm.game.Sides;
-import ru.neyvan.hm.levels.Check;
-import ru.neyvan.hm.levels.Level;
-import ru.neyvan.hm.surprises.ChangeSpeedTime;
-import ru.neyvan.hm.surprises.Explosion;
-import ru.neyvan.hm.surprises.FullFreezing;
-import ru.neyvan.hm.surprises.GiftAndTrap;
-import ru.neyvan.hm.surprises.HelpSurprise;
-import ru.neyvan.hm.surprises.Surprise;
+import ru.neyvan.hm.impacts.Impact;
+import ru.neyvan.hm.levels.LevelNumber;
+import ru.neyvan.hm.states.BeginState;
+import ru.neyvan.hm.states.ChanceState;
+import ru.neyvan.hm.states.ChangeState;
+import ru.neyvan.hm.states.ExplosionState;
+import ru.neyvan.hm.states.FullFreezingState;
+import ru.neyvan.hm.states.LoseState;
+import ru.neyvan.hm.states.PortalState;
+import ru.neyvan.hm.states.ReactionState;
+import ru.neyvan.hm.states.State;
+import ru.neyvan.hm.states.WaitState;
+import ru.neyvan.hm.states.WinState;
+import ru.neyvan.hm.surprises.Transference;
+import ru.neyvan.hm.surprises.WarpSurprise;
 
 /**
  * Created by AndyGo on 08.07.2017.
  */
 
-public class PlayScreen extends ScreenAdapter {
+// This is core of game, which control game, gui and input processes
+public class PlayScreen implements Screen {
 
-    private SpriteBatch batch;
+    private Game game;
+    private GUI gui;
+
+
+    // Transition States - responsible for game process; and times for some states
+    public final float beginStateTime = 3f;
+    public final float changeStateTime = 10000f;
+    public final float winStateTime = 10000f;
+
+    private State state;
+    private BeginState beginState;
+    private WaitState waitState;
+    private ReactionState reactionState;
+    private ChangeState changeState;
+    private ExplosionState explosionState;
+    private FullFreezingState fullFreezingState;
+    private WinState winState;
+    private PortalState portalState;
+    private ChanceState chanceState;
+    private LoseState loseState;
+
+    // Impact States - responsible for influence on game with different effect INDEPENDENTLY of game process
+    private List<Impact> impacts;
+    private ChangeSpeedTimeImpact   changeSpeedTimeState;
+    private HelpSurpriseImpact      helpSurpriseImpact;
+    private RotationImpact          rotationImpact;
+    private ScreenEffectsImpact     screenEffectsImpact;
+    private TransferenceImpact      transferenceImpact;
+    private WarpSurpriseImpact      warpSurpriseImpact;
+
+    private boolean pause = true;
+    private boolean gamePause = true;
+
+    // New game
+    public PlayScreen(LevelNumber levelNumber){
+        initializeStatesAndImpacts();
+        game = new Game(this);
+        gui = new GUI(this);
+        game.createGame(levelNumber);
+
+    }
+
+    // Load game
+    public PlayScreen(){
+        game = new Game(this);
+        gui = new GUI(this);
+        game.loadGame();
+    }
+
+    @Override
+    public void show() {
+        gamePause = false;
+        pause = false;
+        nextState(beginState, beginStateTime);
+    }
+
+    @Override
+    public void render(float delta) {
+        if(pause = true) return;
+        if(gamePause == false){
+            state.update(delta);
+            for (Impact impact: impacts) {
+                impact.update(delta);
+            }
+            game.update(delta);
+        }
+        gui.render(delta);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        gui.resize(width, height);
+    }
+
+    //pause only for
+    public void gamePause(){
+        gamePause = true;
+        gui.toGamePause();
+    }
+
+    // pause for all
+    @Override
+    public void pause() {
+        pause = true;
+        gamePause();
+        game.saveGame();
+    }
+
+    public void resumeGame(){
+        gamePause = false;
+        gui.toResumeGame();
+    }
+
+    @Override
+    public void resume() {
+        pause = false;
+        resumeGame();
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+        game.dispose();
+        gui.dispose();
+    }
+
+    public boolean clickOnDisplay(){
+        if(state instanceof WaitState){
+            ((WaitState) state).click();
+            return true;
+        }
+        return false;
+    }
+
+
+    public void nextState(State state, float time){
+        this.state = state;
+        state.start(time);
+    }
+
+    public PlayScreen getCore() {
+        return core;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public GUI getGui() {
+        return gui;
+    }
+
+    public void addImpact(Impact impact){
+        impacts.add(impact);
+    }
+
+
+    public State getState() {
+        return state;
+    }
+
+    public BeginState getBeginState() {
+        return beginState;
+    }
+
+    public WaitState getWaitState() {
+        return waitState;
+    }
+
+    public ReactionState getReactionState() {
+        return reactionState;
+    }
+
+    public ChangeState getChangeState() {
+        return changeState;
+    }
+
+    public ExplosionState getExplosionState() {
+        return explosionState;
+    }
+
+    public FullFreezingState getFullFreezingState() {
+        return fullFreezingState;
+    }
+
+    public WinState getWinState() {
+        return winState;
+    }
+
+    public PortalState getPortalState() {
+        return portalState;
+    }
+
+    public ChanceState getChanceState() {
+        return chanceState;
+    }
+
+    public LoseState getLoseState() {
+        return loseState;
+    }
+
+    private void initializeStatesAndImpacts() {
+
+        beginState = new BeginState(this);
+        waitState = new WaitState(this);
+        reactionState = new ReactionState(this);
+        changeState = new ChangeState(this);
+        explosionState = new ExplosionState(this);
+        fullFreezingState = new FullFreezingState(this);
+        winState = new WinState(this);
+        portalState = new PortalState(this);
+        chanceState = new ChanceState(this);
+        loseState = new LoseState(this);
+
+        // Impact States - responsible for influence on game with different effect INDEPENDENTLY of game process
+        changeSpeedTimeState = new ChangeSpeedTimeState(this);
+        helpSurpriseImpact = new HelpSurpriseImpact(this);
+        rotationImpact = new RotationImpact(this);
+        screenEffectsImpact = new ScreenEffectsImpact(this);
+        transferenceImpact = new TransferenceImpact(this);
+        warpSurpriseImpact = new WarpSurpriseImpact(this);
+    }
+
+/*   private SpriteBatch batch;
     private OrthographicCamera camera;
     private StreamEnergy streamEnergy;
     private Shine shine;
@@ -93,7 +285,7 @@ public class PlayScreen extends ScreenAdapter {
 
     // Start new episode
     public PlayScreen(int clickedEpisode) {
-        
+
         timeStep = level.getTimeStep();
         timeAfterStep = level.getTimeAfterStep();
         speedChangeTS = level.getSpeedChangeTS();
@@ -126,10 +318,6 @@ public class PlayScreen extends ScreenAdapter {
 
     }
 
-    // Continue last saved game
-    public PlayScreen(){
-
-    }
 
     public void show() {
         InputProcessor backProcessor = new InputAdapter() {
@@ -203,14 +391,6 @@ public class PlayScreen extends ScreenAdapter {
                 break;
             case PRAISE_OR_SHAIME:
                 if(timeState<0){
-//                    if(curDisplaySurprise instanceof Explosion){
-//                        explosion = (Explosion) curDisplaySurprise;
-//                        state = EXPLOSION;
-//                        timeState = explosion.getMaxTime();
-//                        gameCircle.setColor(Color.RED);
-//
-//                        break;
-//                    }
                     state = CHANGE_ON_CIRCLE;
                     timeState = timeAfterStep*0.5f;
                     gameCircle.resetBar(timeState*0.1f);
@@ -241,131 +421,11 @@ public class PlayScreen extends ScreenAdapter {
                     Gdx.app.debug("Statements", "start EXPECT_CLICK");
                 }
                 break;
-//            case EXPLOSION:
-//                gameCircle.updateExplosion(delta);
-//                if(timeState<0){
-//
-//                }
-//                break;
-            case WIN:
-                if (timeState<0)
-                    back();
-                break;
-            case LOSER:
-                if (timeState<0)
-                    back();
-                break;
-        }
 
-
-
-//        if (pause) return;
-//        if (win) {
-//            return;
-//        }
-//        if (clicked) {
-//            timeJump -= delta * 10;
-//            //эффект рассеивания красного или зеленого света при нажатии
-//        } else {
-//            timeJump -= delta;
-//        }
-//        if (timeJump < 0) {
-//            //change time step (watch Level class)
-//            speedChangeTS += accelerationSpeedChangeTS;
-//            timeStep += speedChangeTS;
-//            timeAfterStep += speedChangeTS;
-//            if (!clicked & turn) { //it is end of player's turn and player didn't click
-//                if (currentNumber == SURPRISE) {
-//                    neutrally(); //surprise is not activated by player
-//                } else if (checkMove()) {
-//                    congratulation(); //number is not pressed by player and number is false => player did correct solution
-//                } else {
-//                    disgrace(); //number is not pressed by player and number is true => player did mistake
-//                }
-//                nextNumber();
-//                timeJump = timeAfterStep;
-//                clicked = false;
-//            } else if (!turn) { // it is end of rest between turns
-//                timeJump = timeStep;
-//                continuation();
-//            }
-//            turn = !turn;
-//        }
-//        streamEnergy.update(delta);
-//        gameCircle.updateBar(delta, turn ? (timeStep - timeJump) / timeStep : timeJump / timeAfterStep);
     }
 
     public void startGame(){
         state = EXPECT_CLICK; timeState = timeStep;
-    }
-
-
-    private void circleClicked() {
-        if (currentNumber == SURPRISE) { //now is not number, it is surprise
-            if(isGoodSurprise()){
-                congratulation(1f); //player activate a good surprise
-                if (curDisplaySurprise instanceof GiftAndTrap){
-                    GiftAndTrap cat = (GiftAndTrap)(curDisplaySurprise);
-                    if(cat.getType() == GiftAndTrap.SUPER_LIFE){
-                        lifes = lifes + cat.getNumber();
-                        gui.setLifes(lifes);
-                    }else{
-                        score = score + cat.getNumber();
-                        gui.setNewScore(score);
-                    }
-                }
-            }else{
-                disgrace(1f); //player activate a bad surprise
-                if (curDisplaySurprise instanceof GiftAndTrap){
-                    GiftAndTrap cat = (GiftAndTrap)(curDisplaySurprise);
-                    if(cat.getType() == GiftAndTrap.DEBUF_LIFE){
-                        lifes = lifes - Math.abs(cat.getNumber());
-                        gui.setLifes(lifes);
-                    }else{
-                        score = score - Math.abs(cat.getNumber());
-                        gui.setNewScore(score);
-                    }
-                }
-            }
-        } else if (checkMove(true)) {
-            congratulation(1f); //number is pressed by player and number is true => player did correct solution
-        } else {
-            disgrace(1f); //number is pressed by player and number is false => player did mistake
-            lifes --;
-            gui.setLifes(lifes);
-        }
-        Gdx.app.log("circle", "click");
-    }
-
-    private void circleNotClicked() {
-        timeState = timeAfterStep*0.5f;
-        if (currentNumber == SURPRISE) { //now is not number, it is surprise
-            if(!isGoodSurprise())
-                congratulation(1f); //player missed a bad surprise
-            else disgrace(1f); //player missed a good surprise
-        }else{
-            if (checkMove(false)) {
-                congratulation(1f); //number is not pressed by player and number is false => player did correct solution
-            }else{
-                disgrace(1f); //number is not pressed by player and number is true => player did mistake
-                lifes--;
-                gui.setLifes(lifes);
-            }
-        }
-    }
-
-    private boolean isGoodSurprise() {
-        if(curDisplaySurprise instanceof Explosion || curDisplaySurprise instanceof FullFreezing ||
-                curDisplaySurprise instanceof HelpSurprise) return true;
-        if(curDisplaySurprise instanceof ChangeSpeedTime){
-            ChangeSpeedTime cst = (ChangeSpeedTime)(curDisplaySurprise);
-            if(cst.getMultiplierTime() > 1.0f) return true;
-        }
-        if(curDisplaySurprise instanceof GiftAndTrap){
-            GiftAndTrap cat = (GiftAndTrap)(curDisplaySurprise);
-            if(cat.getType() == GiftAndTrap.SUPER_LIFE || cat.getType() == GiftAndTrap.SUPER_SCORE) return true;
-        }
-        return false;
     }
 
 
@@ -439,9 +499,6 @@ public class PlayScreen extends ScreenAdapter {
         sides.back();
         gameCircle.back();
     }
-    public void saveGame(){
-
-    }
 
     public void changePause() {
         if (pause) {
@@ -458,33 +515,4 @@ public class PlayScreen extends ScreenAdapter {
     }
 
 
-
-
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, false);
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-        streamEnergy.dispose();
-        shine.dispose();
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public Skin getSkin() {
-        return skin;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public Explosion getExplosion() {
-        return explosion;
-    }
 }

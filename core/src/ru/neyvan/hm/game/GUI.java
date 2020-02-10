@@ -1,17 +1,11 @@
 package ru.neyvan.hm.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -19,26 +13,65 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
+import ru.neyvan.hm.actors.GameCircle;
 import ru.neyvan.hm.actors.LifesBox;
 import ru.neyvan.hm.screens.PlayScreen;
 
 /**
- * This class only for indications of lifes, scores, progress and change for game pause
  * Created by AndyGo on 25.11.2017.
  */
 public class GUI {
-    private PlayScreen parent;
+
+
+
+    public void updateLife(){}
+    public void updateScore(){}
+    public void updateLevelInfo(){}
+    public void updateDisplay(){} // Where number and surprises will be displayed
+    public void updateTimeBar(){}
+    public void updateProgress(){}
+
+    public void appear(float time){}
+    public void disappear(float time){}
+
+    public void displaySymbol() {
+    }
+
+    public void congratulation(float v) {
+    }
+
+    public void disgrace(float v) {
+    }
+
+    public void render(float delta) {
+    }
+
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, false);
+    }
+
+    public void toGamePause() {
+    }
+
+    public void toResumeGame() {
+    }
+
+    public void dispose() {
+    }
+
+
+
+
+    /*private PlayScreen parent;
     private Group panel;
     private LifesBox lifesBox;
     private Label labLevel;
     private Label labScore;
     private Table tableLeft;
     private Button btnPause;
+    private GameCircle gameCircle;
     private ProgressBar bar;
     private Sides sides;
     private Stage stage;
@@ -50,6 +83,7 @@ public class GUI {
 
     private int referenceScore;
     private int nowScore;
+
 
 
     public GUI(final PlayScreen parent, float timeAnimation){
@@ -137,5 +171,5 @@ public class GUI {
         pauseStyle.up = pause;//кнопка не нажата
         pauseStyle.over = pause;
         pauseStyle.down = pauseClick; // кнопка нажата
-    }
+    }*/
 }

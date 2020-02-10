@@ -10,9 +10,10 @@ import ru.neyvan.hm.terms.Term;
  */
 
 public class Level{
+    public enum Version {POSITIVE_INTEGER, INTEGER, COMPOSITE_NUMBER}
+    private Version version;
     // Data about count of level, episode, background
-    private int episode;
-    private int count_level;
+    private LevelNumber levelNumber;
     private int i_background;
     // System of counting numbers (from 1 to 50  OR from 100 to 33)
     // P.S. if "fixedCounting == true" that instead "deltaNumbers" used a list "fixedNumbers" for change number of game
@@ -38,20 +39,20 @@ public class Level{
     private boolean outOfOrderAppearanceSurprise; //  = true means, that surprise can generate not in the order of the list (ignore the order of surprises, but NOT ignore listOfPlacesSurp)
     private boolean randomSurpriseMove; // = true means, that surprise can generate in any move (ignore listOfPlacesSurp)
 
-    public int getEpisode() {
-        return episode;
+    public Version getVersion() {
+        return version;
     }
 
-    protected void setEpisode(int episode) {
-        this.episode = episode;
+    public void setVersion(Version version) {
+        this.version = version;
     }
 
-    public int getCount_level() {
-        return count_level;
+    public LevelNumber getLevelNumber() {
+        return levelNumber;
     }
 
-    protected void setCount_level(int count_level) {
-        this.count_level = count_level;
+    public void setLevelNumber(LevelNumber levelNumber) {
+        this.levelNumber = levelNumber;
     }
 
     public int getI_background() {
@@ -184,8 +185,8 @@ public class Level{
 
     @Override
     public String toString() {
-        return  "episode " + episode + "\n"+
-                "count_level " + count_level +"\n"+
+        return  "episode " + levelNumber.getEpisode() + "\n"+
+                "count_level " + levelNumber.getLevel() +"\n"+
                 "i_background " + i_background +"\n"+
                 "firstNumber " + firstNumber +"\n"+
                 "countOfMoves " + countOfMoves +"\n"+

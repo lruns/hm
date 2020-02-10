@@ -1,3 +1,7 @@
+package  ru.neyvan.hm.levels;
+
+import ru.neyvan.hm.Constants;
+
 public class LevelNumber {
 	private int episode;
 	private int level;
@@ -5,11 +9,11 @@ public class LevelNumber {
 	
 	public LevelNumber(int episode, int level) {
 		try{
-			if(episode < 1 || episode > Constants.MAX_EPISODE 
+			if(episode < 1 || episode > Constants.MAX_EPISODE
 				|| level < 1 || level > Constants.MAX_LEVEL[episode])
 				throw new ArithmeticException("Wrong episode and level numbers!");
 		}catch(ArithmeticException e){
-			System.err.println(e)
+			System.err.println(e);
 		}
 		this.episode = episode;
 		this.level = level;			

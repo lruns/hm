@@ -646,8 +646,8 @@ public class ScreenLevelEditor extends ScreenAdapter {
             return;
         }
         try {
-            tfEpisode.setText(Integer.toString(level.getEpisode()));
-            tfLevel.setText(Integer.toString(level.getCount_level()));
+            tfEpisode.setText(Integer.toString(level.getLevelNumber().getEpisode()));
+            tfLevel.setText(Integer.toString(level.getLevelNumber().getLevel()));
             sbBackground.setSelectedIndex(level.getI_background());
             tfFirstNumber.setText(Integer.toString(level.getFirstNumber()));
             tfCountOfMoves.setText(Integer.toString(level.getCountOfMoves()));
@@ -792,8 +792,10 @@ public class ScreenLevelEditor extends ScreenAdapter {
         String error = new String();
         final Level level = new Level();
         try {
-            level.setEpisode(Integer.parseInt(tfEpisode.getText()));
-            level.setCount_level(Integer.parseInt(tfLevel.getText()));
+            LevelNumber levelNumber = new LevelNumber(Integer.parseInt(tfEpisode.getText()),
+                    Integer.parseInt(tfLevel.getText()));
+            level.setVersion(Level.Version.POSITIVE_INTEGER);
+            level.setLevelNumber(levelNumber);
             level.setI_background(sbBackground.getSelected());
             level.setFirstNumber(Integer.parseInt(tfFirstNumber.getText()));
             level.setCountOfMoves(Integer.parseInt(tfCountOfMoves.getText()));

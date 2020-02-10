@@ -1,15 +1,8 @@
-package ru.neyvan.hm.game;
+package ru.neyvan.hm.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -19,22 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ru.neyvan.hm.HM;
-import ru.neyvan.hm.actors.CircleShaderActor;
-import ru.neyvan.hm.actors.TextNum;
 import ru.neyvan.hm.screens.PlayScreen;
-import ru.neyvan.hm.surprises.ChangeSpeedTime;
-import ru.neyvan.hm.surprises.Explosion;
-import ru.neyvan.hm.surprises.FullFreezing;
-import ru.neyvan.hm.surprises.GiftAndTrap;
-import ru.neyvan.hm.surprises.HelpSurprise;
-import ru.neyvan.hm.surprises.Rotation;
-import ru.neyvan.hm.surprises.ScreenEffects;
 import ru.neyvan.hm.surprises.Surprise;
-import ru.neyvan.hm.surprises.Transference;
-import ru.neyvan.hm.surprises.WarpSurprise;
-
-import static com.badlogic.gdx.graphics.GL20.GL_TEXTURE0;
-import static com.badlogic.gdx.graphics.GL20.GL_TEXTURE1;
 
 /**
  * This class for graphical changes of game, not for game logic!
@@ -43,8 +22,12 @@ import static com.badlogic.gdx.graphics.GL20.GL_TEXTURE1;
  * Created by AndyGo on 01.01.2018.
  */
 
-public class GameCircle {
-    private float time;
+public class GameCircle extends Actor {
+
+
+
+
+  /*  private float time;
     private Stack stack;
     private Image imgCircleLower, imgCircleUpper;
     private ImageButton imgPlay;
@@ -67,8 +50,8 @@ public class GameCircle {
         this.time = time;
 
         stack = new Stack();
-        stack.setSize(0.45f*parent.getStage().getWidth(), 0.45f*parent.getStage().getWidth());
-        stack.setPosition(0.5f*parent.getStage().getWidth(), 0.5f*parent.getStage().getHeight(), Align.center);
+        stack.setSize(0.45f * parent.GUI.getWidth(), 0.45f*parent.getStage().getWidth());
+        stack.setPosition(0.5f * parent.getStage().getWidth(), 0.5f*parent.getStage().getHeight(), Align.center);
 
         imgCircleLower = new Image(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("circleLower")));
         imgCircleLower.setSize(stack.getWidth(), stack.getHeight());
@@ -127,18 +110,18 @@ public class GameCircle {
         updateBar(delta);
     }
 
-    /**
+    *//**
      * Prepare next number for showing on circle
      * @param number
-     */
+     *//*
     public void displayNextOnCircle(int number){
         //numberText.setText(String.valueOf(number));
         testText.setText(String.valueOf(number));
     }
-    /**
+    *//**
      * Prepare next number for showing on circle
      * @param surprise
-     */
+     *//*
     public void displayNextOnCircle(Surprise surprise){
         //numberText.setSurprise(surprise);
         testText.setText("Surprise!");
@@ -230,5 +213,5 @@ public class GameCircle {
 
     public void dispose(){
        // numberText.dispose();
-    }
+    }*/
 }

@@ -1,15 +1,22 @@
 package ru.neyvan.hm.levels;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Json;
+
+
 public class LevelLoader{
-	private JSON json;
-	private FileHandler fileHandler;
+	private Json json;
+	private FileHandle fileHandle;
 
 	public LevelLoader(){
     	json = new Json();
 	}
 
-	public Level load(int i_episode, int i_level) throws GdxRuntimeException {
-		String path = "episodes/episode"+i_episode+"/level"+i_level+".lvl";
+	public Level load(LevelNumber levelNumber) throws GdxRuntimeException {
+		String path = "episodes/episode"+levelNumber.getEpisode()+"/level"+levelNumber.getLevel()+".lvl";
 		fileHandle = Gdx.files.internal(path);
         Level level = json.fromJson(Level.class,
                     Base64Coder.decodeString(fileHandle.readString()));
