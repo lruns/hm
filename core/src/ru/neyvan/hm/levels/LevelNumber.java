@@ -6,6 +6,10 @@ public class LevelNumber {
 	private int episode;
 	private int level;
 
+	public LevelNumber(){
+		episode = 1;
+		level = 1;
+	}
 	
 	public LevelNumber(int episode, int level) {
 		try{

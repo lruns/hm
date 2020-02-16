@@ -15,16 +15,6 @@ public class ScreenEffects extends Surprise{
         this.type = type;
     }
 
-    @Override
-    public void draw(float delta) {
-        switch (type){
-            case COLOR_MUSIC:
-                break;
-            case INVERSION:
-                break;
-        }
-    }
-
     public int getType() {
         return type;
     }

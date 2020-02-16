@@ -1,6 +1,5 @@
 package ru.neyvan.hm.terms;
 
-import com.badlogic.gdx.utils.Json;
 /**
  * Created by AndyGo on 08.01.2018.
  */

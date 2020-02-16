@@ -13,9 +13,10 @@ public class BeginState extends State{
     @Override
     public void start(float time) {
         super.start(time);
-        Gdx.app.debug("BeginState", "Begin game with time " + time);
+        Gdx.app.debug("BeginState", "Begin state with time " + time);
         core.getGame().firstNumber();
-        core.getGui().displaySymbol();
+        core.getGui().updateDisplay();
+        core.getGui().showStart(time);
         core.getGui().appear(time);
 
 
@@ -23,6 +24,6 @@ public class BeginState extends State{
 
     @Override
     public void end() {
-        core.nextState(core.getWaitState(), core.getGame().getTimeChange());
+        core.nextState(core.getWaitState(), core.getGame().getTimeWait());
     }
 }

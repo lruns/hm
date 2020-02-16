@@ -1,11 +1,7 @@
 package ru.neyvan.hm.levels;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.Json;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -37,7 +33,7 @@ public class MyFrame extends JFrame {
 
         Level level = null;
         try {
-            levelLoader.load(dialog.getSelectedFile().getAbsolutePath());
+            level = levelLoader.load(dialog.getSelectedFile().getAbsolutePath());
         } catch (Exception e) {
             System.out.println("Exception thrown during open file: " + e.toString());
         }
@@ -62,13 +58,13 @@ public class MyFrame extends JFrame {
         if (result == JFileChooser.APPROVE_OPTION ) {
             allOk = true;
             try {
-                String path = fileChooser.getSelectedFile()+"";
+                String path = fileChooser.getSelectedFile().toString();
                 if(!path.contains(".lvl")){
                     path+=".lvl";
                 }
                 levelLoader.save(level, path);
                 
-            } catch (GdxRuntimeException ex) {
+            } catch (Exception ex) {
                 message = ex.toString();
                 allOk =false;
             }

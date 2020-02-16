@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
 import ru.neyvan.hm.HM;
-import ru.neyvan.hm.actors.WindowNewName;
 import ru.neyvan.hm.actors.WindowRename;
 
 /**
@@ -103,7 +102,7 @@ public class SettingsMenu extends ScreenMenuModel{
 
         table = new Table(skin);
         table.setBackground("background");
-        table.setSize(stage.getWidth()*0.7f, stage.getHeight()*0.5f);
+        table.setSize(stage.getWidth()*0.7f, stage.getWidth()*1.19f);
         table.setPosition(-table.getWidth(), posY(table, 0.5f));
 
         table.add(title).expand().fillX().colspan(2); table.row();

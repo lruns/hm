@@ -52,7 +52,7 @@ public class MenuScreen extends ScreenMenuModel {
         this.variantOfAppearance = variantOfAppearance;
 
         group = new Group();
-        group.setSize(stage.getWidth(), stage.getHeight());
+        group.setSize(stage.getWidth(), stage.getWidth()*1.67f);
         stage.addActor(group);
 
         tableText = new Table();
@@ -71,14 +71,14 @@ public class MenuScreen extends ScreenMenuModel {
             label2.setText("Glad to see you!");
         }
         label1.pack();
-        tableText.add(title).size(stage.getWidth(), stage.getHeight()*0.25f).row();
+        tableText.add(title).size(group.getWidth(), group.getHeight()*0.25f).row();
         tableText.add(label1).align(Align.center).row();
         tableText.add(label2).align(Align.center).padLeft(label1.getWidth()).row();
 
         TextureRegionDrawable playTexture = new TextureRegionDrawable(HM.game.texture.atlas.findRegion("playNormal"));
         TextureRegionDrawable playTexture2 = new TextureRegionDrawable(HM.game.texture.atlas.findRegion("playClick"));
         btnPlay = new Button(playTexture, playTexture2);
-        btnPlay.setSize(stage.getWidth()*0.4f, stage.getWidth()*0.4f);
+        btnPlay.setSize(group.getWidth()*0.4f, group.getWidth()*0.4f);
 
         btnPlay.addListener(new ChangeListener() {
             @Override
@@ -91,7 +91,7 @@ public class MenuScreen extends ScreenMenuModel {
         TextureRegionDrawable settTexture = new TextureRegionDrawable(HM.game.texture.atlas.findRegion("buttonSettings"));
         TextureRegionDrawable settTexture2 = new TextureRegionDrawable(HM.game.texture.atlas.findRegion("buttonSettings"));
         btnSettings = new Button(settTexture, settTexture2);
-        btnSettings.setSize(stage.getWidth()*0.2f, stage.getWidth()*0.2f);
+        btnSettings.setSize(group.getWidth()*0.2f, group.getWidth()*0.2f);
         btnSettings.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -103,7 +103,7 @@ public class MenuScreen extends ScreenMenuModel {
         TextureRegionDrawable infoTexture = new TextureRegionDrawable(HM.game.texture.atlas.findRegion("buttonInfo"));
         TextureRegionDrawable infoTexture2 = new TextureRegionDrawable(HM.game.texture.atlas.findRegion("buttonInfo"));
         btnInfo = new Button(infoTexture, infoTexture2);
-        btnInfo.setSize(stage.getWidth()*0.2f, stage.getWidth()*0.2f);
+        btnInfo.setSize(group.getWidth()*0.2f, group.getWidth()*0.2f);
         btnInfo.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -115,7 +115,7 @@ public class MenuScreen extends ScreenMenuModel {
         TextureRegionDrawable recordTexture = new TextureRegionDrawable(HM.game.texture.atlas.findRegion("buttonRecord"));
         TextureRegionDrawable recordTexture2 = new TextureRegionDrawable(HM.game.texture.atlas.findRegion("buttonRecord"));
         btnRecord = new Button(recordTexture, recordTexture2);
-        btnRecord.setSize(stage.getWidth()*0.2f, stage.getWidth()*0.2f);
+        btnRecord.setSize(group.getWidth()*0.2f, group.getWidth()*0.2f);
         btnRecord.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -136,11 +136,11 @@ public class MenuScreen extends ScreenMenuModel {
         switch (variantOfAppearance){
             case APPEARANCE_ELASTIC:
                 group.setPosition(stage.getWidth()*0.5f, stage.getHeight()*0.5f, Align.center);
-                tableText.setPosition(posX(tableText, 0.5f), posY(tableText, 1.25f));
-                btnPlay.setPosition(posX(btnPlay, 0.5f), posY(btnPlay, -1.2f));
-                btnSettings.setPosition(posX(btnSettings, -0.2f), posY(btnSettings, -1.2f));
-                btnInfo.setPosition(posX(btnInfo, 0.5f), posY(btnInfo, -1.8f));
-                btnRecord.setPosition(posX(btnRecord, 1.2f), posY(btnRecord, -1.2f));
+                tableText.setPosition(posX(group, tableText, 0.5f), posY(group, tableText, 1.25f));
+                btnPlay.setPosition(posX(group, btnPlay, 0.5f), posY(group, btnPlay, -1.2f));
+                btnSettings.setPosition(posX(group, btnSettings, -0.2f), posY(group, btnSettings, -1.2f));
+                btnInfo.setPosition(posX(group, btnInfo, 0.5f), posY(group, btnInfo, -1.8f));
+                btnRecord.setPosition(posX(group, btnRecord, 1.2f), posY(group, btnRecord, -1.2f));
                 return;
             case APPEARANCE_FROM_TOP:
                 group.setPosition(0, group.getHeight());
@@ -154,22 +154,22 @@ public class MenuScreen extends ScreenMenuModel {
             case APPEARANCE_FROM_BOTTOM:
                 group.setPosition(0, -group.getHeight());
         }
-        tableText.setPosition(posX(tableText, 0.5f), posY(tableText, 0.75f));
-        btnPlay.setPosition(posX(btnPlay, 0.5f), posY(btnPlay, 0.47f));
-        btnSettings.setPosition(posX(btnSettings, 0.2f), posY(btnSettings, 0.37f));
-        btnInfo.setPosition(posX(btnInfo, 0.5f), posY(btnInfo, 0.25f));
-        btnRecord.setPosition(posX(btnRecord, 0.8f), posY(btnRecord, 0.37f));
+        tableText.setPosition(posX(group, tableText, 0.5f), posY(group, tableText, 0.75f));
+        btnPlay.setPosition(posX(group, btnPlay, 0.5f), posY(group, btnPlay, 0.47f));
+        btnSettings.setPosition(posX(group, btnSettings, 0.2f), posY(group, btnSettings, 0.37f));
+        btnInfo.setPosition(posX(group, btnInfo, 0.5f), posY(group, btnInfo, 0.25f));
+        btnRecord.setPosition(posX(group, btnRecord, 0.8f), posY(group, btnRecord, 0.37f));
 
     }
     public void showActors(){
         switch (variantOfAppearance){
             case APPEARANCE_ELASTIC:
                 time = 2.0f;
-                tableText.addAction(Actions.moveTo(posX(tableText, 0.5f), posY(tableText, 0.75f), time, Interpolation.elastic));
-                btnPlay.addAction(Actions.moveTo(posX(btnPlay, 0.5f), posY(btnPlay, 0.47f), time, Interpolation.elastic));
-                btnSettings.addAction(Actions.moveTo(posX(btnSettings, 0.2f), posY(btnSettings, 0.37f), time, Interpolation.elastic));
-                btnInfo.addAction(Actions.moveTo(posX(btnInfo, 0.5f), posY(btnInfo, 0.25f), time, Interpolation.elastic));
-                btnRecord.addAction(Actions.moveTo(posX(btnRecord, 0.8f), posY(btnRecord, 0.37f), time, Interpolation.elastic));
+                tableText.addAction(Actions.moveTo(posX(group, tableText, 0.5f), posY(group, tableText, 0.75f), time, Interpolation.elastic));
+                btnPlay.addAction(Actions.moveTo(posX(group, btnPlay, 0.5f), posY(group, btnPlay, 0.47f), time, Interpolation.elastic));
+                btnSettings.addAction(Actions.moveTo(posX(group, btnSettings, 0.2f), posY(group, btnSettings, 0.37f), time, Interpolation.elastic));
+                btnInfo.addAction(Actions.moveTo(posX(group, btnInfo, 0.5f), posY(group, btnInfo, 0.25f), time, Interpolation.elastic));
+                btnRecord.addAction(Actions.moveTo(posX(group, btnRecord, 0.8f), posY(group, btnRecord, 0.37f), time, Interpolation.elastic));
                 break;
             case APPEARANCE_FROM_TOP:
             case APPEARANCE_FROM_RIGHT:

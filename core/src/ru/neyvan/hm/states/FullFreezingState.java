@@ -1,19 +1,27 @@
 package ru.neyvan.hm.states;
 
-import ru.neyvan.hm.game.Game;
+import com.badlogic.gdx.Gdx;
+
+import ru.neyvan.hm.screens.PlayScreen;
 
 public class FullFreezingState extends State {
-    public FullFreezingState(Game game) {
-        super(game);
+
+
+    // ЭТО СОСТОЯНИЕ ПОД ВОПРОСОМ!!!
+
+
+    public FullFreezingState(PlayScreen core) {
+        super(core);
     }
 
     @Override
     public void start(float time) {
         super.start(time);
+        Gdx.app.debug("FullFreezingState", "Begin state with time " + time);
     }
 
     @Override
     public void end() {
-
+        core.nextState(core.getChangeState(), core.getGame().getTimeChange());
     }
 }

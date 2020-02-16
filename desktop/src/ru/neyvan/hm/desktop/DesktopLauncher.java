@@ -11,8 +11,8 @@ public class DesktopLauncher {
 	static boolean reloadAtlas = false;
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = (int) (Constants.WIDTH*0.8);
-		config.height = (int) (Constants.HEIGHT*0.8);
+		config.width = (int) (480*0.7f);
+		config.height = (int) (960*0.7f);
 		config.title = "Happy Math";
 		if(reloadAtlas){
 			TexturePacker.process("android/assets/src", "android/assets/", "game_atlas");

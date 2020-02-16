@@ -1,7 +1,6 @@
 package ru.neyvan.hm.managers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,7 +22,7 @@ public class TextureManager implements Manager{
     public TextureAtlas atlas;
     public Skin skin;
     public BitmapFont numberFont;
-    private Texture menuBackground;
+    private Texture gameBackground;
     private Texture textureFont;
     private Texture[] episodesImage;
 
@@ -52,10 +51,12 @@ public class TextureManager implements Manager{
         textureFont.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
         numberFont = new BitmapFont(Gdx.files.internal("style/hm_numbers.fnt"), new TextureRegion(textureFont), false);
     }
-    public Texture getMenuBackground(int i){
-        if (menuBackground != null) menuBackground.dispose();
-        menuBackground = new Texture("backdrops/backdrop"+i+".jpg");
-        return menuBackground;
+
+
+    public Texture getGameBackground(int i){
+        if (gameBackground != null) gameBackground.dispose();
+        gameBackground = new Texture("backdrops/backdrop"+i+".jpg");
+        return gameBackground;
     }
     public void setEpisodesImages(int maxCount){
         episodesImage = new Texture[maxCount];

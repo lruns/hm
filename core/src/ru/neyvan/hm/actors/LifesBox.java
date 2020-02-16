@@ -29,8 +29,7 @@ public class LifesBox extends Actor {
     private float sizeHeart;
     private String text;
 
-    public LifesBox(int lifes, Skin skin) {
-        this.lifes = lifes;
+    public LifesBox(Skin skin) {
         this.skin = skin;
         heartDraw = skin.getDrawable("heart");
         font = skin.getFont("title32");
@@ -89,6 +88,7 @@ public class LifesBox extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
         color = tempColor.set(getColor());
         color.a *= parentAlpha;
         xx = getX();

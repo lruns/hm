@@ -10,8 +10,4 @@ public class FullFreezing extends Surprise {
         super(maxTime);
     }
 
-    @Override
-    public void draw(float delta) {
-
-    }
 }

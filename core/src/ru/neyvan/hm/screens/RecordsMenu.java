@@ -37,7 +37,7 @@ public class RecordsMenu extends ScreenMenuModel {
 
         table = new Table(skin);
         table.setBackground("background");
-        table.setSize(stage.getWidth()*0.7f, stage.getHeight()*0.5f);
+        table.setSize(stage.getWidth()*0.7f, stage.getWidth()*1.19f);
         table.setPosition(stage.getWidth(), posY(table, 0.5f));
         table.add(title).colspan(2).expand(); table.row();
 

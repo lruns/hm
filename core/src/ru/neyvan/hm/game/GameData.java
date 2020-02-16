@@ -1,16 +1,7 @@
 package ru.neyvan.hm.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Base64Coder;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
-
-import ru.neyvan.hm.Player;
 import ru.neyvan.hm.levels.Level;
 import ru.neyvan.hm.levels.LevelNumber;
-import ru.neyvan.hm.surprises.Surprise;
 
 // Contain current game (or saved game) of player
 public class GameData {
@@ -18,6 +9,7 @@ public class GameData {
     public int lifes;
     public int score;
 
+    public int number;
     public LevelNumber levelNumber;
     public Symbol currentSymbol;
 
@@ -26,15 +18,24 @@ public class GameData {
     public int countEffects;
     public float accelerationSpeedChangeTS, speedChangeTS, timeStep, timeAfterStep;
 
-    public void createGame(Level level){
-        this.levelNumber = levelNumber;
+
+    public GameData(Level level){
+        this.levelNumber = level.getLevelNumber();
         timeStep = level.getTimeStep();
         timeAfterStep = level.getTimeAfterStep();
         speedChangeTS = level.getSpeedChangeTS();
         accelerationSpeedChangeTS = level.getAccelerationSpeedChangeTS();
         currentSymbol = new Symbol(level.getFirstNumber());
+        lifes = 5;
+        score = 0;
         countMove = 0;
         countEffects = 0;
+    }
+
+    public void updateTimeStep(){
+        speedChangeTS += accelerationSpeedChangeTS;
+        timeAfterStep -= speedChangeTS;
+        timeStep -= speedChangeTS;
     }
 
 }

@@ -1,7 +1,5 @@
 package ru.neyvan.hm.game;
 
-import ru.neyvan.hm.HM;
-
 /**
  * Created by AndyGo on 20.11.2017.
  */

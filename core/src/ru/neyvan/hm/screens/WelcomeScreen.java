@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
@@ -25,13 +27,22 @@ public class WelcomeScreen extends ScreenAdapter {
     private Image image;
 
     public WelcomeScreen() {
-        stage = new Stage(new FitViewport(Constants.WIDTH, Constants.HEIGHT));
+        stage = new Stage(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
+                Constants.MAX_WIDTH, Constants.MAX_HEIGHT));
         texture = new Texture(Gdx.files.internal("welcome_screen.jpg"));
         //texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         image = new Image(texture);
+        image.setAlign(Align.center);
         image.setFillParent(true);
+        image.setScaling(Scaling.fill);
         stage.addActor(image);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

@@ -20,34 +20,6 @@ public class GiftAndTrap extends Surprise {
         this.number = number;
     }
 
-    @Override
-    public void start() {
-        super.start();
-        switch (type){
-            case SUPER_LIFE:
-                break;
-            case SUPER_SCORE:
-                break;
-            case DEBUF_LIFE:
-                break;
-            case DEBUF_SCORE:
-                break;
-        }
-    }
-
-    @Override
-    public void draw(float delta) {
-        switch (type){
-            case SUPER_LIFE:
-                break;
-            case SUPER_SCORE:
-                break;
-            case DEBUF_LIFE:
-                break;
-            case DEBUF_SCORE:
-                break;
-        }
-    }
 
     public int getType() {
         return type;

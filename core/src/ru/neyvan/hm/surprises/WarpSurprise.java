@@ -13,11 +13,6 @@ public class WarpSurprise extends Surprise {
         this.speedWarp = speedWarp;
     }
 
-    @Override
-    public void draw(float delta) {
-
-    }
-
     public float getSpeedWarp() {
         return speedWarp;
     }

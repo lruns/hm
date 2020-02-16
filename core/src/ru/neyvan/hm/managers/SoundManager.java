@@ -1,8 +1,5 @@
 package ru.neyvan.hm.managers;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-
 /**
  * Created by AndyGo on 30.06.2017.
  */

@@ -9,26 +9,22 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.ButtonsEpisodeTable;
 import ru.neyvan.hm.actors.EpisodesTable;
 import ru.neyvan.hm.game.Episodes;
+import ru.neyvan.hm.levels.LevelNumber;
 
 /**
  * Created by AndyGo on 10.07.2017.
@@ -47,7 +43,8 @@ public class EpisodesScreen extends ScreenAdapter {
     public Episodes episodes;
 
     public EpisodesScreen() {
-        stage = new Stage(new FitViewport(Constants.WIDTH, Constants.HEIGHT));
+        stage = new Stage(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
+                Constants.MAX_WIDTH, Constants.MAX_HEIGHT));
         skin = HM.game.texture.skin;
         episodes = new Episodes();
 
@@ -136,7 +133,8 @@ public class EpisodesScreen extends ScreenAdapter {
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        HM.game.setScreen(new PlayScreen(episodes.getClickedEpisode()));
+                        LevelNumber levelNumber = new LevelNumber(episodes.getClickedEpisode()+1, 1);
+                        HM.game.setScreen(new PlayScreen(levelNumber));
                     }
                 })
         ));

@@ -1,6 +1,7 @@
 package ru.neyvan.hm.states;
 
-import ru.neyvan.hm.game.Game;
+import com.badlogic.gdx.Gdx;
+
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class ChangeState extends State {
@@ -12,6 +13,7 @@ public class ChangeState extends State {
     @Override
     public void start(float time) {
         super.start(time);
+        Gdx.app.debug("ChangeState", "Begin state with time " + time);
     }
 
     @Override

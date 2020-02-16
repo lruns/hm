@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 
 import ru.neyvan.hm.Constants;
-import ru.neyvan.hm.levels.Level;
-import ru.neyvan.hm.levels.LevelNumber;
 
 class GameDataLoader {
     private Json json;

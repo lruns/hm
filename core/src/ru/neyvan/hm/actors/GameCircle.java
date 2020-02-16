@@ -2,7 +2,8 @@ package ru.neyvan.hm.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ru.neyvan.hm.HM;
+import ru.neyvan.hm.game.Symbol;
 import ru.neyvan.hm.screens.PlayScreen;
-import ru.neyvan.hm.surprises.Surprise;
 
 /**
  * This class for graphical changes of game, not for game logic!
@@ -22,109 +23,97 @@ import ru.neyvan.hm.surprises.Surprise;
  * Created by AndyGo on 01.01.2018.
  */
 
-public class GameCircle extends Actor {
+public class GameCircle extends Group {
 
-
-
-
-  /*  private float time;
     private Stack stack;
     private Image imgCircleLower, imgCircleUpper;
-    private ImageButton imgPlay;
     private Image imgMinCircle;
-    //private TextNum numberText;
     private CircleShaderActor circleBar;
-    private PlayScreen parent;
+    private PlayScreen core;
     private final float MAX_BAR = 0.9999f;
     private final float MIN_BAR = 0.0001f;
     private float barFullness; //0.0 - 1.0
     private float speedChangeBar;
-    private float timeExplosion;
-    private int remainingExplosions;
 
     // for testing
     private Label testText;
 
-    public GameCircle(final PlayScreen parent, float time){
-        this.parent = parent;
-        this.time = time;
+    public GameCircle(final PlayScreen core){
+        super();
+        this.core = core;
 
         stack = new Stack();
-        stack.setSize(0.45f * parent.GUI.getWidth(), 0.45f*parent.getStage().getWidth());
-        stack.setPosition(0.5f * parent.getStage().getWidth(), 0.5f*parent.getStage().getHeight(), Align.center);
-
-        imgCircleLower = new Image(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("circleLower")));
-        imgCircleLower.setSize(stack.getWidth(), stack.getHeight());
-        stack.addActor(imgCircleLower);
-
-        imgCircleUpper = new Image(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("circleUpper")));
-        imgCircleUpper.setSize(stack.getWidth(), stack.getHeight());
-        stack.addActor(imgCircleUpper);
-
+        imgCircleLower = new Image();
+        imgCircleUpper = new Image();
         //numberText = new TextNum(String.valueOf(1), Color.WHITE, stack.getWidth(), stack.getHeight());
-        //stack.addActor(numberText);
-
-        testText = new Label("0", parent.getSkin());
+        testText = new Label("0", HM.game.texture.skin);
         testText.setFontScale(5);
         testText.setAlignment(Align.center);
-        stack.addActor(testText);
 
         circleBar = new CircleShaderActor(Color.BLUE);
-        circleBar.setSize(stack.getWidth(), stack.getHeight());
-        stack.addActor(circleBar);
 
-        imgPlay = new ImageButton(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("playClick")),
-                new TextureRegionDrawable(HM.game.texture.atlas.findRegion("playNormal")));
-        imgPlay.setSize(stack.getWidth(), stack.getHeight());
-        imgPlay.addListener(new ChangeListener() {
+        addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changePause();
-            }
-        });
-        imgPlay.setVisible(false);
-        stack.addActor(imgPlay);
-
-        stack.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-
                 //PROBLEM!!!
-                //parent.circleClicked();
+                core.clickOnDisplay();
             }
         });
 
-        parent.getStage().addActor(stack);
-
-        imgMinCircle = new Image(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("minCircle")));
-        imgMinCircle.setSize(stack.getWidth()*0.15f, stack.getHeight()*0.15f);
-        imgMinCircle.setPosition(stack.getX()+stack.getWidth()/2 - imgMinCircle.getWidth()/2, stack.getY()-imgMinCircle.getHeight()*0.25f);
-        parent.getStage().addActor(imgMinCircle);
+        imgMinCircle = new Image();
 
         barFullness = 0.001f;
         speedChangeBar = 0;
 
+        stack.addActor(imgCircleLower);
+        stack.addActor(imgCircleUpper);
+        stack.addActor(testText);
+        //addActor(numberText);
+        stack.addActor(circleBar);
+        addActor(stack);
+        addActor(imgMinCircle);
+
     }
 
-    public void update(float delta){
+    public void setImages(int i_appearance){
+        imgCircleLower.setDrawable(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("circleLower"+i_appearance)));
+        imgCircleUpper.setDrawable(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("circleUpper"+i_appearance)));
+        imgMinCircle.setDrawable(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("minCircle"+i_appearance)));
+    }
+
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        stack.setSize(width,height);
+        imgMinCircle.setSize(stack.getWidth()*0.15f, stack.getHeight()*0.15f);
+        imgMinCircle.setPosition(stack.getX()+stack.getWidth()/2 - imgMinCircle.getWidth()/2, stack.getY()-imgMinCircle.getHeight()*0.25f);
+    }
+
+    @Override
+    public void act(float delta){
+        super.act(delta);
         updateBar(delta);
     }
 
-    *//**
-     * Prepare next number for showing on circle
-     * @param number
-     *//*
-    public void displayNextOnCircle(int number){
-        //numberText.setText(String.valueOf(number));
-        testText.setText(String.valueOf(number));
+    private void updateBar(float delta){
+//        circleBar.reloadCenterPosition();
+        barFullness += delta * speedChangeBar;
+        if(barFullness > MAX_BAR) {
+            barFullness = MAX_BAR;
+            speedChangeBar = 0;
+        }else if (barFullness < MIN_BAR) {
+            barFullness = MIN_BAR;
+            speedChangeBar = 0;
+        }
+        circleBar.setOpen(barFullness);
     }
-    *//**
-     * Prepare next number for showing on circle
-     * @param surprise
-     *//*
-    public void displayNextOnCircle(Surprise surprise){
-        //numberText.setSurprise(surprise);
-        testText.setText("Surprise!");
+
+
+    public void display(Symbol symbol){
+        //numberText.setText(String.valueOf(number));
+        if(symbol.isSurprise()) testText.setText("Surprise!");
+        else testText.setText(String.valueOf(symbol.getNumber()));
+
     }
 
     // These three functions responsible for work bar around circle
@@ -142,46 +131,22 @@ public class GameCircle extends Actor {
         speedChangeBar = (MAX_BAR - barFullness) / time;
     }
 
-    private void updateBar(float delta){
-//        circleBar.reloadCenterPosition();
-        barFullness += delta * speedChangeBar;
-        if(barFullness > MAX_BAR) {
-            barFullness = MAX_BAR;
-            speedChangeBar = 0;
-        }else if (barFullness < MIN_BAR) {
-            barFullness = MIN_BAR;
-            speedChangeBar = 0;
-        }
-        circleBar.setOpen(barFullness);
-    }
 
-
-
-
-    public void start() {
-        stack.addAction(Actions.alpha(0));
-        stack.addAction(Actions.fadeIn(time));
-    }
-
-    public void back() {
-        stack.addAction(Actions.fadeOut(time));
-    }
 
     public void updateChangeSymbol(float delta){
         //numberText.update(delta);
     }
 
-    public void startSurpriseExplosion(){
-        timeExplosion = parent.getExplosion().getMaxTimeExplosion();
-        remainingExplosions = parent.getExplosion().getMaxNumberExplosions();
+    public void showSymbol(){
+        //numberText.setVisible(true);
+        circleBar.setVisible(true);
+        imgMinCircle.setVisible(true);
     }
 
-
-    public void setVisiblePlay(boolean pause) {
-        imgPlay.setVisible(pause);
-        //numberText.setVisible(!pause);
-        circleBar.setVisible(!pause);
-        imgMinCircle.setVisible(!pause);
+    public void hideSymbol() {
+        //numberText.setVisible(false);
+        circleBar.setVisible(false);
+        imgMinCircle.setVisible(false);
     }
 
     public void setColor(Color color) {
@@ -189,29 +154,7 @@ public class GameCircle extends Actor {
     }
 
 
-
-
-    public void updateExplosion(float delta){
-        timeExplosion -= delta;
-        if(timeExplosion<0){
-            finishOneOfExplosion();
-        }
-        if(parent.getExplosion().getTime() < 0.01f && timeExplosion > 0 && timeExplosion > 0.0111f){
-            finishOneOfExplosion();
-        }
-        //numberText.update(delta);
-    }
-
-    private void finishOneOfExplosion() {
-        remainingExplosions--;
-        timeExplosion = parent.getExplosion().getMaxTimeExplosion();
-    }
-
-
-
-
-
     public void dispose(){
        // numberText.dispose();
-    }*/
+    }
 }

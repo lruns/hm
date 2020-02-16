@@ -1,21 +1,18 @@
 package ru.neyvan.hm.screens;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ru.neyvan.hm.Constants;
@@ -31,7 +28,9 @@ public class ScreenMenuModel implements Screen {
     protected boolean pause = true;
 
     public ScreenMenuModel() {
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
+                Constants.MAX_WIDTH, Constants.MAX_HEIGHT));
+
         skin = HM.game.texture.skin;
         HM.game.menuFieldPainter.create();
     }
@@ -61,7 +60,7 @@ public class ScreenMenuModel implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, false);
+        stage.getViewport().update(width, height, true);
         HM.game.menuFieldPainter.resize(width, height);
     }
 
@@ -79,14 +78,19 @@ public class ScreenMenuModel implements Screen {
         stage.dispose();
     }
 
+
+
     public float posX(Actor actor, float percent){
         return stage.getWidth()*percent-actor.getWidth()/2;
     }
-    public static float posX(Stage stage, Actor actor, float percent){
-        return stage.getWidth()*percent-actor.getWidth()/2;
-
+    public float posX(Group group, Actor actor, float percent){
+        return group.getWidth()*percent-actor.getWidth()/2;
     }
-    public static float posY(Stage stage, Actor actor, float percent){
+
+    public float posY(Actor actor, float percent){
         return stage.getHeight()*percent-actor.getHeight()/2;
+    }
+    public float posY(Group group, Actor actor, float percent){
+        return group.getHeight()*percent-actor.getHeight()/2;
     }
 }

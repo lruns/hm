@@ -37,7 +37,7 @@ public class InfoMenu extends ScreenMenuModel {
         super();
         table = new Table(skin);
         table.setBackground("Window"); //table.debug();
-        table.setSize(stage.getWidth()*1f, stage.getHeight()*0.8f);
+        table.setSize(stage.getWidth()*1f, stage.getWidth()*1.667f);
         table.setPosition(posX(table, 0.5f), -table.getHeight());
         table.pad(table.getHeight()*0.02f, table.getWidth()*0.2f, 0, table.getWidth()*0.2f);
 

@@ -6,10 +6,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 
-import ru.neyvan.hm.managers.ShaderManager;
-import ru.neyvan.hm.managers.TextureManager;
+import ru.neyvan.hm.levels.LevelNumber;
 import ru.neyvan.hm.managers.MusicManager;
+import ru.neyvan.hm.managers.ShaderManager;
 import ru.neyvan.hm.managers.SoundManager;
+import ru.neyvan.hm.managers.TextureManager;
 import ru.neyvan.hm.screens.MenuScreen;
 import ru.neyvan.hm.screens.PlayScreen;
 import ru.neyvan.hm.screens.WelcomeScreen;
@@ -59,12 +60,13 @@ public class HM extends Game {
         sound = new SoundManager();
         music = new MusicManager();
 
+        //settings.welcome = true;
         if(settings.welcome){
             setScreen(new WelcomeScreen());
         }else{
             initManagers();
             //setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
-            setScreen(new PlayScreen(1));
+            setScreen(new PlayScreen(new LevelNumber(1,1)));
         }
     }
 
@@ -95,6 +97,11 @@ public class HM extends Game {
 //            }
 //        }
 
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
     }
 
     @Override
