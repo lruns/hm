@@ -14,48 +14,56 @@ public class StreamEnergy extends Actor {
     private ParticleEffectPool.PooledEffect effect1, effect2;
     private float speed;
     private int zoom = 1;
+    private float xx;
+    private float y1;
+    private float y2;
 
-    public StreamEnergy(float speed, float posX, float posY, float heightScreen){
+    public StreamEnergy(float speed){
         this.speed = speed;
         modelEffect = HM.game.manager.get("particles/stream_energy.p", ParticleEffect.class);
         modelEffect.reset();
         modelEffectPool = new ParticleEffectPool(modelEffect, 1, 2);
+    }
 
-        effect1 = modelEffectPool.obtain();
-        effect1.scaleEffect(zoom);
-        effect1.setPosition(posX, posY);
-
-        effect2 = modelEffectPool.obtain();
-        effect2.scaleEffect(zoom);
-        effect2.setPosition(posX, heightScreen*0.65f/zoom);
-        stop();
+    public void setEffectPosition(float xx, float y1, float y2){
+        this.xx = xx;
+        this.y1 = y1;
+        this.y2 = y2;
+        if(effect1 != null) effect1.setPosition(xx, y1);
+        if(effect2 != null) effect2.setPosition(xx, y2);
     }
 
     public void start(){
-        effect1.start();
-        effect2.start();
+        effect1 = modelEffectPool.obtain();
+        effect1.scaleEffect(zoom);
+        effect1.setPosition(xx, y1);
+
+        effect2 = modelEffectPool.obtain();
+        effect2.scaleEffect(zoom);
+        effect2.setPosition(xx, y2);
+
     }
     public void stop(){
-        effect1.allowCompletion();
-        effect2.allowCompletion();
+        if(effect1 != null) effect1.free();
+        if(effect2 != null) effect2.free();
     }
     @Override
     public void draw(Batch batch, float parentAlpha){
         super.draw(batch, parentAlpha);
-        effect1.draw(batch);
-        effect2.draw(batch);
+        if(effect1 != null) effect1.draw(batch);
+        if(effect2 != null) effect2.draw(batch);
     }
     @Override
     public void act(float delta){
         super.act(delta);
-        effect1.update(delta*speed);
-        effect2.update(delta*speed);
+        if(effect1 != null) effect1.update(delta*speed);
+        if(effect2 != null) effect2.update(delta*speed);
     }
 
     public void dispose(){
-        effect1.dispose();
+        if(effect1 != null) effect1.dispose();
         effect1 = null;
-        effect2.dispose();
+        if(effect2 != null) effect2.dispose();
         effect2 = null;
         modelEffectPool.clear();
         modelEffectPool = null;

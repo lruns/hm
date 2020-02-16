@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import ru.neyvan.hm.Constants;
@@ -31,6 +32,7 @@ import ru.neyvan.hm.actors.LifesBox;
 import ru.neyvan.hm.actors.ScoreBox;
 import ru.neyvan.hm.actors.Shine;
 import ru.neyvan.hm.actors.StreamEnergy;
+import ru.neyvan.hm.screens.MenuScreen;
 import ru.neyvan.hm.screens.PlayScreen;
 
 /**
@@ -71,10 +73,11 @@ public class GUI {
 
     private ImageButton.ImageButtonStyle pauseStyle;
     private TextureRegionDrawable pauseClick, pause;
+    private boolean isAppear = false;
 
     public GUI(final PlayScreen core) {
         this.core = core;
-
+        isAppear = false;
         stage = new Stage(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
                 Constants.MAX_WIDTH, Constants.MAX_HEIGHT));
         skin = HM.game.texture.skin;
@@ -120,7 +123,7 @@ public class GUI {
 
         // Middle Scene
 
-        streamEnergy = new StreamEnergy(0.3f, stage.getWidth()/2, 0, stage.getHeight());
+        streamEnergy = new StreamEnergy(0.3f);
 
         leftFrame = new Image();
         rightFrame = new Image();
@@ -136,12 +139,15 @@ public class GUI {
         bar = new ProgressBar(0, 1, 0.001f, false, barStyle);
         bar.setAnimateDuration(0.1f);
 
-
-        // ******* Another ***********//
-
-        //gamePause = new GamePause(core, skin, stage);
-        //shine = new Shine();
-
+        background.setVisible(false);
+        background.setColor(1,1,1,0);
+        streamEnergy.setVisible(false);
+        panel.setVisible(false);
+        leftFrame.setVisible(false);
+        rightFrame.setVisible(false);
+        gameCircle.setVisible(false);
+        gameCircle.setColor(1,1,1,0);
+        bar.setVisible(false);
 
         stage.addActor(background);
         stage.addActor(streamEnergy);
@@ -150,33 +156,43 @@ public class GUI {
         stage.addActor(rightFrame);
         stage.addActor(gameCircle);
         stage.addActor(bar);
+        initSizeAndReposition();
 
-        resizeAndReposition();
-        disappear(0);
+        // ******* Another ***********//
+
+        gamePause = new GamePause(core, skin, stage);
+        //shine = new Shine();
     }
 
-    private void resizeAndReposition() {
-        btnPause.setSize(stage.getWidth()*0.167f, stage.getWidth()*0.1516f);
-        btnPause.setPosition(stage.getWidth()-btnPause.getWidth(), stage.getHeight()-btnPause.getHeight());
+    private void initSizeAndReposition() {
 
-        tableLeft.setSize(0.8f*stage.getWidth(), 0.135f*stage.getHeight());
-        tableLeft.setPosition(0, stage.getHeight()-tableLeft.getHeight());
+        panel.setSize(stage.getWidth(), 0.135f*stage.getHeight());
+        tableLeft.setSize(panel.getWidth()*0.8f, panel.getHeight());
         tableLeft.getCell(lifesBox).size(tableLeft.getWidth()*0.35f, tableLeft.getHeight()*0.4f).space(tableLeft.getHeight()*0.02f,tableLeft.getWidth()*0.01f,
                 tableLeft.getHeight()*0.02f,tableLeft.getWidth()*0.15f);
         tableLeft.getCell(scoreBox).width(tableLeft.getWidth()*0.5f);
         tableLeft.getCell(levelInfoBox).size(tableLeft.getWidth()*0.3f, tableLeft.getHeight()*0.4f);
-
-        panel.setSize(stage.getWidth(), tableLeft.getHeight());
-        panel.setPosition(0, stage.getHeight());
-
+        btnPause.setSize(stage.getWidth()*0.167f, stage.getWidth()*0.1516f);
 
         leftFrame.setSize(stage.getWidth() * 0.415f, stage.getWidth() * 1.133f);
         rightFrame.setSize(leftFrame.getWidth(), leftFrame.getHeight());
-
         gameCircle.setSize(0.45f * stage.getWidth(), 0.45f*stage.getWidth());
-        gameCircle.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
 
         bar.setSize(0.58f * stage.getWidth(), 0.075f * stage.getWidth());
+
+
+//            panel.setPosition(0, stage.getHeight() - panel.getHeight());
+//            btnPause.setPosition(panel.getWidth() - btnPause.getWidth(), panel.getHeight()-btnPause.getHeight());
+//            leftFrame.setPosition(stage.getWidth()*0.0625f, (stage.getHeight()-leftFrame.getHeight())/2);
+//            rightFrame.setPosition(stage.getWidth()*0.53f, (stage.getHeight()-rightFrame.getHeight())/2);
+//            bar.setPosition((stage.getWidth()-bar.getWidth())/2, stage.getHeight()*0.1f);
+        panel.setPosition(0, stage.getHeight());
+        btnPause.setPosition(panel.getWidth() - btnPause.getWidth(), panel.getHeight()-btnPause.getHeight());
+        leftFrame.setPosition(-leftFrame.getWidth(), (stage.getHeight()-leftFrame.getHeight())/2);
+        rightFrame.setPosition(stage.getWidth(), (stage.getHeight()-rightFrame.getHeight())/2);
+        bar.setPosition((stage.getWidth()-bar.getWidth())/2, -bar.getHeight());
+        gameCircle.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
+        streamEnergy.setEffectPosition(stage.getWidth()/2, 0.05f * stage.getHeight(), gameCircle.getY()+gameCircle.getHeight());
     }
 
 
@@ -235,8 +251,18 @@ public class GUI {
     }
 
     public void appear(float time){
+        isAppear = true;
+        background.setVisible(true);
+        streamEnergy.setVisible(true);
+        panel.setVisible(true);
+        leftFrame.setVisible(true);
+        rightFrame.setVisible(true);
+        gameCircle.setVisible(true);
+        bar.setVisible(true);
 
-        panel.addAction(Actions.moveTo(0, 0, time, Interpolation.pow2));
+        background.addAction(Actions.fadeIn(time));
+
+        panel.addAction(Actions.moveTo(0, stage.getHeight() - panel.getHeight(), time, Interpolation.pow2));
 
         leftFrame.addAction(Actions.moveTo(stage.getWidth()*0.0625f, (stage.getHeight()-leftFrame.getHeight())/2, time, Interpolation.circle));
         rightFrame.addAction(Actions.moveTo(stage.getWidth()*0.53f, (stage.getHeight()-rightFrame.getHeight())/2, time, Interpolation.circle));
@@ -246,10 +272,18 @@ public class GUI {
 
         bar.addAction(Actions.moveTo((stage.getWidth()-bar.getWidth())/2, stage.getHeight()*0.1f, time, Interpolation.pow2));
 
-        streamEnergy.start();
+        streamEnergy.addAction(Actions.sequence(Actions.delay(time*0.8f), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                streamEnergy.start();
+            }
+        })));
         //
     }
     public void disappear(float time){
+        isAppear = false;
+        background.addAction(Actions.fadeOut(time));
+
         panel.addAction(Actions.moveTo(0, stage.getHeight(), time, Interpolation.pow2));
 
         leftFrame.addAction(Actions.moveTo(-leftFrame.getWidth(), (stage.getHeight()-leftFrame.getHeight())/2, time, Interpolation.circle));
@@ -259,7 +293,24 @@ public class GUI {
 
         bar.addAction(Actions.moveTo((stage.getWidth()-bar.getWidth())/2, -bar.getHeight(), time, Interpolation.pow2));
 
-        streamEnergy.stop();
+        streamEnergy.addAction(Actions.sequence(Actions.delay(time*0.8f), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                streamEnergy.stop();
+            }
+        })));
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                background.setVisible(false);
+                streamEnergy.setVisible(false);
+                panel.setVisible(false);
+                leftFrame.setVisible(false);
+                rightFrame.setVisible(false);
+                gameCircle.setVisible(false);
+                bar.setVisible(false);
+            }
+        },time);
     }
 
 
@@ -287,7 +338,6 @@ public class GUI {
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        resizeAndReposition();
     }
 
 

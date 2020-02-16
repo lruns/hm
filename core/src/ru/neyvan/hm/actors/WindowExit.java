@@ -3,12 +3,15 @@ package ru.neyvan.hm.actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+
+import ru.neyvan.hm.screens.PlayScreen;
 
 /**
  * Created by AndyGo on 05.11.2017.
@@ -20,7 +23,11 @@ public class WindowExit extends Window {
     ImageTextButton btnOk;
     ImageTextButton btnCancel;
 
-    public WindowExit(String title, final Skin skin, String styleName, final Stage stage) {
+    public WindowExit(String title, final Skin skin, String styleName, final Stage stage){
+        this(title, skin, styleName, stage, null);
+    }
+
+    public WindowExit(String title, final Skin skin, String styleName, final Stage stage, final PlayScreen core) {
         super(title, skin, styleName);
         getTitleLabel().setAlignment(Align.center);
         setModal(true);
@@ -32,7 +39,9 @@ public class WindowExit extends Window {
         btnOk.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                if(core != null) core.exit();
+                else Gdx.app.exit();
+                remove();
             }
         });
         btnCancel = new ImageTextButton("Cancel", skin, "cancel");

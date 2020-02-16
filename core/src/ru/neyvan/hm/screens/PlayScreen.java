@@ -102,7 +102,10 @@ public class PlayScreen implements Screen {
         InputProcessor backProcessor = new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
-                if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK))return gamePause();
+                if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK)) {
+                    if (!gamePause) return gamePause();
+                    else return resumeGame();
+                }
                 return false;
             }
         };
@@ -120,7 +123,7 @@ public class PlayScreen implements Screen {
         pause = false;
 
         nextState(beginState, beginStateTime);
-        //gamePause();
+        gamePause();
     }
 
     @Override
@@ -145,9 +148,8 @@ public class PlayScreen implements Screen {
 
     //pause only for game
     public boolean gamePause(){
-        if(gamePause) return false;
-        if(! (state instanceof PortalState))
-            gamePause = true;
+        if(gamePause || state instanceof PortalState) return false;
+        gamePause = true;
         gui.toGamePause();
         return true;
     }
@@ -318,15 +320,17 @@ public class PlayScreen implements Screen {
 
     public void exit() {
         game.saveGame();
+        gui.toResumeGame();
+        gamePause = false;
         Gdx.input.setInputProcessor(null);
 
-        float time = 0.5f;
+        float time = 1f;
         gui.disappear(time);
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
             }
-        },time);
+        },time * 0.7f);
     }
 }

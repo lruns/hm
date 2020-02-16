@@ -1,14 +1,17 @@
 package ru.neyvan.hm.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -52,14 +55,6 @@ public class GameCircle extends Group {
 
         circleBar = new CircleShaderActor(Color.BLUE);
 
-        addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                //PROBLEM!!!
-                core.clickOnDisplay();
-            }
-        });
-
         imgMinCircle = new Image();
 
         barFullness = 0.001f;
@@ -72,6 +67,14 @@ public class GameCircle extends Group {
         stack.addActor(circleBar);
         addActor(stack);
         addActor(imgMinCircle);
+
+        addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.debug("GameCircle", "click!");
+                core.clickOnDisplay();
+            }
+        });
 
     }
 

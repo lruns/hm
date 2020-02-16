@@ -12,10 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.Timer;
 
+import ru.neyvan.hm.actors.WindowExit;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class GamePause {
@@ -23,7 +27,7 @@ public class GamePause {
     private Table table;
     private Table scrollTable;
     private ScrollPane scroller;
-    private TextButton btnBack;
+    private TextButton btnExit;
     private TextButton btnPlay;
     private String infoText =
             "Towards to space adventures! Go through the obstacles on a space plate!\n" +
@@ -37,33 +41,37 @@ public class GamePause {
     private Stage stage;
     private Image darkBackground;
     private Texture texture;
+    private Skin skin;
 
     public GamePause(PlayScreen playScreen, Skin skin, Stage stage) {
         this.playScreen = playScreen;
         this.stage = stage;
+        this.skin = skin;
 
-        Pixmap pixmap = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
-        pixmap.setColor(0, 0, 0, 0.5f);
-        pixmap.fillRectangle(0, 0, 2, 2);
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(0, 0, 0, 0.7f);
+        pixmap.fillRectangle(0,0,1,1);
         texture = new Texture(pixmap);
         pixmap.dispose();
 
         darkBackground = new Image();
+        darkBackground.setColor(0,0,0,0);
         darkBackground.setDrawable(new TextureRegionDrawable(texture));
         darkBackground.setSize(stage.getWidth(), stage.getHeight());
         darkBackground.setPosition(0, 0);
+        darkBackground.setScaling(Scaling.fill);
         stage.addActor(darkBackground);
 
         table = new Table(skin);
         table.setBackground("Window"); //table.debug();
-        table.setSize(stage.getWidth() * 1f, stage.getWidth() * 0.75f);
-        table.setPosition((stage.getWidth() - table.getWidth()) / 2, -table.getHeight());
+        table.setSize(stage.getWidth() * 1f, stage.getWidth() *1.667f);
+        table.setPosition((stage.getWidth() - table.getWidth()) / 2, (stage.getHeight() - table.getHeight()) / 2);
         table.pad(table.getHeight() * 0.02f, table.getWidth() * 0.2f, 0, table.getWidth() * 0.2f);
 
-        title = new Label("Info", skin, "title");
+        title = new Label("Pause", skin, "title");
         title.setAlignment(Align.center);
 
-        infoMain = new Label("Website: www.elsohome.ru \n" + "Version: 1.0.0", skin);
+        infoMain = new Label("Start level", skin);
 
         infoScroll = new Label(infoText, skin);
         infoScroll.setWrap(true);
@@ -75,8 +83,8 @@ public class GamePause {
         scroller.setFadeScrollBars(false);
         //scroller.setFlickScroll(false);
 
-        btnBack = new TextButton("Back", skin);
-        btnBack.addListener(new ChangeListener() {
+        btnExit = new TextButton("Exit", skin);
+        btnExit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 exit();
@@ -92,19 +100,21 @@ public class GamePause {
         });
 
 
-        table.add(title).padBottom(table.getHeight() * 0.05f).expand().row();
+        table.add(title).padBottom(table.getHeight() * 0.01f).align(Align.top).row();
         table.add(infoMain).height(infoMain.getHeight()).width(table.getWidth() * 0.6f).row();
-        table.add(scroller).height(table.getHeight() * 0.7f - infoMain.getHeight()).width(table.getWidth() * 0.6f).row();
-        table.add(btnBack).expand();
-        table.add(btnPlay).expand();
+        table.add(scroller).height(table.getHeight() * 0.6f - infoMain.getHeight()).width(table.getWidth() * 0.6f).row();
+        table.add(btnPlay).width(table.getWidth() * 0.5f).row();
+        table.add(btnExit).width(table.getWidth() * 0.35f).row();
+
+        table.setColor(1,1,1,0);
 
         stage.addActor(table);
-
-
     }
 
     public void exit() {
-        playScreen.exit();
+        WindowExit windowExit = new WindowExit("Quit Game", skin, "octagon", stage, playScreen);
+        windowExit.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
+        stage.addActor(windowExit);
     }
 
     public void play() {
@@ -114,13 +124,17 @@ public class GamePause {
 
     public void appear(float time) {
         table.setVisible(true);
+        darkBackground.setVisible(true);
         darkBackground.addAction(Actions.fadeIn(time));
-        table.addAction(Actions.moveTo((stage.getWidth() - table.getWidth()) / 2, (stage.getHeight() - table.getHeight()) / 2, time, Interpolation.pow3Out));
+        table.addAction(Actions.fadeIn(time));
     }
 
     public void disappear(float time) {
-        darkBackground.addAction(Actions.fadeOut(time));
-        table.addAction(Actions.moveTo((stage.getWidth() - table.getWidth()) / 2, -table.getHeight(), time, Interpolation.circleIn));
+        darkBackground.setColor(1,1,1,0);
+        table.setColor(1,1,1,0);
+        darkBackground.setVisible(false);
+        table.setVisible(false);
+
     }
 
     public void dispose() {
@@ -128,6 +142,7 @@ public class GamePause {
     }
 
     public void act(float delta) {
+        darkBackground.act(delta);
         table.act(delta);
     }
 }

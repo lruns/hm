@@ -3,6 +3,7 @@ package ru.neyvan.hm.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
+import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.levels.Check;
 import ru.neyvan.hm.levels.Level;
 import ru.neyvan.hm.levels.LevelLoader;
@@ -84,12 +85,18 @@ public class Game {
     public void increaseLifes(int delta) {
         gameData.lifes += Math.abs(delta);
     }
+    public void increaseScore() {
+        gameData.score += gameData.levelNumber.getEpisode() * Constants.SCORE_DELTA;
+    }
     public void increaseScore(int delta) {
         gameData.score += Math.abs(delta);
     }
 
     public void decreaseLifes(int delta) {
         gameData.lifes -= Math.abs(delta);
+    }
+    public void decreaseScore() {
+        gameData.score -= gameData.levelNumber.getEpisode() * Constants.SCORE_DELTA;
     }
     public void decreaseScore(int delta) {
         gameData.score -= Math.abs(delta);

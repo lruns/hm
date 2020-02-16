@@ -103,6 +103,8 @@ public class WaitState extends State{
         } else if (core.getGame().checkClick()) {
             //number is pressed by player and number is true => player did correct solution
             core.getGui().congratulation(core.getGame().getTimeReaction());
+            core.getGame().increaseScore();
+            core.getGui().updateScore();
             Gdx.app.debug("Wait.displayClicked", "Clicked good number: " + symbol.getNumber());
         } else {
             //number is pressed by player and number is false => player did mistake
@@ -128,6 +130,8 @@ public class WaitState extends State{
             if (!core.getGame().checkClick()) {
                 //number is not pressed by player and number is false => player did correct solution
                 core.getGui().congratulation(core.getGame().getTimeReaction());
+                core.getGame().increaseScore();
+                core.getGui().updateScore();
                 Gdx.app.debug("Wait.displayNotClicked", "Missed bad number: " + symbol.getNumber());
             }else{
                 //number is not pressed by player and number is true => player did mistake

@@ -5,9 +5,8 @@ package ru.neyvan.hm;
  */
 
 public class Constants {
-    // Background sizes
-    public static int BACKGROUND_WIDTH = 480;
-    public static int BACKGROUND_HEIGHT = 960;
+    public static int SCORE_DELTA = 50; // add (or remove) for every true(false) turn and multiplied
+                        // in game to episode number -> you can have 50, 100, 150 ...
 
     // Smaller screen height - screen resolution (15:9)
     public static int MIN_WIDTH = 480;
