@@ -2,6 +2,7 @@ package ru.neyvan.hm.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,12 +10,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.neyvan.hm.HM;
+import ru.neyvan.hm.game.Symbol;
 import ru.neyvan.hm.surprises.ChangeSpeedTime;
 import ru.neyvan.hm.surprises.Explosion;
 import ru.neyvan.hm.surprises.FullFreezing;
@@ -33,7 +38,7 @@ import static com.badlogic.gdx.graphics.GL20.GL_TEXTURE1;
  * Created by AndyGo on 05.03.2018.
  */
 
-public class TextNum extends Actor {
+public class SymbolText extends Actor {
     private final Color tempColor = new Color();
     private final GlyphLayout layout = new GlyphLayout();
     private BitmapFontCache cache;
@@ -50,10 +55,11 @@ public class TextNum extends Actor {
             TRD_heart,TRD_present,TRD_removeLife,TRD_removeScore,TRD_colorMusic,TRD_blackAndWhite,TRD_moving,TRD_rotation;
   //  private float maxWidth, maxHeight;
     private boolean transition, burn, explosion;
-    private Texture nextSymbol, currentSymbol;
+    private TextureRegion nextTexture, currentTexture;
     private SpriteBatch minBatch;
+    private float padding = 10f;
 
-    public TextNum(String text, Color fontColor, float maxWidth, float maxHeight) {
+    public SymbolText(String text, Color fontColor, float maxWidth, float maxHeight) {
         this.text = text;
         this.fontColor = fontColor;
   //     this.maxWidth = maxWidth;
@@ -78,8 +84,21 @@ public class TextNum extends Actor {
         layout.setText(font, text);
         fontShader = HM.game.shader.getFontShader();
         explosionShader = HM.game.shader.getExplosionShader();
-        setText(text);
+        setSymbol(new Symbol(1));
         setSize(maxWidth, maxHeight);
+        padding = getWidth()*0.2f;
+    }
+
+    public void setSymbol(Symbol symbol) {
+        //if(currentTexture!=null) currentTexture.dispose();
+        if(symbol.isSurprise()){
+            currentTexture = drawableToTexture(symbol.getSurpise());
+        }else{
+            currentTexture = textToTexture(Integer.toString(symbol.getNumber()), Color.WHITE, new Color(0,0,0,0));
+        }
+        transition = false;
+        burn = false;
+        explosion = false;
     }
 
     @Override
@@ -88,54 +107,62 @@ public class TextNum extends Actor {
 //        layout.setText(font, text, fontColor, , Align.center, false);
 //        centerX = (getWidth() - layout.width);
 //        centerY = (getHeight() - layout.height);
-        font.getData().setScale(1f);
-        layout.setText(font, text);
+        //maybe work
+//        font.getData().setScale(1f);
+//        layout.setText(font, text);
+//
+//        float scale = (0.6f*getHeight())/layout.height;
+//        if(scale*layout.width > 0.6f*getWidth()) scale = (0.6f*getWidth()) / layout.width;
+//
+//        font.getData().setScale(scale);
+//
+//        layout.setText(font, text);
+//        float x = (getWidth() - layout.width)/2;
+//        float y = layout.height+(getHeight() - layout.height)/1.6f;
+//
+//        cache.setText(layout, x, y);
 
-        float scale = (0.6f*getHeight())/layout.height;
-        if(scale*layout.width > 0.6f*getWidth()) scale = (0.6f*getWidth()) / layout.width;
+    }
 
-        font.getData().setScale(scale);
-
-        layout.setText(font, text);
-        float x = (getWidth() - layout.width)/2;
-        float y = layout.height+(getHeight() - layout.height)/1.6f;
-
-        cache.setText(layout, x, y);
+    @Override
+    public void setSize(float width, float height){
+        super.setSize(width, height);
 
     }
 
     public void draw (Batch batch, float parentAlpha) {
-        if(transition) {
-            Gdx.gl.glActiveTexture(GL_TEXTURE1);
-            nextSymbol.bind();
-
-            Gdx.gl.glActiveTexture(GL_TEXTURE0);
-            currentSymbol.bind();
-
-            oldShader = batch.getShader();
-
-            batch.setShader(transitionShader);
-            batch.draw(currentSymbol, 0, 0, getWidth(), getHeight());
-            batch.setShader(oldShader);
-        }else if(burn) {
-
-        }else if(explosion){
-            Gdx.gl.glActiveTexture(GL_TEXTURE1);
-            nextSymbol.bind();
-
-            Gdx.gl.glActiveTexture(GL_TEXTURE0);
-            currentSymbol.bind();
-
-            oldShader = batch.getShader();
-
-            batch.setShader(burnShader);
-            batch.draw(currentSymbol, 0, 0, getWidth(), getHeight());
-            batch.setShader(oldShader);
-        }else{
-            batch.draw(currentSymbol,0,0,getWidth(),getHeight());
-        }
+//        if(transition) {
+//            Gdx.gl.glActiveTexture(GL_TEXTURE1);
+//            nextTexture.bind();
+//
+//            Gdx.gl.glActiveTexture(GL_TEXTURE0);
+//            currentTexture.bind();
+//
+//            oldShader = batch.getShader();
+//
+//            batch.setShader(transitionShader);
+//            batch.draw(currentTexture, 0, 0, getWidth(), getHeight());
+//            batch.setShader(oldShader);
+//        }else if(burn) {
+//
+//        }else if(explosion){
+//            Gdx.gl.glActiveTexture(GL_TEXTURE1);
+//            nextTexture.bind();
+//
+//            Gdx.gl.glActiveTexture(GL_TEXTURE0);
+//            currentTexture.bind();
+//
+//            oldShader = batch.getShader();
+//
+//            batch.setShader(burnShader);
+//            batch.draw(currentTexture, 0, 0, getWidth(), getHeight());
+//            batch.setShader(oldShader);
+//        }else{
+            batch.draw(currentTexture, padding, padding,getWidth()-2*padding,getHeight()-2*padding);
+//        }
     }
-    public void update(float delta){
+    @Override
+    public void act(float delta){
         time -= delta;
         if(transition) {
             percent = 1.0f-(time/duration);
@@ -159,52 +186,126 @@ public class TextNum extends Actor {
             explosion = false;
         }
     }
-    public void setText(String text){
-        if(currentSymbol!=null) currentSymbol.dispose();
-        currentSymbol = textToTexture(text);
-        transition = false;
-        burn = false;
-        explosion = false;
-    }
-    public void setSurprise(Surprise surprise){
-        if(currentSymbol!=null) currentSymbol.dispose();
-        currentSymbol = drawableToTexture(surprise);
-        transition = false;
-        burn = false;
-        explosion = false;
-    }
-    public void setTransition(String nextText, float duration){
-        transition = true;
-        time = this.duration = duration;
-        nextSymbol.dispose();
-        nextSymbol = textToTexture(nextText);
-    }
-    public void setTransition(Surprise nextSurprise, float duration){
-        transition = true;
-        time = this.duration = duration;
-        nextSymbol.dispose();
-        nextSymbol = drawableToTexture(nextSurprise);
-    }
+    
+//    public void setTransition(String nextText, float duration){
+//        transition = true;
+//        time = this.duration = duration;
+//        nextTexture.dispose();
+//        nextTexture = textToTexture(nextText);
+//    }
+//    public void setTransition(Surprise nextSurprise, float duration){
+//        transition = true;
+//        time = this.duration = duration;
+//        nextTexture.dispose();
+//        nextTexture = drawableToTexture(nextSurprise);
+//    }
 
-    private Texture textToTexture(String text){
-        this.text = text;
-        sizeChanged();
-        FrameBuffer Fbo = new FrameBuffer(Pixmap.Format.RGB888, (int)(getWidth()), (int)(getHeight()), false);
-        Fbo.begin();
+    private TextureRegion textToTexture(String text, Color fg_color, Color bg_color){
+        /*this.text = text;
+
+        font.getData().setScale(1f);
+        layout.setText(font, text);
+
+        //float scale = (0.6f*getHeight())/layout.height;
+        //if(scale*layout.width > 0.6f*getWidth()) scale = (0.6f*getWidth()) / layout.width;
+
+        float scale = 1;
+
+        font.getData().setScale(scale);
+
+        layout.setText(font, text);
+        float x = (getWidth() - layout.width)/2;
+        float y = layout.height+(getHeight() - layout.height)/1.6f;
+
+        cache.setText(layout, x, y);
+
+
+        FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+        TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture(), 0, 0, getWidth(), getHeight());
+        fboRegion.flip(false, true);
+
+        fbo.begin();
+        Gdx.gl.glClearColor(0,0,0,0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         minBatch.begin();
+        float xx = 0;
+        float yy = 0;
+        minBatch.setBlendFunction(-1, -1);
+        Gdx.gl20.glBlendFuncSeparate(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA, GL20.GL_ONE, GL20.GL_ONE);
+
         Color color = tempColor.set(getColor());
         if (fontColor != null) color.mul(fontColor);
-        minBatch.setShader(fontShader);
-        cache.tint(color);
-        cache.setPosition(getX(), getY());
-        cache.draw(minBatch);
-        minBatch.setShader(null);
+        //minBatch.setShader(fontShader);
+//        cache.tint(color);
+//        cache.setPosition(xx, yy);
+//        cache.draw(minBatch);
+        TRD_removeLife.draw(minBatch, xx, yy, getWidth(), getHeight());
+        //minBatch.setShader(null);
         minBatch.end();
-        Fbo.end();
-        return Fbo.getColorBufferTexture();
+        fbo.end();
+        return fboRegion;*/
+
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+
+//        font.getData().setScale(10);
+//        layout.setText(font, text);
+
+        font.getData().setScale(1f);
+        layout.setText(font, text);
+
+        float scale = (0.6f*getHeight())/layout.height;
+        scale = 10f;
+        //if(scale*layout.width > 0.6f*getWidth()) scale = (0.6f*getWidth()) / layout.width;
+
+
+        font.getData().setScale(scale);
+
+        layout.setText(font, text);
+        float x = (getWidth() - layout.width)/2;
+        float y = layout.height+(getHeight() - layout.height)/1.6f;
+
+        cache.setText(layout, x, y);
+
+
+
+        Pixmap pm;
+        SpriteBatch spriteBatch = new SpriteBatch();
+
+        FrameBuffer m_fbo = new FrameBuffer(Pixmap.Format.RGBA8888, (int)(width), (int)(height), false);
+
+        m_fbo.begin();
+        Gdx.gl.glClearColor(1,1,1,0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Matrix4 normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
+        spriteBatch.setProjectionMatrix(normalProjection);
+
+        spriteBatch.begin();
+        spriteBatch.setColor(fg_color);
+        //do some drawing ***here's where you draw your dynamic texture***
+        //font.draw(spriteBatch, layout, width/2, height/2);
+        cache.tint(fg_color);
+        cache.setPosition(width/2, height/2);
+        cache.draw(spriteBatch);
+        spriteBatch.end();//finish write to buffer
+
+        pm = ScreenUtils.getFrameBufferPixmap(0, 0, (int) width, (int) height);//write frame buffer to Pixmap
+
+        m_fbo.end();
+        //      pm.dispose();
+        //      flipped.dispose();
+        //      tx.dispose();
+        m_fbo.dispose();
+        m_fbo = null;
+        spriteBatch.dispose();
+        //      return texture;
+        TextureRegion region = new TextureRegion(new Texture(pm));
+        region.flip(false, true);
+        return region;
     }
-    private Texture drawableToTexture(Surprise surprise){
-        TextureRegionDrawable nextDrawable=null;
+    private TextureRegion drawableToTexture(Surprise surprise){
+        TextureRegionDrawable nextDrawable = null;
         if(surprise instanceof FullFreezing){
             nextDrawable = TRD_freezing;
         }else if(surprise instanceof HelpSurprise){
@@ -251,11 +352,11 @@ public class TextNum extends Actor {
         }else if(surprise instanceof Rotation){
             nextDrawable = TRD_rotation;
         }
-        return nextDrawable.getRegion().getTexture();
+        return nextDrawable.getRegion();
     }
     public void dispose(){
         minBatch.dispose();
-        nextSymbol.dispose();
-        currentSymbol.dispose();
+       // nextTexture.dispose();
+       // currentTexture.dispose();
     }
 }

@@ -2,15 +2,11 @@ package ru.neyvan.hm.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -18,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.game.Symbol;
 import ru.neyvan.hm.screens.PlayScreen;
+import ru.neyvan.hm.surprises.Explosion;
 
 /**
  * This class for graphical changes of game, not for game logic!
@@ -37,9 +34,10 @@ public class GameCircle extends Group {
     private final float MIN_BAR = 0.0001f;
     private float barFullness; //0.0 - 1.0
     private float speedChangeBar;
+    private SymbolText symbolText;
 
     // for testing
-    private Label testText;
+//    private Label testText;
 
     public GameCircle(final PlayScreen core){
         super();
@@ -48,10 +46,10 @@ public class GameCircle extends Group {
         stack = new Stack();
         imgCircleLower = new Image();
         imgCircleUpper = new Image();
-        //numberText = new TextNum(String.valueOf(1), Color.WHITE, stack.getWidth(), stack.getHeight());
-        testText = new Label("0", HM.game.texture.skin);
-        testText.setFontScale(5);
-        testText.setAlignment(Align.center);
+        symbolText = new SymbolText(String.valueOf(1), Color.WHITE, stack.getWidth(), stack.getHeight());
+//        testText = new Label("0", HM.game.texture.skin);
+//        testText.setFontScale(5);
+//        testText.setAlignment(Align.center);
 
         circleBar = new CircleShaderActor(Color.BLUE);
 
@@ -62,8 +60,8 @@ public class GameCircle extends Group {
 
         stack.addActor(imgCircleLower);
         stack.addActor(imgCircleUpper);
-        stack.addActor(testText);
-        //addActor(numberText);
+//        stack.addActor(testText);
+        stack.addActor(symbolText);
         stack.addActor(circleBar);
         addActor(stack);
         addActor(imgMinCircle);
@@ -113,9 +111,10 @@ public class GameCircle extends Group {
 
 
     public void display(Symbol symbol){
-        //numberText.setText(String.valueOf(number));
-        if(symbol.isSurprise()) testText.setText("Surprise!");
-        else testText.setText(String.valueOf(symbol.getNumber()));
+        Symbol symbol1 = new Symbol(new Explosion(1,5));
+        symbolText.setSymbol(symbol1);
+//        if(symbol.isSurprise()) testText.setText("Surprise!");
+//        else testText.setText(String.valueOf(symbol.getNumber()));
 
     }
 
@@ -135,11 +134,6 @@ public class GameCircle extends Group {
     }
 
 
-
-    public void updateChangeSymbol(float delta){
-        //numberText.update(delta);
-    }
-
     public void showSymbol(){
         //numberText.setVisible(true);
         circleBar.setVisible(true);
@@ -155,7 +149,6 @@ public class GameCircle extends Group {
     public void setColor(Color color) {
         circleBar.setColor(color);
     }
-
 
     public void dispose(){
        // numberText.dispose();
