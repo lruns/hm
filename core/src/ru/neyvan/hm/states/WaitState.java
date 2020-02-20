@@ -36,8 +36,8 @@ public class WaitState extends State{
 
     @Override
     public void end() {
-        if(clicked) displayClicked();
-        else displayNotClicked();
+        if(clicked) displayClicked(); // circle was clicked
+        else displayNotClicked(); // circle wasn't clicked
         clicked = false;
     }
 

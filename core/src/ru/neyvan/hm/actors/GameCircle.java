@@ -111,11 +111,10 @@ public class GameCircle extends Group {
 
 
     public void display(Symbol symbol){
-        Symbol symbol1 = new Symbol(new Explosion(1,5));
-        symbolText.setSymbol(symbol1);
-//        if(symbol.isSurprise()) testText.setText("Surprise!");
-//        else testText.setText(String.valueOf(symbol.getNumber()));
-
+        symbolText.setSymbol(symbol);
+    }
+    public void display(Symbol symbol, float duration){
+        symbolText.setSymbol(symbol, duration);
     }
 
     // These three functions responsible for work bar around circle

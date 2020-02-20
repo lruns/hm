@@ -242,6 +242,10 @@ public class GUI {
         gameCircle.display(core.getGame().getSymbol());
         updateProgress();
     }
+    public void updateDisplay(float duration){
+        gameCircle.display(core.getGame().getSymbol(), duration);
+        updateProgress();
+    }
     public void updateProgress(){
         bar.setValue(core.getGame().getProgress());
     }

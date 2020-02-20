@@ -21,7 +21,7 @@ public class ReactionState extends State {
     @Override
     public void end() {
         core.getGame().nextTurn();
-        core.getGui().updateDisplay();
+        core.getGui().updateDisplay(core.getGame().getTimeChange());
         core.nextState(core.getChangeState(), core.getGame().getTimeChange());
     }
 }
