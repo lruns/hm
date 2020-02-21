@@ -1,4 +1,3 @@
-#version 120
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -44,6 +43,6 @@ void main()
     float r2 = circle(uv, u_radius, u_width, u_opening);
     vec3 color = vec3(r);
     color += u_color * r2;
-    float a = texture2D(u_texture, v_texCoords).a*0 + max(r, r2);
+    float a = texture2D(u_texture, v_texCoords).a*0.0 + max(r, r2);
 	gl_FragColor = vec4(color, a);
 }

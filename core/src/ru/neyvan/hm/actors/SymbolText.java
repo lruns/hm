@@ -104,7 +104,7 @@ public class SymbolText extends Actor {
         transition = false;
         burn = false;
         explosion = false;
-        symbol = new Symbol(new ChangeSpeedTime(0, 2));
+        //symbol = new Symbol(new ChangeSpeedTime(0, 2));
         if(currentTextureRegion != null)currentTextureRegion.getTexture().dispose();
         if(symbol.isSurprise()){
             currentTextureRegion = drawableToTexture(symbol.getSurpise());
@@ -116,7 +116,7 @@ public class SymbolText extends Actor {
 
     // set symbol with transition
     public void setSymbol(Symbol symbol, float duration){
-        symbol = new Symbol(new Explosion());
+        //symbol = new Symbol(new Explosion());
         transition = true;
         maxTime = time = this.duration = duration;
         currentTime = 0;
@@ -169,7 +169,6 @@ public class SymbolText extends Actor {
         if(transition) {
             currentTime += delta;
             percent = currentTime / maxTime;
-            System.out.println(percent);
 
             Gdx.gl.glActiveTexture(GL_TEXTURE1);
             nextTextureRegion.getTexture().bind();
@@ -227,6 +226,7 @@ public class SymbolText extends Actor {
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, (int) width, (int) height, false);
 
         frameBuffer.begin();
+
         Gdx.gl.glClearColor(1,1,1,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         normalProjection = new Matrix4().setToOrtho2D(0, 0, width,  height);
@@ -243,14 +243,17 @@ public class SymbolText extends Actor {
         minBatch.setShader(null);
         minBatch.end();//finish write to buffer
 
+
         pm = ScreenUtils.getFrameBufferPixmap(0, 0, (int) width, (int) height); //write frame buffer to Pixmap
         frameBuffer.end();
+
+        if(getStage() != null) getStage().getViewport().apply();
 
         TextureRegion region = new TextureRegion(new Texture(pm));
         region.flip(false, true);
 
 //        if(disposedTexture != null) disposedTexture.getTexture().dispose();
-        frameBuffer.dispose();
+//        frameBuffer.dispose();
         pm.dispose();
 
         return region;
