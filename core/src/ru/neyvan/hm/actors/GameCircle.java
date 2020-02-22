@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.game.Symbol;
@@ -96,7 +99,7 @@ public class GameCircle extends Group {
         updateBar(delta);
     }
 
-    private void updateBar(float delta){
+    public void updateBar(float delta){
 //        circleBar.reloadCenterPosition();
         barFullness += delta * speedChangeBar;
         if(barFullness > MAX_BAR) {
@@ -145,11 +148,17 @@ public class GameCircle extends Group {
         imgMinCircle.setVisible(false);
     }
 
-    public void setColor(Color color) {
-        circleBar.setColor(color);
-    }
-
     public void dispose(){
        // numberText.dispose();
+    }
+
+    public void glowBar(float duration, Color color) {
+        circleBar.setColor(color);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                circleBar.setColor();
+            }
+        }, duration);
     }
 }

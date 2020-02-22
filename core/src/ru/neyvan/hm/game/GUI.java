@@ -73,7 +73,7 @@ public class GUI {
 
     private ImageButton.ImageButtonStyle pauseStyle;
     private TextureRegionDrawable pauseClick, pause;
-    private boolean isAppear = false;
+    private boolean isAppear = false; // not used
 
     public GUI(final PlayScreen core) {
         this.core = core;
@@ -242,17 +242,22 @@ public class GUI {
         gameCircle.display(core.getGame().getSymbol());
         updateProgress();
     }
-    public void updateDisplay(float duration){
-        gameCircle.display(core.getGame().getSymbol(), duration);
+    public void updateDisplay(float animationTime){
+        gameCircle.display(core.getGame().getSymbol(), animationTime);
         updateProgress();
     }
+    public void fillTimeBar(float duration){
+        gameCircle.fillBar(duration);
+    }
+    public void resetTimeBar(float duration){
+        gameCircle.resetBar(duration);
+    }
+
     public void updateProgress(){
         bar.setValue(core.getGame().getProgress());
     }
 
-    public void updateTimeBar(){
 
-    }
 
     public void appear(float time){
         isAppear = true;
@@ -319,13 +324,13 @@ public class GUI {
 
 
     public void congratulation(float duration) {
-        gameCircle.addAction(new SequenceAction(Actions.color(Color.GREEN), Actions.delay(duration), Actions.color(Color.WHITE)));
+        gameCircle.glowBar(duration, Color.GREEN);
 //        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
     }
 
 
     public void disgrace(float duration) {
-        gameCircle.addAction(new SequenceAction(Actions.color(Color.RED), Actions.delay(duration), Actions.color(Color.WHITE)));
+        gameCircle.glowBar(duration, Color.RED);
 //        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
     }
 

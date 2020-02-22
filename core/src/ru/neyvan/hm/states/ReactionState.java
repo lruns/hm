@@ -15,13 +15,12 @@ public class ReactionState extends State {
     @Override
     public void start(float time) {
         super.start(time);
+        core.getGui().fillTimeBar(0.5f * time);
         Gdx.app.debug("ReactionState", "Begin state with time " + time);
     }
 
     @Override
     public void end() {
-        core.getGame().nextTurn();
-        core.getGui().updateDisplay(core.getGame().getTimeChange());
         core.nextState(core.getChangeState(), core.getGame().getTimeChange());
     }
 }

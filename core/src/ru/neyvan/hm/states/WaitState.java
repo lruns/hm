@@ -27,6 +27,7 @@ public class WaitState extends State{
     public void start(float time) {
         super.start(time);
         Gdx.app.debug("WaitState", "Begin state with time " + time);
+        core.getGui().fillTimeBar(time);
     }
 
     public void click(){
@@ -58,7 +59,7 @@ public class WaitState extends State{
 
             // surprises that influence the game (add impacts) or change (immediately) scores and lifes
             if(symbol.isGoodSurprise()){
-                core.getGui().congratulation(core.getGame().getTimeReaction()); //player activate a good surprise
+                core.getGui().congratulation( glowTime()); //player activate a good surprise
                 Gdx.app.debug("Wait.displayClicked", "Clicked good surprise: " + symbol.getSurpise().toString());
 
                 if (surprise instanceof GiftAndTrap){
@@ -78,7 +79,7 @@ public class WaitState extends State{
 
             }else{
                 Gdx.app.debug("Wait.displayClicked", "Clicked bad surprise: " + symbol.getSurpise().toString());
-                core.getGui().disgrace(1f); //player activate a bad surprise
+                core.getGui().disgrace(glowTime()); //player activate a bad surprise
                 if (surprise instanceof GiftAndTrap){
                     GiftAndTrap cat = (GiftAndTrap)(surprise);
                     if(cat.getType() == GiftAndTrap.DEBUF_LIFE){
@@ -102,40 +103,40 @@ public class WaitState extends State{
             }
         } else if (core.getGame().checkClick()) {
             //number is pressed by player and number is true => player did correct solution
-            core.getGui().congratulation(core.getGame().getTimeReaction());
+            core.getGui().congratulation( glowTime());
             core.getGame().increaseScore();
             core.getGui().updateScore();
             Gdx.app.debug("Wait.displayClicked", "Clicked good number: " + symbol.getNumber());
         } else {
             //number is pressed by player and number is false => player did mistake
-            core.getGui().disgrace(core.getGame().getTimeReaction());
+            core.getGui().disgrace( glowTime());
             core.getGame().decreaseLifes(1);
             core.getGui().updateLife();
             Gdx.app.debug("Wait.displayClicked", "Clicked bad number: " + symbol.getNumber());
         }
-        core.nextState(core.getReactionState(), getLostTime() + core.getGame().getTimeReaction());
+        core.nextState(core.getReactionState(),  core.getGame().getTimeReaction());
     }
 
     private void displayNotClicked() {
         Symbol symbol = core.getGame().getSymbol();
         if (symbol.isSurprise()) { //now is not number, it is surprise
             if(!symbol.isGoodSurprise()) {
-                core.getGui().congratulation(core.getGame().getTimeReaction());
+                core.getGui().congratulation(glowTime());
                 Gdx.app.debug("Wait.displayNotClicked", "Missed bad surprise: " + symbol.getSurpise().toString());
             }else {
-                core.getGui().disgrace(core.getGame().getTimeReaction()); //player missed a good
+                core.getGui().disgrace(glowTime()); //player missed a good
                 Gdx.app.debug("Wait.displayNotClicked", "Missed good surprise: " + symbol.getSurpise().toString());
             }
         }else{
             if (!core.getGame().checkClick()) {
                 //number is not pressed by player and number is false => player did correct solution
-                core.getGui().congratulation(core.getGame().getTimeReaction());
+                core.getGui().congratulation(glowTime());
                 core.getGame().increaseScore();
                 core.getGui().updateScore();
                 Gdx.app.debug("Wait.displayNotClicked", "Missed bad number: " + symbol.getNumber());
             }else{
                 //number is not pressed by player and number is true => player did mistake
-                core.getGui().disgrace(core.getGame().getTimeReaction());
+                core.getGui().disgrace(glowTime());
                 core.getGame().decreaseLifes(1);
                 core.getGui().updateLife();
                 Gdx.app.debug("Wait.displayNotClicked", "Missed good number: " + symbol.getNumber());
@@ -143,4 +144,9 @@ public class WaitState extends State{
         }
         core.nextState(core.getReactionState(), core.getGame().getTimeReaction());
     }
+
+    private float glowTime(){
+        return core.getGame().getTimeReaction() + core.getGame().getTimeChange();
+    }
+
 }

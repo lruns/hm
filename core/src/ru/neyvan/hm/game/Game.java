@@ -111,7 +111,7 @@ public class Game {
 
 
     public boolean isPlayerLose() {
-        return  gameData.lifes < 0;
+        return  gameData.lifes <= 0;
     }
 
     public boolean isGameFinished() {

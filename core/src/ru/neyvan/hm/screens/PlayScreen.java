@@ -49,7 +49,7 @@ public class PlayScreen implements Screen {
 
     // Transition States - responsible for game process; and times for some states
     public final float beginStateTime = 3f;
-    public final float changeStateTime = 10000f;
+    public final float chanceStateTime = 10000f;
     public final float winStateTime = 3f;
     public final float loseStateTime = 3f;
 

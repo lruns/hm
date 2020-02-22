@@ -14,18 +14,20 @@ public class ChangeState extends State {
     public void start(float time) {
         super.start(time);
         Gdx.app.debug("ChangeState", "Begin state with time " + time);
+        core.getGui().resetTimeBar(0.5f * time);
+
+        if(core.getGame().isPlayerLose()){
+            core.nextState(core.getChanceState(), core.chanceStateTime);
+        }else if(core.getGame().isGameFinished()){
+            core.nextState(core.getWinState(), core.winStateTime);
+        }else{
+            core.getGame().nextTurn();
+            core.getGui().updateDisplay(time);
+        }
     }
 
     @Override
     public void end() {
-        if(core.getGame().isPlayerLose()){
-            core.nextState(core.getChanceState(), core.changeStateTime);
-        }else{
-            if(core.getGame().isGameFinished()){
-                core.nextState(core.getWinState(), core.winStateTime);
-            }else{
-                core.nextState(core.getWaitState(), core.getGame().getTimeWait());
-            }
-        }
+        core.nextState(core.getWaitState(), core.getGame().getTimeWait());
     }
 }

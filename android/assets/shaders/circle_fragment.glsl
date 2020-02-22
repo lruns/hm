@@ -38,11 +38,11 @@ float circle(vec2 uv, float radius, float width, float opening)
 
 void main()
 {
-	vec2 uv = gl_FragCoord.xy;
+	vec2 uv = v_texCoords;
     float r = circle(uv, u_radius, u_width*0.13, u_opening);
     float r2 = circle(uv, u_radius, u_width, u_opening);
     vec3 color = vec3(r);
     color += u_color * r2;
-    float a = texture2D(u_texture, v_texCoords).a*0.0 + max(r, r2);
+    float a = texture2D(u_texture, uv).a*0.0 + max(r, r2);
 	gl_FragColor = vec4(color, a);
 }
