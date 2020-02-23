@@ -23,12 +23,13 @@ import ru.neyvan.hm.actors.WindowExit;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class GamePause {
-    private Label title, infoMain, infoScroll;
+    private Label title, infoScroll;
     private Table table;
     private Table scrollTable;
     private ScrollPane scroller;
     private TextButton btnExit;
     private TextButton btnPlay;
+    private TextButton btnContinue;
     private String infoText =
             "Towards to space adventures! Go through the obstacles on a space plate!\n" +
                     "The game “Flappy Space” is an arcade in the space style, where you should try to overcome as many " +
@@ -43,10 +44,13 @@ public class GamePause {
     private Texture texture;
     private Skin skin;
 
+    private boolean isBeginGame;
+
     public GamePause(PlayScreen playScreen, Skin skin, Stage stage) {
         this.playScreen = playScreen;
         this.stage = stage;
         this.skin = skin;
+        isBeginGame = true;
 
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(0, 0, 0, 0.7f);
@@ -70,8 +74,6 @@ public class GamePause {
 
         title = new Label("Pause", skin, "title");
         title.setAlignment(Align.center);
-
-        infoMain = new Label("Start level", skin);
 
         infoScroll = new Label(infoText, skin);
         infoScroll.setWrap(true);
@@ -100,15 +102,17 @@ public class GamePause {
         });
 
 
-        table.add(title).padBottom(table.getHeight() * 0.01f).align(Align.top).row();
-        table.add(infoMain).height(infoMain.getHeight()).width(table.getWidth() * 0.6f).row();
-        table.add(scroller).height(table.getHeight() * 0.6f - infoMain.getHeight()).width(table.getWidth() * 0.6f).row();
+        table.align(Align.top);
+        table.add(title).padTop(table.getHeight() * 0.03f).padBottom(table.getHeight() * 0.06f).align(Align.top).row();
+        table.add(scroller).height(table.getHeight() * 0.6f).width(table.getWidth() * 0.6f).row();
         table.add(btnPlay).width(table.getWidth() * 0.5f).row();
         table.add(btnExit).width(table.getWidth() * 0.35f).row();
 
         table.setColor(1,1,1,0);
+        table.setDebug(false);
 
         stage.addActor(table);
+        setBeginGame();
     }
 
     public void exit() {
@@ -122,19 +126,50 @@ public class GamePause {
     }
 
 
+    public void setBeginGame(){
+        isBeginGame = true;
+        title.setText("Welcome");
+        btnPlay.setText("Play");
+        btnExit.setVisible(false);
+        table.getCell(scroller).height((table.getHeight() * 0.68f));
+    }
+
+    public void setNormalGame(){
+        isBeginGame = false;
+        title.setText("Pause");
+        btnPlay.setText("Continue");
+        btnExit.setVisible(true);
+        table.getCell(scroller).height((table.getHeight() * 0.6f));
+    }
+
     public void appear(float time) {
+        if(isBeginGame){
+            darkBackground.setVisible(false);
+        }else{
+            darkBackground.setVisible(true);
+            darkBackground.addAction(Actions.fadeIn(time));
+        }
         table.setVisible(true);
-        darkBackground.setVisible(true);
-        darkBackground.addAction(Actions.fadeIn(time));
         table.addAction(Actions.fadeIn(time));
     }
 
     public void disappear(float time) {
-        darkBackground.setColor(1,1,1,0);
-        table.setColor(1,1,1,0);
-        darkBackground.setVisible(false);
-        table.setVisible(false);
+        if(isBeginGame){
+            table.addAction(Actions.fadeOut(time));
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    table.setVisible(false);
+                    setNormalGame();
+                }
+            },time);
+        }else{
+            table.setColor(1,1,1,0);
+            table.setVisible(false);
+        }
 
+        darkBackground.setColor(1,1,1,0);
+        darkBackground.setVisible(false);
     }
 
     public void dispose() {

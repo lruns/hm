@@ -21,7 +21,6 @@ import ru.neyvan.hm.surprises.Explosion;
 
 /**
  * This class for graphical changes of game, not for game logic!
- * You can change number with function {@link GameCircle#displayNextOnCircle}
  *
  * Created by AndyGo on 01.01.2018.
  */
@@ -149,7 +148,7 @@ public class GameCircle extends Group {
     }
 
     public void dispose(){
-       // numberText.dispose();
+        symbolText.dispose();
     }
 
     public void glowBar(float duration, Color color) {

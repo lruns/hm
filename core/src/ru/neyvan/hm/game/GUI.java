@@ -6,20 +6,26 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -69,7 +75,11 @@ public class GUI {
      *  Another element
      ***********************************/
 
+    // Image with text for showing "Begin", "Win", "Lose" between circle display and top panel
+    private Image showImage;
+    // Window for start game and pause game
     private GamePause gamePause;
+
 
     private ImageButton.ImageButtonStyle pauseStyle;
     private TextureRegionDrawable pauseClick, pause;
@@ -160,8 +170,12 @@ public class GUI {
 
         // ******* Another ***********//
 
+        showImage = new Image();
+        stage.addActor(showImage);
         gamePause = new GamePause(core, skin, stage);
         //shine = new Shine();
+
+
     }
 
     private void initSizeAndReposition() {
@@ -225,6 +239,7 @@ public class GUI {
     }
 
     public void updateGamePause(float delta) {
+        background.act(delta);
         gamePause.act(delta);
     }
 
@@ -244,6 +259,15 @@ public class GUI {
     }
     public void updateDisplay(float animationTime){
         gameCircle.display(core.getGame().getSymbol(), animationTime);
+        updateProgress();
+    }
+    // set empty in display for begin and ending game
+    public void emptyDisplay() {
+        gameCircle.display(null);
+        updateProgress();
+    }
+    public void emptyDisplay(float animationTime) {
+        gameCircle.display(null, animationTime);
         updateProgress();
     }
     public void fillTimeBar(float duration){
@@ -345,19 +369,55 @@ public class GUI {
         gameCircle.showSymbol();
     }
 
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
 
-        //Please change this bad realization of resize and reposition!!!
-        gameCircle.updateSizePosition();
+
+    public void showStart(float time) {
+        // show start label -- Ready? ... Go!
+        settingShowImage("playClick", time);
     }
 
-
-
-
-
-    public void loseGame() {
+    public void showLose(float time) {
+        settingShowImage("buttonInfo", time);
     }
+
+    public void showWin(float time) {
+        settingShowImage("buttomRecord", time);
+    }
+
+    private Action settingShowImage(String regionName, float time){
+
+        showImage.setScale(0f);
+        TextureRegionDrawable drawable = new TextureRegionDrawable(HM.game.texture.atlas.findRegion(regionName));
+        showImage.setDrawable(drawable);
+        showImage.setHeight(stage.getHeight() * 0.2f);
+        showImage.setWidth(showImage.getHeight() / drawable.getRegion().getRegionHeight() * drawable.getRegion().getRegionWidth());
+        showImage.setPosition(stage.getWidth() * 0.5f, stage.getHeight() * 0.7f, Align.center);
+        showImage.setOrigin(Align.center);
+
+        SequenceAction appearAction = new SequenceAction();
+
+        ParallelAction firstStep = new ParallelAction();
+        firstStep.addAction(Actions.scaleTo(1, 0.25f, time*0.3f, Interpolation.circleOut));
+        firstStep.addAction(Actions.fadeIn(time*0.3f, Interpolation.circleIn));
+
+        appearAction.addAction(Actions.fadeOut(0));
+        appearAction.addAction(firstStep);
+        appearAction.addAction(Actions.scaleTo(1, 1f, time*0.2f, Interpolation.circleOut));
+
+        ScaleToAction disappearAction = new ScaleToAction();
+        disappearAction.setScale(0);
+        disappearAction.setDuration(time * 0.5f);
+        disappearAction.setInterpolation(Interpolation.circle);
+
+        SequenceAction overallSequance = new SequenceAction();
+        overallSequance.addAction(appearAction);
+        overallSequance.addAction(disappearAction);
+
+        showImage.addAction(overallSequance);
+
+        return overallSequance;
+    }
+
 
     public void jumpToPortal() {
     }
@@ -370,8 +430,7 @@ public class GUI {
     }
 
 
-    public void showWin() {
-    }
+
 
     public void explose() {
     }
@@ -380,19 +439,25 @@ public class GUI {
     }
 
     public void giveChance() {
+
+    }
+
+
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+
+        //Please change this bad realization of resize and reposition!!!
+        gameCircle.updateSizePosition();
     }
 
 
     public void dispose() {
-//        gamePause.dispose();
+        gamePause.dispose();
+        gameCircle.dispose();
     }
 
     public Stage getStage() {
         return stage;
     }
 
-
-    public void showStart(float time) {
-        // show start label -- Ready? ... Go!
-    }
 }

@@ -17,8 +17,10 @@ public class ChangeState extends State {
         core.getGui().resetTimeBar(0.5f * time);
 
         if(core.getGame().isPlayerLose()){
+            core.getGui().emptyDisplay(time);
             core.nextState(core.getChanceState(), core.chanceStateTime);
         }else if(core.getGame().isGameFinished()){
+            core.getGui().emptyDisplay(time);
             core.nextState(core.getWinState(), core.winStateTime);
         }else{
             core.getGame().nextTurn();

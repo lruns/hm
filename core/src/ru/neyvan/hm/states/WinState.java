@@ -12,7 +12,7 @@ public class WinState extends State {
     @Override
     public void start(float time) {
         super.start(time);
-        core.getGui().showWin();
+        core.getGui().showWin(time);
         Gdx.app.debug("WinState", "Begin state with time " + time);
     }
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class ChanceState extends State {
-    private boolean addActivate = false;
+    private boolean addMobActivated = false;
     private boolean haveChance = false;
     public ChanceState(PlayScreen core) {
         super(core);
@@ -15,7 +15,7 @@ public class ChanceState extends State {
     public void start(float time) {
         super.start(time);
         Gdx.app.debug("ChanceState", "Begin state with time " + time);
-        if(addActivate){
+        if(addMobActivated){
             core.getGui().giveChance();
         }else{
             Gdx.app.debug("ChanceState", "Addmob not loaded, end chance state ");
@@ -31,7 +31,7 @@ public class ChanceState extends State {
             core.getGui().hideChance();
             core.nextState(core.getWaitState(), core.getGame().getTimeWait());
         }else{
-            if(addActivate) core.getGui().hideChance();
+            if(addMobActivated) core.getGui().hideChance();
             core.nextState(core.getLoseState(), core.loseStateTime);
         }
 

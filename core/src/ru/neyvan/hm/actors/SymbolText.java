@@ -96,22 +96,23 @@ public class SymbolText extends Actor {
         explosionShader = HM.game.shader.getExplosionShader();
 
         setSize(maxWidth, maxHeight);
-        setSymbol(new Symbol(1));
+        setSymbol(null);
     }
+
 
     // set symbol without transition (for begin)
     public void setSymbol(Symbol symbol) {
-        transition = false;
-        burn = false;
-        explosion = false;
         //symbol = new Symbol(new ChangeSpeedTime(0, 2));
         if(currentTextureRegion != null)currentTextureRegion.getTexture().dispose();
-        if(symbol.isSurprise()){
-            currentTextureRegion = drawableToTexture(symbol.getSurpise());
-        }else{
-            currentTextureRegion = textToTexture(Integer.toString(symbol.getNumber()), Color.WHITE);
+        if(symbol == null){
+            currentTextureRegion = textToTexture(null, Color.WHITE);
+        }else {
+            if(symbol.isSurprise()){
+                currentTextureRegion = drawableToTexture(symbol.getSurpise());
+            }else{
+                currentTextureRegion = textToTexture(Integer.toString(symbol.getNumber()), Color.WHITE);
+            }
         }
-
     }
 
     // set symbol with transition
@@ -121,10 +122,14 @@ public class SymbolText extends Actor {
         maxTime = time = this.duration = duration;
         currentTime = 0;
         if(nextTextureRegion != null) nextTextureRegion.getTexture().dispose();
-        if(symbol.isSurprise()){
-            nextTextureRegion = drawableToTexture(symbol.getSurpise());
+        if(symbol == null){
+            nextTextureRegion = textToTexture(null, Color.WHITE);
         }else{
-            nextTextureRegion = textToTexture(Integer.toString(symbol.getNumber()), Color.WHITE);
+            if(symbol.isSurprise()){
+                nextTextureRegion = drawableToTexture(symbol.getSurpise());
+            }else{
+                nextTextureRegion = textToTexture(Integer.toString(symbol.getNumber()), Color.WHITE);
+            }
         }
     }
 
@@ -205,7 +210,7 @@ public class SymbolText extends Actor {
     }
 
     private TextureRegion textToTexture(String text, Color fg_color){
-
+        if(text == null) text = " ";
         float width = getWidth();
         float height = getHeight();
 
@@ -337,8 +342,6 @@ public class SymbolText extends Actor {
     }
     public void dispose(){
         minBatch.dispose();
-        if(frameBuffer != null) frameBuffer.dispose();
-        if(pm != null) pm.dispose();
         // Danger! Not uncomment - you can destroy all atlas when dispose surprise
         // You ,ust solve problem!
         if(currentTextureRegion != null) currentTextureRegion.getTexture().dispose();

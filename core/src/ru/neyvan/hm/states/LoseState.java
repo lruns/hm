@@ -12,7 +12,7 @@ public class LoseState extends State {
     @Override
     public void start(float time) {
         super.start(time);
-        core.getGui().loseGame();
+        core.getGui().showLose(time);
         Gdx.app.debug("LoseState", "Begin state with time " + time);
     }
 
