@@ -347,6 +347,9 @@ public class GUI {
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+
+        //Please change this bad realization of resize and reposition!!!
+        gameCircle.updateSizePosition();
     }
 
 

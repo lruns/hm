@@ -18,6 +18,7 @@ public class ShaderManager implements Manager {
     private ShaderProgram explosionShader;
     @Override
     public void init() {
+        ShaderProgram.pedantic = false;
         circle = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
                 Gdx.files.internal("shaders/circle_fragment.glsl"));
         if(!circle.isCompiled())

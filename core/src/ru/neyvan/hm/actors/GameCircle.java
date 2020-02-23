@@ -161,4 +161,9 @@ public class GameCircle extends Group {
             }
         }, duration);
     }
+
+    // is very bad realization, but I not have time for something better
+    public void updateSizePosition(){
+
+    }
 }
