@@ -15,8 +15,8 @@ public class PortalState extends State {
     public void start(float time) {
         super.start(time);
         updateLevel = false;
-        core.getGui().disappear(time);
-        core.getGui().jumpToPortal();
+        core.getGui().disappear(0.3f*time);
+        core.getGui().jumpToPortal(0.3f*time);
         core.getGame().nextLevel();
         Gdx.app.debug("PortalState", "Begin state with time " + time);
     }

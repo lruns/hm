@@ -15,8 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ru.neyvan.hm.HM;
+import ru.neyvan.hm.actors.WindowContinueGame;
 import ru.neyvan.hm.actors.WindowExit;
 import ru.neyvan.hm.actors.WindowNewName;
+import ru.neyvan.hm.game.GameDataLoader;
 
 /**
  * Created by AndyGo on 08.07.2017.
@@ -83,7 +85,11 @@ public class MenuScreen extends ScreenMenuModel {
         btnPlay.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                end(DISAPPEARANCE_TO_BOTTOM, new EpisodesScreen());
+                if(HM.game.player.isGameExist()){
+                    showWindowContinueGame();
+                }else{
+                    end(DISAPPEARANCE_TO_BOTTOM, new EpisodesScreen());
+                }
             }
         });
         group.addActor(btnPlay);
@@ -187,6 +193,14 @@ public class MenuScreen extends ScreenMenuModel {
         stage.addActor(windowNewName);
 
     }
+
+    private void showWindowContinueGame() {
+        WindowContinueGame windowContinueGame = new WindowContinueGame("Continue game", skin, "octagon", stage, this);
+        windowContinueGame.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
+        stage.addActor(windowContinueGame);
+
+    }
+
     public void end(final int variantOfDisappearance, final Screen screen){
         Gdx.input.setInputProcessor(null);
         time = 0.5f;

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Json;
 
 import ru.neyvan.hm.Constants;
 
-class GameDataLoader {
+public class GameDataLoader {
     private Json json;
     private FileHandle fileHandle;
 

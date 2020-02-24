@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
 import ru.neyvan.hm.Constants;
+import ru.neyvan.hm.HM;
+import ru.neyvan.hm.Player;
 import ru.neyvan.hm.levels.Check;
 import ru.neyvan.hm.levels.Level;
 import ru.neyvan.hm.levels.LevelLoader;
@@ -13,9 +15,6 @@ import ru.neyvan.hm.screens.PlayScreen;
 
 public class Game {
 
-    private PlayScreen playScreen;
-
-
     // Heart of game information
     private GameData gameData;
     private Level level;
@@ -23,12 +22,13 @@ public class Game {
     private LevelLoader levelLoader;
 
 
-    public Game(PlayScreen playScreen) {
+    public Game() {
         gameDataLoader = new GameDataLoader();
         levelLoader = new LevelLoader();
     }
 
     public void createGame(LevelNumber levelNumber) {
+        HM.game.player.createGame();
         level = levelLoader.load(levelNumber);
         gameData = new GameData(level);
     }
@@ -39,23 +39,16 @@ public class Game {
         level = levelLoader.load(getLevelNumber());
     }
 
-    public void startGame() {
-
-    }
-
     public void saveGame() {
+        if(isPlayerLose()) HM.game.player.deleteGame();
+        else gameDataLoader.save(gameData);
+
     }
 
-    public void dispose() {
-    }
 
     public Level getLevel() {
         return level;
     }
-
-
-
-
     public int getLifes(){
         return gameData.lifes;
     }
@@ -81,7 +74,6 @@ public class Game {
         Gdx.app.debug("Progress:", " "+ (float) gameData.countMove / level.getCountOfMoves());
         return  (float) gameData.countMove / level.getCountOfMoves();
     }
-
     public void increaseLifes(int delta) {
         gameData.lifes += Math.abs(delta);
     }
@@ -91,7 +83,6 @@ public class Game {
     public void increaseScore(int delta) {
         gameData.score += Math.abs(delta);
     }
-
     public void decreaseLifes(int delta) {
         gameData.lifes -= Math.abs(delta);
     }
@@ -109,7 +100,6 @@ public class Game {
         return level.getChecksOfMove().get(level.getChecksOfMove().size() - 1).getResult();
     }
 
-
     public boolean isPlayerLose() {
         return  gameData.lifes <= 0;
     }
@@ -118,25 +108,13 @@ public class Game {
         return gameData.countMove >= level.getCountOfMoves();
     }
 
-    public void firstNumber() {
-        if (level.isFixedCounting()) {
-            gameData.currentSymbol.setNumber(level.getFixedNumbers().get(gameData.countMove));
-        }else{
-            gameData.number = level.getFirstNumber();
-            gameData.currentSymbol.setNumber(gameData.number);
-        }
-        Gdx.app.debug("Game.firstNumber", "First number:" + gameData.currentSymbol.getNumber());
-        gameData.countMove++;
-    }
-
     // Change number (or surprise) for next turn. Also change time step (only for numbers).
-
     public void nextTurn() {
-        if (level.getSurprises().size() != 0 && level.isRandomSurpriseMove()) {
+        if (gameData.surprises.size() != 0 && level.isRandomSurpriseMove()) {
             if (MathUtils.random() > 0.9 || (level.getCountOfMoves() - gameData.countMove < 10)) {
-                int i = MathUtils.random(0, level.getSurprises().size() - 1);
-                gameData.currentSymbol.setSurprise(level.getSurprises().get(gameData.countEffects));
-                level.getSurprises().remove(i);
+                int i = MathUtils.random(0, gameData.surprises.size() - 1);
+                gameData.currentSymbol.setSurprise(gameData.surprises.get(gameData.countEffects));
+                gameData.surprises.remove(i);
                 Gdx.app.debug("Game.nextTurn", "Set random surprise:" + gameData.currentSymbol.getSurpise().toString());
                 return;
             }
@@ -144,13 +122,13 @@ public class Game {
         for (int place : level.getListOfPlacesSurp()) {
             if (place == gameData.countMove) {
                 if (level.isOutOfOrderAppearanceSurprise()) {
-                    int i = MathUtils.random(0, level.getSurprises().size() - 1);
-                    gameData.currentSymbol.setSurprise(level.getSurprises().get(gameData.countEffects));
-                    level.getSurprises().remove(i);
+                    int i = MathUtils.random(0, gameData.surprises.size() - 1);
+                    gameData.currentSymbol.setSurprise(gameData.surprises.get(gameData.countEffects));
+                    gameData.surprises.remove(i);
                     Gdx.app.debug("Game.nextTurn", "Set placed out order surprise:" + gameData.currentSymbol.getSurpise().toString());
                     return;
                 }
-                gameData.currentSymbol.setSurprise(level.getSurprises().get(gameData.countEffects));
+                gameData.currentSymbol.setSurprise(gameData.surprises.get(gameData.countEffects));
                 gameData.countEffects++;
                 Gdx.app.debug("Game.nextTurn", "Set placed surprise:" + gameData.currentSymbol.getSurpise().toString());
                 return;
@@ -169,5 +147,23 @@ public class Game {
     }
 
     public void nextLevel() {
+        LevelNumber levelNumber;
+        if(isEpisodeComplete()){
+            HM.game.player.completeEpisode(gameData.levelNumber);
+            levelNumber = new LevelNumber(gameData.levelNumber.getEpisode()+1, 1);
+        }else{
+            levelNumber = new LevelNumber(gameData.levelNumber.getEpisode(), gameData.levelNumber.getLevel()+1);
+        }
+        level = levelLoader.load(levelNumber);
+        gameData.nextLevel(level);
+    }
+
+    // Return true, if you played last level of LAST episode and won
+    public boolean isAllGameComplete(){
+        return gameData.levelNumber.isLastGame();
+    }
+
+    public boolean isEpisodeComplete() {
+        return gameData.levelNumber.isLastLevel();
     }
 }

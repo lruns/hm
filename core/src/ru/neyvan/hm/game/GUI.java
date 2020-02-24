@@ -84,6 +84,7 @@ public class GUI {
     private ImageButton.ImageButtonStyle pauseStyle;
     private TextureRegionDrawable pauseClick, pause;
     private boolean isAppear = false; // not used
+    private boolean inPortal = false;
 
     public GUI(final PlayScreen core) {
         this.core = core;
@@ -381,7 +382,13 @@ public class GUI {
     }
 
     public void showWin(float time) {
-        settingShowImage("buttomRecord", time);
+        settingShowImage("buttonRecord", time);
+    }
+
+    public void showAllGameComplete() {
+    }
+
+    public void showEpisodeComplete() {
     }
 
     private Action settingShowImage(String regionName, float time){
@@ -419,14 +426,21 @@ public class GUI {
     }
 
 
-    public void jumpToPortal() {
+    public void jumpToPortal(float time) {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                inPortal = true;
+            }
+        }, time);
     }
 
     public void jumpOutOfPortal() {
+        inPortal = false;
     }
 
     public boolean inPortal() {
-        return true;
+        return inPortal;
     }
 
 
@@ -459,5 +473,6 @@ public class GUI {
     public Stage getStage() {
         return stage;
     }
+
 
 }

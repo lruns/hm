@@ -3,34 +3,41 @@ package ru.neyvan.hm;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import ru.neyvan.hm.game.GameDataLoader;
+import ru.neyvan.hm.levels.LevelNumber;
+
+import static ru.neyvan.hm.Constants.MAX_EPISODE;
+import static ru.neyvan.hm.Constants.PLAYER_PATH;
+
 /**
  * Created by AndyGo on 13.10.2017.
  */
 
 public class Player {
-    private String preferencesName = "ru.elsohomeHMPD";
-    private String name;
 
+    private String name;
+    private Preferences preferences;
+
+    public Player(){
+        preferences = Gdx.app.getPreferences(PLAYER_PATH);
+    }
 
     public void readName(){
-        Preferences preferences = Gdx.app.getPreferences(preferencesName);
         name = preferences.getString("name", "");
-        preferences = null;
         Gdx.app.debug("read name", name);
     }
     public String getName(){
         return name;
     }
+
     public boolean writeName(String name){
         if(isErrorName(name)){
             Gdx.app.debug("new name", "is error name");
             return false;
         }
         this.name = name;
-        Preferences preferences = Gdx.app.getPreferences(preferencesName);
         preferences.putString("name", name);
         preferences.flush();
-        preferences = null;
         Gdx.app.debug("new name", name);
         return true;
     }
@@ -42,4 +49,34 @@ public class Player {
         Gdx.app.debug("name is", String.valueOf(!isErrorName(name)));
         return !isErrorName(name);
     }
+
+    public boolean isGameExist() {
+        return preferences.getBoolean("game_exist", false);
+    }
+
+    public void createGame() {
+        preferences.putBoolean("game_exist", true);
+        preferences.flush();
+    }
+
+    public void deleteGame() {
+        preferences.putBoolean("game_exist", false);
+        preferences.flush();
+    }
+
+
+    public boolean isOpened(LevelNumber levelNumber) {
+        boolean open = false;
+        if(levelNumber.getEpisode() == 1) open = preferences.getBoolean("episode"+levelNumber.getEpisode(), true);
+        else open = preferences.getBoolean("episode"+levelNumber.getEpisode(), false);
+
+        return open;
+    }
+
+    // You complete episode and open new episode
+    public void completeEpisode(LevelNumber levelNumber){
+        preferences.putBoolean("episode"+levelNumber.getEpisode(), true);
+        preferences.flush();
+    }
+
 }

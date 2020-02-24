@@ -65,8 +65,8 @@ public class HM extends Game {
             setScreen(new WelcomeScreen());
         }else{
             initManagers();
-            //setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
-            setScreen(new PlayScreen(new LevelNumber(1,1)));
+            setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
+            //setScreen(new PlayScreen(new LevelNumber(1,1)));
         }
     }
 

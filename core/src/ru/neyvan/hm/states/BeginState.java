@@ -19,9 +19,9 @@ public class BeginState extends State{
         super.start(time);
         displayUpdated = false;
         Gdx.app.debug("BeginState", "Begin state with time " + time);
-        core.getGame().firstNumber();
         core.getGui().showStart(time);
         core.getGui().appear(time);
+        core.gamePause();
 
     }
 

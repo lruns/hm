@@ -2,6 +2,7 @@ package ru.neyvan.hm.states;
 
 import com.badlogic.gdx.Gdx;
 
+import ru.neyvan.hm.HM;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class WinState extends State {
@@ -18,6 +19,11 @@ public class WinState extends State {
 
     @Override
     public void end() {
-        core.nextState(core.getPortalState(), core.winStateTime);
+        if(core.getGame().isAllGameComplete())
+            core.nextState(core.getAllGameCompleteState(), core.allGameCompleteStateTime);
+        else if(core.getGame().isEpisodeComplete())
+            core.nextState(core.getEpisodeCompleteState(), core.episodeCompleteStateTime);
+        else
+            core.nextState(core.getPortalState(), core.portalStateTime);
     }
 }

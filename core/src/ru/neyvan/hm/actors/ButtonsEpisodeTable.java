@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import ru.neyvan.hm.HM;
+import ru.neyvan.hm.Player;
 import ru.neyvan.hm.screens.EpisodesScreen;
 
 /**
@@ -42,10 +44,10 @@ public class ButtonsEpisodeTable extends com.badlogic.gdx.scenes.scene2d.ui.Tabl
     }
 
     public void updateInfo() {
-        epizod.setText(EP +(parent.episodes.getClickedEpisode() + 1));
-        levels.setText(NUM+(parent.episodes.getLevelsSize()));
-        difficult.setText(DIF+parent.episodes.getDifficult());
-        btnStart.setDisabled(!parent.episodes.isOpened());
+        epizod.setText(EP +(parent.getClickedEpisode().getEpisode()));
+        levels.setText(NUM+(parent.getClickedEpisode().getLevelsSize()));
+        difficult.setText(DIF+parent.getClickedEpisode().getDifficult());
+        btnStart.setDisabled(!HM.game.player.isOpened(parent.getClickedEpisode()));
     }
 
     public void setBackListener() {

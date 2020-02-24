@@ -13,6 +13,8 @@ public class Symbol {
 	private int number;
 	private Surprise surprise;
 
+	public Symbol(){setNumber(1);}
+
 	public Symbol(int number){setNumber(number);}
 
 	public Symbol(Surprise surprise){setSurprise(surprise);}

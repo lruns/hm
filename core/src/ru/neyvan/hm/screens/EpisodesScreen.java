@@ -17,13 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.ButtonsEpisodeTable;
 import ru.neyvan.hm.actors.EpisodesTable;
-import ru.neyvan.hm.game.Episodes;
 import ru.neyvan.hm.levels.LevelNumber;
 
 /**
@@ -39,14 +37,12 @@ public class EpisodesScreen extends ScreenAdapter {
     private EpisodesTable scrollTable;
     private ButtonsEpisodeTable buttonsTable;
     private ScrollPane scrollPane;
-
-    public Episodes episodes;
+    private LevelNumber clickedEpisode;
 
     public EpisodesScreen() {
         stage = new Stage(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
                 Constants.MAX_WIDTH, Constants.MAX_HEIGHT));
         skin = HM.game.texture.skin;
-        episodes = new Episodes();
 
         mainTable = new Table();
         mainTable.setFillParent(true);
@@ -133,10 +129,17 @@ public class EpisodesScreen extends ScreenAdapter {
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        LevelNumber levelNumber = new LevelNumber(episodes.getClickedEpisode()+1, 1);
+                        LevelNumber levelNumber = new LevelNumber(clickedEpisode.getEpisode(), 1);
                         HM.game.setScreen(new PlayScreen(levelNumber));
                     }
                 })
         ));
+    }
+
+    public LevelNumber getClickedEpisode() {
+        return clickedEpisode;
+    }
+    public void setClickedEpisode(LevelNumber clickedEpisode){
+        this.clickedEpisode = clickedEpisode;
     }
 }

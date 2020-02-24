@@ -2,19 +2,19 @@ package ru.neyvan.hm.states;
 
 import com.badlogic.gdx.Gdx;
 
-import ru.neyvan.hm.Player;
 import ru.neyvan.hm.screens.PlayScreen;
 
-public class LoseState extends State {
-    public LoseState(PlayScreen core) {
+public class AllGameComplete extends State {
+
+    public AllGameComplete(PlayScreen core) {
         super(core);
     }
 
     @Override
     public void start(float time) {
         super.start(time);
-        core.getGui().showLose(time);
-        Gdx.app.debug("LoseState", "Begin state with time " + time);
+        Gdx.app.debug("AllGameComplete", "Begin state with time " + time);
+        core.getGui().showAllGameComplete();
     }
 
     @Override

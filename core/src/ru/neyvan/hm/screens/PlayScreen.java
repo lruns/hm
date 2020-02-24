@@ -22,9 +22,11 @@ import ru.neyvan.hm.impacts.ScreenEffectsImpact;
 import ru.neyvan.hm.impacts.TransferenceImpact;
 import ru.neyvan.hm.impacts.WarpSurpriseImpact;
 import ru.neyvan.hm.levels.LevelNumber;
+import ru.neyvan.hm.states.AllGameComplete;
 import ru.neyvan.hm.states.BeginState;
 import ru.neyvan.hm.states.ChanceState;
 import ru.neyvan.hm.states.ChangeState;
+import ru.neyvan.hm.states.EpisodeCompleteState;
 import ru.neyvan.hm.states.ExplosionState;
 import ru.neyvan.hm.states.FullFreezingState;
 import ru.neyvan.hm.states.LoseState;
@@ -43,6 +45,8 @@ import ru.neyvan.hm.surprises.Surprise;
 // This is core of game, which control game, gui and input processes
 public class PlayScreen implements Screen {
 
+
+
     private Game game;
     private GUI gui;
 
@@ -52,6 +56,9 @@ public class PlayScreen implements Screen {
     public final float chanceStateTime = 10000f;
     public final float winStateTime = 3f;
     public final float loseStateTime = 3f;
+    public final float portalStateTime = 10f;
+    public final float allGameCompleteStateTime = 10f;
+    public final float episodeCompleteStateTime = 10f;
 
     private State state;
     private BeginState beginState;
@@ -64,6 +71,8 @@ public class PlayScreen implements Screen {
     private PortalState portalState;
     private ChanceState chanceState;
     private LoseState loseState;
+    private AllGameComplete allGameComplete;
+    private EpisodeCompleteState episodeCompleteState;
 
     // Impact States - responsible for influence on game with different effect INDEPENDENTLY of game process
     private List<Impact> impacts;
@@ -80,7 +89,7 @@ public class PlayScreen implements Screen {
     // New game
     public PlayScreen(LevelNumber levelNumber){
         initializeStatesAndImpacts();
-        game = new Game(this);
+        game = new Game();
         gui = new GUI(this);
         game.createGame(levelNumber);
         gui.prepareLevel();
@@ -90,7 +99,7 @@ public class PlayScreen implements Screen {
     // Load game
     public PlayScreen(){
         initializeStatesAndImpacts();
-        game = new Game(this);
+        game = new Game();
         gui = new GUI(this);
         game.loadGame();
         gui.prepareLevel();
@@ -123,16 +132,17 @@ public class PlayScreen implements Screen {
         pause = false;
 
         nextState(beginState, beginStateTime);
-        gamePause();
     }
 
     @Override
     public void render(float delta) {
         if(pause == true) return;
         if(gamePause == false){
-            state.update(delta);
-            for (Impact impact: impacts) {
-                impact.update(delta);
+            if(state != null){
+                state.update(delta);
+                for (Impact impact: impacts) {
+                    impact.update(delta);
+                }
             }
             gui.update(delta);
         }else{
@@ -182,7 +192,6 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-        game.dispose();
         gui.dispose();
     }
 
@@ -270,6 +279,14 @@ public class PlayScreen implements Screen {
         return loseState;
     }
 
+    public AllGameComplete getAllGameCompleteState() {
+        return allGameComplete;
+    }
+
+    public State getEpisodeCompleteState() {
+        return episodeCompleteState;
+    }
+
 
     public ChangeSpeedTimeImpact getChangeSpeedTimeImpact() {
         return changeSpeedTimeImpact;
@@ -308,6 +325,8 @@ public class PlayScreen implements Screen {
         portalState = new PortalState(this);
         chanceState = new ChanceState(this);
         loseState = new LoseState(this);
+        allGameComplete = new AllGameComplete(this);
+        episodeCompleteState = new EpisodeCompleteState(this);
 
         // Impact States - responsible for influence on game with different effect INDEPENDENTLY of game process
         changeSpeedTimeImpact = new ChangeSpeedTimeImpact(this);
@@ -319,6 +338,7 @@ public class PlayScreen implements Screen {
     }
 
     public void exit() {
+        state = null;
         game.saveGame();
         gui.toResumeGame();
         gamePause = false;
@@ -333,4 +353,6 @@ public class PlayScreen implements Screen {
             }
         },time * 0.7f);
     }
+
+
 }

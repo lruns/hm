@@ -1,5 +1,7 @@
 package ru.neyvan.hm;
 
+import ru.neyvan.hm.levels.Difficult;
+
 /**
  * Created by AndyGo on 04.07.2017.
  */
@@ -21,7 +23,11 @@ public class Constants {
 	public final static int MAX_LEVEL[] = {4, 4, 4, 4};
 	public final static int EPISODE_APPEARANCE[] = {0, 0, 0, 0};
 
+    public final static Difficult[] DIFFICULTS = {Difficult.VERY_EASY, Difficult.EASY, Difficult.EASY, Difficult.NORMAL};
+
 	public final static String GAME_DATA_PATH = "bubu.data";
+    public final static String PLAYER_PATH = "lulu.data";
+    public final static String PREFERENCES_PATH = "mumu.data";
 
 
 }
