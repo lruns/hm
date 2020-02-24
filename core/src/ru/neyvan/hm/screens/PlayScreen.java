@@ -6,6 +6,8 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.game.GUI;
 import ru.neyvan.hm.game.Game;
+import ru.neyvan.hm.game.PortalView;
+import ru.neyvan.hm.game.ScreenTransition;
 import ru.neyvan.hm.impacts.ChangeSpeedTimeImpact;
 import ru.neyvan.hm.impacts.HelpSurpriseImpact;
 import ru.neyvan.hm.impacts.Impact;
@@ -49,6 +53,11 @@ public class PlayScreen implements Screen {
 
     private Game game;
     private GUI gui;
+
+    private PortalView portalView;
+    private ScreenTransition screenTransition;
+    private FrameBuffer firstFrameBuffer;
+    private FrameBuffer secondFrameBuffer;
 
 
     // Transition States - responsible for game process; and times for some states
@@ -86,11 +95,17 @@ public class PlayScreen implements Screen {
     private boolean pause = true;
     private boolean gamePause = true;
 
-    // New game
-    public PlayScreen(LevelNumber levelNumber){
+    private void  init(){
+        portalView = new PortalView();
+        screenTransition = new ScreenTransition();
+
         initializeStatesAndImpacts();
         game = new Game();
         gui = new GUI(this);
+    }
+    // New game
+    public PlayScreen(LevelNumber levelNumber){
+        init();
         game.createGame(levelNumber);
         gui.prepareLevel();
 
@@ -98,9 +113,7 @@ public class PlayScreen implements Screen {
 
     // Load game
     public PlayScreen(){
-        initializeStatesAndImpacts();
-        game = new Game();
-        gui = new GUI(this);
+        init();
         game.loadGame();
         gui.prepareLevel();
 
@@ -137,10 +150,11 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta) {
         if(pause == true) return;
-        if(gamePause == false){
-            if(state != null){
+
+        if(gamePause == false) {
+            if (state != null) {
                 state.update(delta);
-                for (Impact impact: impacts) {
+                for (Impact impact : impacts) {
                     impact.update(delta);
                 }
             }
@@ -148,12 +162,40 @@ public class PlayScreen implements Screen {
         }else{
             gui.updateGamePause(delta);
         }
-        gui.render(delta);
+
+        if(portalState.isTransition()){
+            firstFrameBuffer.begin();
+            gui.render(delta);
+            firstFrameBuffer.end();
+            secondFrameBuffer.begin();
+            portalView.render(delta);
+            secondFrameBuffer.end();
+            // render transition effect to screen
+            if(portalState.isEnteringToPortal())
+                screenTransition.render(firstFrameBuffer.getColorBufferTexture(),
+                    secondFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
+            else
+                screenTransition.render(secondFrameBuffer.getColorBufferTexture(),
+                        firstFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
+
+        } else if(portalState.inPortal()){
+            portalView.render(delta);
+        } else{
+            gui.render(delta);
+        }
+
     }
+
 
     @Override
     public void resize(int width, int height) {
         gui.resize(width, height);
+        screenTransition.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        portalView.resize(width, height);
+        if(firstFrameBuffer != null) firstFrameBuffer.dispose();
+        if(secondFrameBuffer != null) secondFrameBuffer.dispose();
+        firstFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+        secondFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
     }
 
     //pause only for game
@@ -193,6 +235,9 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         gui.dispose();
+        portalView.dispose();
+        if(firstFrameBuffer != null) firstFrameBuffer.dispose();
+        if(secondFrameBuffer != null) secondFrameBuffer.dispose();
     }
 
     public boolean clickOnDisplay(){
@@ -353,6 +398,4 @@ public class PlayScreen implements Screen {
             }
         },time * 0.7f);
     }
-
-
 }

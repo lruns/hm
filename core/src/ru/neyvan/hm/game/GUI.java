@@ -83,8 +83,8 @@ public class GUI {
 
     private ImageButton.ImageButtonStyle pauseStyle;
     private TextureRegionDrawable pauseClick, pause;
-    private boolean isAppear = false; // not used
-    private boolean inPortal = false;
+    private boolean isAppear = false;
+
 
     public GUI(final PlayScreen core) {
         this.core = core;
@@ -285,6 +285,7 @@ public class GUI {
 
 
     public void appear(float time){
+        if(isAppear) return;
         isAppear = true;
         background.setVisible(true);
         streamEnergy.setVisible(true);
@@ -315,6 +316,7 @@ public class GUI {
         //
     }
     public void disappear(float time){
+        if(!isAppear) return;
         isAppear = false;
         background.addAction(Actions.fadeOut(time));
 
@@ -425,27 +427,6 @@ public class GUI {
         return overallSequance;
     }
 
-
-    public void jumpToPortal(float time) {
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                inPortal = true;
-            }
-        }, time);
-    }
-
-    public void jumpOutOfPortal() {
-        inPortal = false;
-    }
-
-    public boolean inPortal() {
-        return inPortal;
-    }
-
-
-
-
     public void explose() {
     }
 
@@ -475,4 +456,7 @@ public class GUI {
     }
 
 
+    public void resetGamePause() {
+        gamePause.setBeginGame();
+    }
 }

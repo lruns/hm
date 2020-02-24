@@ -24,11 +24,13 @@ public class TextureManager implements Manager{
     public BitmapFont numberFont;
     private Texture gameBackground;
     private Texture textureFont;
+    private Texture shaderTexture;
     private Texture[] episodesImage;
 
     @Override
     public void init() {
         HM.game.manager.load("game_atlas.atlas", TextureAtlas.class);
+        HM.game.manager.load("shaders/shader.jpg", Texture.class);
 
         ParticleEffectLoader.ParticleEffectParameter pep = new ParticleEffectLoader.ParticleEffectParameter();
         pep.atlasFile = "game_atlas.atlas";
@@ -50,6 +52,10 @@ public class TextureManager implements Manager{
         textureFont = new Texture(Gdx.files.internal("style/hm_numbers.png"), true);
         textureFont.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
         numberFont = new BitmapFont(Gdx.files.internal("style/hm_numbers.fnt"), new TextureRegion(textureFont), false);
+
+        shaderTexture = HM.game.manager.get("shaders/shader.jpg");
+        shaderTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        shaderTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }
 
 
@@ -77,8 +83,13 @@ public class TextureManager implements Manager{
         return new NinePatchDrawable(new NinePatch(new Texture(name+".9.png"), 10, 10, 10, 10));
     }
 
+    public Texture getTranstionShaderTexture(){
+        return shaderTexture;
+    }
+
     @Override
     public void dispose() {
         textureFont.dispose();
+        shaderTexture.dispose();
     }
 }

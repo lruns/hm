@@ -13,9 +13,9 @@ public class ShaderManager implements Manager {
     private ShaderProgram circle;
     private ShaderProgram fontShader;
     private ShaderProgram fontTransitionShader;
-    private ShaderProgram transitionShader;
-    private ShaderProgram burnShader;
     private ShaderProgram explosionShader;
+    private ShaderProgram transitionShader; // transition between game and portal
+    private ShaderProgram portalShader;
     @Override
     public void init() {
         ShaderProgram.pedantic = false;
@@ -33,13 +33,23 @@ public class ShaderManager implements Manager {
         if (!fontTransitionShader.isCompiled()) {
             Gdx.app.error("fontTransitionShader of Number Text", "compilation failed:\n" + explosionShader);
         }
-
         explosionShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
                 Gdx.files.internal("shaders/explosion_fragment.glsl"));
         if (!explosionShader.isCompiled()) {
             Gdx.app.error("explosionShader of Number Text", "compilation failed:\n" + explosionShader);
         }
+        transitionShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
+                Gdx.files.internal("shaders/transition_fragment.glsl"));
+        if(!transitionShader.isCompiled())
+            Gdx.app.log("Shader", transitionShader.getLog());
+        transitionShader.begin();
+        transitionShader.setUniformi("u_texture1", 1);
+        transitionShader.end();
 
+        portalShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
+                Gdx.files.internal("shaders/portal_fragment.glsl"));
+        if(!portalShader.isCompiled())
+            Gdx.app.log("Shader", portalShader.getLog());
     }
 
     public ShaderProgram getCircle() {
@@ -54,16 +64,21 @@ public class ShaderManager implements Manager {
     public ShaderProgram getFontTransitionShader() {
         return fontTransitionShader;
     }
+    public ShaderProgram getTransitionShader() {
+        return transitionShader;
+    }
+    public ShaderProgram getPortalShader() {
+        return portalShader;
+    }
     @Override
     public void dispose() {
         circle.dispose();
         fontShader.dispose();
         fontTransitionShader.dispose();
-       // transitionShader.dispose();
-       // burnShader.dispose();
         explosionShader.dispose();
+        transitionShader.dispose();
+        portalShader.dispose();
     }
-
 
 
 }
