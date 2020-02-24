@@ -4,7 +4,7 @@ import ru.neyvan.hm.screens.PlayScreen;
 import ru.neyvan.hm.surprises.Surprise;
 
 public abstract class Impact{
-	private PlayScreen core;
+	protected PlayScreen core;
 	private float time;
 	private Surprise surprise;
 
@@ -18,6 +18,10 @@ public abstract class Impact{
 	public void update(float delta){
 		time -= delta;
 		if(time < 0) end();
+	}
+
+	public boolean isEnd(){
+		return time < 0;
 	}
 	public abstract void end();
 	

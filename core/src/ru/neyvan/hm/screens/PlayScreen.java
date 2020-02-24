@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ru.neyvan.hm.HM;
@@ -61,11 +62,11 @@ public class PlayScreen implements Screen {
 
 
     // Transition States - responsible for game process; and times for some states
-    public final float beginStateTime = 3f;
+    public final float beginStateTime = 2f;
     public final float chanceStateTime = 10000f;
-    public final float winStateTime = 3f;
+    public final float winStateTime = 2f;
     public final float loseStateTime = 3f;
-    public final float portalStateTime = 10f;
+    public final float portalStateTime = 6f;
     public final float allGameCompleteStateTime = 10f;
     public final float episodeCompleteStateTime = 10f;
 
@@ -85,6 +86,8 @@ public class PlayScreen implements Screen {
 
     // Impact States - responsible for influence on game with different effect INDEPENDENTLY of game process
     private List<Impact> impacts;
+    private Iterator<Impact> impactIterator;
+    private Impact impact;
     private ChangeSpeedTimeImpact changeSpeedTimeImpact;
     private HelpSurpriseImpact helpSurpriseImpact;
     private RotationImpact rotationImpact;
@@ -146,7 +149,6 @@ public class PlayScreen implements Screen {
 
         nextState(beginState, beginStateTime);
     }
-
     @Override
     public void render(float delta) {
         if(pause == true) return;
@@ -154,8 +156,11 @@ public class PlayScreen implements Screen {
         if(gamePause == false) {
             if (state != null) {
                 state.update(delta);
-                for (Impact impact : impacts) {
+                impactIterator = impacts.iterator();
+                while(impactIterator.hasNext()){
+                    impact = impactIterator.next();
                     impact.update(delta);
+                    if(impact.isEnd()) impactIterator.remove();
                 }
             }
             gui.update(delta);
@@ -165,7 +170,7 @@ public class PlayScreen implements Screen {
 
         if(portalState.isTransition()){
             firstFrameBuffer.begin();
-            gui.render(delta);
+            gui.render();
             firstFrameBuffer.end();
             secondFrameBuffer.begin();
             portalView.render(delta);
@@ -181,7 +186,7 @@ public class PlayScreen implements Screen {
         } else if(portalState.inPortal()){
             portalView.render(delta);
         } else{
-            gui.render(delta);
+            gui.render();
         }
 
     }
@@ -358,7 +363,9 @@ public class PlayScreen implements Screen {
     }
 
     private void initializeStatesAndImpacts() {
+
         impacts = new ArrayList<Impact>();
+        impactIterator = impacts.iterator();
 
         beginState = new BeginState(this);
         waitState = new WaitState(this);

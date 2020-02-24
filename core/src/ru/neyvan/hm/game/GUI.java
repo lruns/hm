@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -193,6 +199,7 @@ public class GUI {
         rightFrame.setSize(leftFrame.getWidth(), leftFrame.getHeight());
         gameCircle.setSize(0.45f * stage.getWidth(), 0.45f*stage.getWidth());
 
+
         bar.setSize(0.58f * stage.getWidth(), 0.075f * stage.getWidth());
 
 
@@ -207,6 +214,7 @@ public class GUI {
         rightFrame.setPosition(stage.getWidth(), (stage.getHeight()-rightFrame.getHeight())/2);
         bar.setPosition((stage.getWidth()-bar.getWidth())/2, -bar.getHeight());
         gameCircle.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
+        gameCircle.setOrigin(Align.center);
         streamEnergy.setEffectPosition(stage.getWidth()/2, 0.05f * stage.getHeight(), gameCircle.getY()+gameCircle.getHeight());
     }
 
@@ -215,10 +223,23 @@ public class GUI {
         stage.act(delta);
     }
 
-    public void render(float delta) {
+    public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.draw();
+//        if(core.impactsExist()){
+//            FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+//            frameBuffer.begin();
+//            stage.draw();
+//            frameBuffer.end();
+//            SpriteBatch batch = new SpriteBatch();
+//            batch.begin();
+//            batch.setShader();
+//            batch.draw(frameBuffer.getColorBufferTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//            batch.setShader(null);
+//            batch.end();
+//        }else{
+            stage.draw();
+//        }
     }
 
     public void prepareLevel() {
@@ -372,25 +393,21 @@ public class GUI {
         gameCircle.showSymbol();
     }
 
-
-
     public void showStart(float time) {
         // show start label -- Ready? ... Go!
         settingShowImage("playClick", time);
     }
-
     public void showLose(float time) {
         settingShowImage("buttonInfo", time);
     }
-
     public void showWin(float time) {
         settingShowImage("buttonRecord", time);
     }
-
-    public void showAllGameComplete() {
+    public void showEpisodeComplete(float time) {
+        settingShowImage("playClick", time);
     }
-
-    public void showEpisodeComplete() {
+    public void showAllGameComplete(float time) {
+        settingShowImage("playClick", time);
     }
 
     private Action settingShowImage(String regionName, float time){
@@ -459,4 +476,79 @@ public class GUI {
     public void resetGamePause() {
         gamePause.setBeginGame();
     }
+
+    private Action rotateAction;
+    public void startRotate(float speed, boolean oneCircle, float time) {
+        if(oneCircle) {
+            gameCircle.addAction(Actions.rotateBy(360, time));
+        }else{
+            float duration = 90/Math.abs(speed);
+
+            rotateAction = new RepeatAction();
+            ((RepeatAction) rotateAction).setCount(RepeatAction.FOREVER);
+            ((RepeatAction) rotateAction).setAction(Actions.rotateBy(Math.signum(speed)*90, duration));
+            gameCircle.addAction(rotateAction);
+
+        }
+    }
+
+    public void stopRotate() {
+        gameCircle.removeAction(rotateAction);
+        gameCircle.addAction(Actions.rotateTo(0, 0.5f));
+    }
+
+    private RepeatAction transferenceAction;
+    public void startTransference(float speedX, float speedY) {
+        gameCircle.addAction(Actions.moveTo((stage.getWidth()-gameCircle.getWidth())/2,
+                (stage.getHeight()-gameCircle.getHeight())/2));
+
+        SequenceAction transferenceX = new SequenceAction();
+        float durationX = 0.5f/Math.abs(speedX);
+
+        transferenceX.addAction(Actions.moveBy(Math.signum(speedX) * (stage.getWidth()/2 - gameCircle.getWidth()/2), 0, durationX));
+        transferenceX.addAction(Actions.moveBy(-Math.signum(speedX)*(stage.getWidth() - gameCircle.getWidth()), 0, 2*durationX));
+        transferenceX.addAction(Actions.moveBy(Math.signum(speedX) * stage.getWidth()/2 - gameCircle.getWidth()/2, 0, durationX));
+
+        SequenceAction transferenceY = new SequenceAction();
+        float durationY = 0.5f/Math.abs(speedY);
+        transferenceY.addAction(Actions.moveBy(0, Math.signum(speedY) * (stage.getHeight()/2 - gameCircle.getHeight()/2), durationY));
+        transferenceX.addAction(Actions.moveBy(0, -Math.signum(speedY) * (stage.getHeight() - gameCircle.getHeight()), 2*durationY));
+        transferenceX.addAction(Actions.moveBy(0, Math.signum(speedY) * (stage.getHeight()/2 - gameCircle.getHeight()/2), durationY));
+
+        ParallelAction allActions = new ParallelAction();
+        allActions.addAction(transferenceX);
+        allActions.addAction(transferenceY);
+
+        transferenceAction = new RepeatAction();
+        transferenceAction.setCount(RepeatAction.FOREVER);
+        transferenceAction.setAction(allActions);
+
+        gameCircle.addAction(transferenceAction);
+    }
+
+    public void stopTransference() {
+        gameCircle.removeAction(transferenceAction);
+        gameCircle.addAction(Actions.moveTo((stage.getWidth()-gameCircle.getWidth())/2,
+                (stage.getHeight()-gameCircle.getHeight())/2, 0.5f));
+    }
+
+
+    private RepeatAction warpAction;
+    public void startWarp(float speedWarp) {
+        SequenceAction sequenceAction = new SequenceAction();
+        float duration = 1/Math.abs(speedWarp);
+        sequenceAction.addAction(Actions.scaleTo(1.25f, 0.75f, duration));
+        sequenceAction.addAction(Actions.scaleTo(0.75f, 1.25f, duration));
+
+        warpAction = new RepeatAction();
+        warpAction.setCount(RepeatAction.FOREVER);
+        warpAction.setAction(sequenceAction);
+        gameCircle.addAction(warpAction);
+    }
+
+    public void stopWarp() {
+        gameCircle.removeAction(warpAction);
+        gameCircle.addAction(Actions.scaleTo(1, 1, 0.5f));
+    }
+
 }

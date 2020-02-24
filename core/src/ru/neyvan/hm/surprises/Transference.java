@@ -8,10 +8,13 @@ public class Transference extends Surprise {
     private float speedX, speedY;
 
     public Transference(){super();}
-    public Transference(float maxTime, float firstSpeedX, float firstSpeedY) {
+
+    // speed = 1 full screen width(height) / 1 sec; то есть за одну секунду ты можешь пролететь весь экран со скорость 1
+    // speed can be < 0
+    public Transference(float maxTime, float speedX, float speedY) {
         super(maxTime);
-        this.speedX = firstSpeedX;
-        this.speedY = firstSpeedY;
+        this.speedX = speedX;
+        this.speedY = speedY;
     }
 
     public float getSpeedX() {

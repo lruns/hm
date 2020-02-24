@@ -13,7 +13,7 @@ public class EpisodeCompleteState extends State {
     public void start(float time) {
         super.start(time);
         Gdx.app.debug("EpisodeCompleteState", "Begin state with time " + time);
-        core.getGui().showEpisodeComplete();
+        core.getGui().showEpisodeComplete(time);
     }
 
     @Override

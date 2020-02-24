@@ -14,7 +14,7 @@ public class AllGameComplete extends State {
     public void start(float time) {
         super.start(time);
         Gdx.app.debug("AllGameComplete", "Begin state with time " + time);
-        core.getGui().showAllGameComplete();
+        core.getGui().showAllGameComplete(time);
     }
 
     @Override

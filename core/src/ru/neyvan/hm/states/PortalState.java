@@ -23,13 +23,20 @@ public class PortalState extends State {
 
     @Override
     public void start(float time) {
-        transitionTime = time * 0.2f;
-        inPortalTime = time * 0.6f;
+        transitionTime = time * 0.3f;
+        inPortalTime = time * 0.55f;
         updateLevel = false;
 
         core.getGui().disappear(transitionTime);
         core.getGui().resetGamePause();
-        jumpToPortal();
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                jumpToPortal();
+            }
+        }, time*0.15f);
+
 
         Gdx.app.debug("PortalState", "Begin state with time " + time);
     }

@@ -3,6 +3,8 @@ package ru.neyvan.hm.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
+import java.util.Iterator;
+
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.Player;
@@ -120,19 +122,23 @@ public class Game {
                 return;
             }
         }
-        for (int place : level.getListOfPlacesSurp()) {
-            if (place == gameData.countMove) {
-                if (level.isOutOfOrderAppearanceSurprise()) {
-                    int i = MathUtils.random(0, gameData.surprises.size() - 1);
+       // Iterator<int> placeIterator
+        if (gameData.countEffects < gameData.surprises.size()) {
+            for (int place : level.getListOfPlacesSurp()) {
+                if (place == gameData.countMove) {
+
+                    if (level.isOutOfOrderAppearanceSurprise()) {
+                        int i = MathUtils.random(0, gameData.surprises.size() - 1);
+                        gameData.currentSymbol.setSurprise(gameData.surprises.get(gameData.countEffects));
+                        gameData.surprises.remove(i);
+                        Gdx.app.debug("Game.nextTurn", "Set placed out order surprise:" + gameData.currentSymbol.getSurpise().toString());
+                        return;
+                    }
                     gameData.currentSymbol.setSurprise(gameData.surprises.get(gameData.countEffects));
-                    gameData.surprises.remove(i);
-                    Gdx.app.debug("Game.nextTurn", "Set placed out order surprise:" + gameData.currentSymbol.getSurpise().toString());
+                    gameData.countEffects++;
+                    Gdx.app.debug("Game.nextTurn", "Set placed surprise:" + gameData.currentSymbol.getSurpise().toString());
                     return;
                 }
-                gameData.currentSymbol.setSurprise(gameData.surprises.get(gameData.countEffects));
-                gameData.countEffects++;
-                Gdx.app.debug("Game.nextTurn", "Set placed surprise:" + gameData.currentSymbol.getSurpise().toString());
-                return;
             }
         }
         if (level.isFixedCounting()) {

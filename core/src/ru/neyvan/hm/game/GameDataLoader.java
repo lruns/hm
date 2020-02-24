@@ -17,7 +17,7 @@ public class GameDataLoader {
     }
 
     public GameData load() throws GdxRuntimeException {
-        fileHandle = Gdx.files.internal(Constants.GAME_DATA_PATH);
+        fileHandle = Gdx.files.local(Constants.GAME_DATA_PATH);
         GameData gameData = json.fromJson(GameData.class,
                 Base64Coder.decodeString(fileHandle.readString()));
         return gameData;
