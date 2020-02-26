@@ -27,6 +27,9 @@ public class WaitState extends State{
     public void start(float time) {
         super.start(time);
         Gdx.app.debug("WaitState", "Begin state with time " + time);
+        if(core.getHelpSurpriseImpact().isTurnedOn()){
+            core.getGui().showHelp(time, core.getGame().checkClick());
+        }
         core.getGui().fillTimeBar(time);
     }
 

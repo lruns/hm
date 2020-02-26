@@ -50,7 +50,7 @@ public class Symbol {
 				surprise instanceof HelpSurprise) return true;
 		if(surprise instanceof ChangeSpeedTime){
 			ChangeSpeedTime cst = (ChangeSpeedTime)(surprise);
-			if(cst.getMultiplierTime() > 1.0f) return true;
+			if(cst.getMultiplierTime() < 1.0f) return true;
 		}
 		if(surprise instanceof GiftAndTrap){
 			GiftAndTrap cat = (GiftAndTrap)(surprise);

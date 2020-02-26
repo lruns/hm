@@ -19,7 +19,6 @@ public class BeginState extends State{
         super.start(time);
         displayUpdated = false;
         Gdx.app.debug("BeginState", "Begin state with time " + time);
-        core.getGui().showStart(time);
         core.getGui().appear(time);
         core.gamePause();
 
@@ -29,6 +28,7 @@ public class BeginState extends State{
     public void update(float delta) {
         super.update(delta);
         if(!displayUpdated && getLostTime() < 0.5f){
+            core.getGui().showStart(2f);
             core.getGui().updateDisplay(getLostTime());
             displayUpdated = true;
         }

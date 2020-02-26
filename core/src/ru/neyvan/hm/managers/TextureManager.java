@@ -37,6 +37,9 @@ public class TextureManager implements Manager{
         HM.game.manager.load("particles/stream_energy.p", ParticleEffect.class, pep);
         HM.game.manager.load("particles/good_shine.p", ParticleEffect.class, pep);
         HM.game.manager.load("particles/bad_shine.p", ParticleEffect.class, pep);
+        HM.game.manager.load("particles/explosion.p", ParticleEffect.class, pep);
+        HM.game.manager.load("particles/fire_speed.p", ParticleEffect.class, pep);
+        HM.game.manager.load("particles/slow_speed.p", ParticleEffect.class, pep);
 
         SkinLoader.SkinParameter params = new SkinLoader.SkinParameter("style/hm_skin.atlas");
         HM.game.manager.load("style/hm_skin.json", Skin.class, params);

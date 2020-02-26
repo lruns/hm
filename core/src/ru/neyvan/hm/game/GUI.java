@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -38,6 +39,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
+import ru.neyvan.hm.actors.ChangeSpeedActor;
 import ru.neyvan.hm.actors.GameCircle;
 import ru.neyvan.hm.actors.LevelInfoBox;
 import ru.neyvan.hm.actors.LifesBox;
@@ -82,9 +84,12 @@ public class GUI {
      ***********************************/
 
     // Image with text for showing "Begin", "Win", "Lose" between circle display and top panel
-    private Image showImage;
+    private Container<Label> showInfo;
+    private Label showInfoLabel;
     // Window for start game and pause game
     private GamePause gamePause;
+
+    private ChangeSpeedActor changeSpeedActor;
 
 
     private ImageButton.ImageButtonStyle pauseStyle;
@@ -111,7 +116,8 @@ public class GUI {
 
         lifesBox = new LifesBox(skin);
         scoreBox = new ScoreBox(  skin, "title");
-        levelInfoBox = new LevelInfoBox(skin, "kurale");
+        levelInfoBox = new LevelInfoBox(skin, "advira");
+        levelInfoBox = new LevelInfoBox(skin, "advira");
 
         tableLeft = new Table();
         //tableLeft.setDebug(true);
@@ -177,8 +183,13 @@ public class GUI {
 
         // ******* Another ***********//
 
-        showImage = new Image();
-        stage.addActor(showImage);
+        showInfoLabel = new Label(" ", skin, "big");
+        showInfoLabel.setAlignment(Align.center);
+        showInfo = new Container<Label>(showInfoLabel);
+        showInfo.setTransform(true);
+        stage.addActor(showInfo);
+        changeSpeedActor = new ChangeSpeedActor(1.0f);
+        stage.addActor(changeSpeedActor);
         gamePause = new GamePause(core, skin, stage);
         //shine = new Shine();
 
@@ -393,55 +404,83 @@ public class GUI {
         gameCircle.showSymbol();
     }
 
-    public void showStart(float time) {
-        // show start label -- Ready? ... Go!
-        settingShowImage("playClick", time);
+    public void showStart(final float time) {
+        settingShowInfo("Start game!", time);
     }
     public void showLose(float time) {
-        settingShowImage("buttonInfo", time);
+        settingShowInfo("Game over!", time);
     }
     public void showWin(float time) {
-        settingShowImage("buttonRecord", time);
+        settingShowInfo("Level complete!", time);
     }
     public void showEpisodeComplete(float time) {
-        settingShowImage("playClick", time);
+        settingShowInfo("All episode complete!", time);
     }
     public void showAllGameComplete(float time) {
-        settingShowImage("playClick", time);
+        settingShowInfo("You complete all game!", time);
+    }
+    public void showHelp(float time, boolean checkClick) {
+        if(checkClick) settingShowInfo("Click!", time, true);
+        else  settingShowInfo("Not Click!", time, true);
     }
 
-    private Action settingShowImage(String regionName, float time){
+    private void settingShowInfo(String text, float time){
+        this.settingShowInfo(text, time, false);
+    }
 
-        showImage.setScale(0f);
-        TextureRegionDrawable drawable = new TextureRegionDrawable(HM.game.texture.atlas.findRegion(regionName));
-        showImage.setDrawable(drawable);
-        showImage.setHeight(stage.getHeight() * 0.2f);
-        showImage.setWidth(showImage.getHeight() / drawable.getRegion().getRegionHeight() * drawable.getRegion().getRegionWidth());
-        showImage.setPosition(stage.getWidth() * 0.5f, stage.getHeight() * 0.7f, Align.center);
-        showImage.setOrigin(Align.center);
+    private void settingShowInfo(String text, float time, boolean fastAppear){
 
-        SequenceAction appearAction = new SequenceAction();
+        showInfo.setScale(0);
+        showInfo.getActor().setText(text);
+        showInfo.setHeight(stage.getHeight() * 0.3f);
+        showInfo.setWidth(showInfo.getHeight() / showInfo.getActor().getGlyphLayout().width *
+                showInfo.getActor().getGlyphLayout().width);
+        showInfo.setPosition(stage.getWidth() * 0.5f, stage.getHeight() * 0.7f, Align.center);
+        showInfo.setOrigin(Align.center);
 
-        ParallelAction firstStep = new ParallelAction();
-        firstStep.addAction(Actions.scaleTo(1, 0.25f, time*0.3f, Interpolation.circleOut));
-        firstStep.addAction(Actions.fadeIn(time*0.3f, Interpolation.circleIn));
+        if(fastAppear){
+            SequenceAction appearAction = new SequenceAction();
+            ParallelAction firstStep = new ParallelAction();
+            firstStep.addAction(Actions.scaleTo(1, 1f, time*0.1f, Interpolation.circleOut));
+            firstStep.addAction(Actions.fadeIn(time*0.1f, Interpolation.circleIn));
+            appearAction.addAction(firstStep);
 
-        appearAction.addAction(Actions.fadeOut(0));
-        appearAction.addAction(firstStep);
-        appearAction.addAction(Actions.scaleTo(1, 1f, time*0.2f, Interpolation.circleOut));
+            ScaleToAction disappearAction = new ScaleToAction();
+            disappearAction.setScale(0);
+            disappearAction.setDuration(time * 0.5f);
+            disappearAction.setInterpolation(Interpolation.circle);
 
-        ScaleToAction disappearAction = new ScaleToAction();
-        disappearAction.setScale(0);
-        disappearAction.setDuration(time * 0.5f);
-        disappearAction.setInterpolation(Interpolation.circle);
+            SequenceAction overallSequance = new SequenceAction();
+            overallSequance.addAction(appearAction);
+            overallSequance.addAction(Actions.delay(time*0.4f));
+            overallSequance.addAction(disappearAction);
 
-        SequenceAction overallSequance = new SequenceAction();
-        overallSequance.addAction(appearAction);
-        overallSequance.addAction(disappearAction);
+            showInfo.addAction(overallSequance);
 
-        showImage.addAction(overallSequance);
+        }else{
+            SequenceAction appearAction = new SequenceAction();
+            ParallelAction firstStep = new ParallelAction();
+            firstStep.addAction(Actions.scaleTo(1, 0.25f, time*0.3f, Interpolation.circleOut));
+            firstStep.addAction(Actions.fadeIn(time*0.3f, Interpolation.circleIn));
 
-        return overallSequance;
+            appearAction.addAction(Actions.fadeOut(0));
+            appearAction.addAction(firstStep);
+            appearAction.addAction(Actions.scaleTo(1, 1f, time*0.2f, Interpolation.circleOut));
+
+
+            ScaleToAction disappearAction = new ScaleToAction();
+            disappearAction.setScale(0);
+            disappearAction.setDuration(time * 0.5f);
+
+            disappearAction.setInterpolation(Interpolation.circle);
+
+            SequenceAction overallSequance = new SequenceAction();
+            overallSequance.addAction(appearAction);
+            overallSequance.addAction(disappearAction);
+
+            showInfo.addAction(overallSequance);
+        }
+
     }
 
     public void explose() {
@@ -465,6 +504,8 @@ public class GUI {
 
     public void dispose() {
         gamePause.dispose();
+        streamEnergy.dispose();
+        changeSpeedActor.dispose();
         gameCircle.dispose();
     }
 
@@ -551,4 +592,14 @@ public class GUI {
         gameCircle.addAction(Actions.scaleTo(1, 1, 0.5f));
     }
 
+
+    public void changeSpeedTime(boolean isSpeedUp, float effectSpeed) {
+        changeSpeedActor.setEffectPosition(0, stage.getHeight());
+        changeSpeedActor.start(isSpeedUp);
+        changeSpeedActor.setSpeed(effectSpeed);
+    }
+
+    public void resetSpeedTime() {
+        changeSpeedActor.stop();
+    }
 }

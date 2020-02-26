@@ -1,13 +1,13 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	bigFont: {
+		file: BigFont.fnt
+	}
+	casual16: {
+		file: casual16.fnt
+	}
 	casual20: {
 		file: casual20.fnt
-	}
-	casual24: {
-		file: casual24.fnt
-	}
-	kurale24: {
-		file: kurale24.fnt
 	}
 	title32: {
 		file: title32.fnt
@@ -141,7 +141,7 @@ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 	default: {
 		checkboxOn: checkbox_on
 		checkboxOff: checkbox_off
-		font: casual24
+		font: casual20
 		fontColor: white
 		checkedFontColor: checked_color
 	}
@@ -173,7 +173,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: casual24
+		font: casual16
 	}
 	title: {
 		font: title32
@@ -181,8 +181,8 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	advira: {
 		font: casual20
 	}
-	kurale: {
-		font: kurale24
+	big: {
+		font: bigFont
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
@@ -208,17 +208,10 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: button
 		down: button2
 	}
-	buttonMin: {
-		font: casual24
-		fontColor: white
-		downFontColor: checked_color
-		up: background
-		down: background2
-	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
-		font: casual24
+		font: casual20
 		fontColor: black
 		focusedFontColor: white
 		background: textfield_c

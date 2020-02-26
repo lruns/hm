@@ -6,51 +6,58 @@ filter: Nearest,Nearest
 repeat: none
 blackAndWhite
   rotate: false
-  xy: 896, 592
+  xy: 896, 593
   size: 120, 44
   orig: 120, 44
   offset: 0, 0
   index: -1
 bottom
   rotate: false
-  xy: 414, 771
+  xy: 414, 772
   size: 480, 250
   orig: 480, 250
   offset: 0, 0
   index: -1
 buttonInfo
   rotate: false
-  xy: 896, 765
+  xy: 896, 766
   size: 125, 125
   orig: 125, 125
   offset: 0, 0
   index: -1
 buttonRecord
   rotate: false
-  xy: 896, 638
+  xy: 896, 639
   size: 125, 125
   orig: 125, 125
   offset: 0, 0
   index: -1
 buttonSettings
   rotate: false
-  xy: 698, 204
+  xy: 666, 78
   size: 125, 125
   orig: 125, 125
   offset: 0, 0
   index: -1
 circleLower0
   rotate: false
-  xy: 260, 242
+  xy: 518, 243
   size: 217, 217
   orig: 217, 217
   offset: 0, 0
   index: -1
 circleUpper0
   rotate: false
-  xy: 479, 242
+  xy: 737, 243
   size: 217, 217
   orig: 217, 217
+  offset: 0, 0
+  index: -1
+cloud_6_256x256
+  rotate: false
+  xy: 2, 215
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 colorMusic
@@ -62,77 +69,70 @@ colorMusic
   index: -1
 explosion
   rotate: false
-  xy: 541, 143
+  xy: 793, 14
   size: 100, 97
   orig: 100, 97
   offset: 0, 0
   index: -1
-freezing
-  rotate: false
-  xy: 800, 463
-  size: 128, 104
-  orig: 128, 104
-  offset: 0, 0
-  index: -1
-heart
+fire
   rotate: false
   xy: 406, 74
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
+freezing
+  rotate: false
+  xy: 800, 464
+  size: 128, 104
+  orig: 128, 104
+  offset: 0, 0
+  index: -1
+heart
+  rotate: false
+  xy: 536, 75
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 help
   rotate: false
-  xy: 536, 40
+  xy: 895, 10
   size: 100, 101
   orig: 100, 101
   offset: 0, 0
   index: -1
 leftUI0
   rotate: false
-  xy: 414, 461
+  xy: 414, 462
   size: 384, 106
   orig: 384, 106
   offset: 0, 0
   index: -1
-minCircle0
-  rotate: false
-  xy: 825, 234
-  size: 112, 110
-  orig: 112, 110
-  offset: 0, 0
-  index: -1
 moving
   rotate: false
-  xy: 698, 331
+  xy: 799, 113
   size: 120, 128
   orig: 120, 128
   offset: 0, 0
   index: -1
 particle
   rotate: false
-  xy: 643, 208
+  xy: 956, 370
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 pause
   rotate: false
-  xy: 942, 394
-  size: 80, 73
-  orig: 80, 73
-  offset: 0, 0
-  index: -1
-pauseClick
-  rotate: false
-  xy: 942, 319
+  xy: 666, 3
   size: 80, 73
   orig: 80, 73
   offset: 0, 0
   index: -1
 playClick
   rotate: false
-  xy: 2, 12
+  xy: 2, 13
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
@@ -146,92 +146,126 @@ playNormal
   index: -1
 present
   rotate: false
-  xy: 939, 253
+  xy: 956, 404
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 progressBar
   rotate: false
-  xy: 260, 204
+  xy: 518, 205
   size: 279, 36
   orig: 279, 36
   offset: 0, 0
   index: -1
 progressKnob
   rotate: false
-  xy: 1018, 604
+  xy: 1018, 605
   size: 1, 32
   orig: 1, 32
   offset: 0, 0
   index: -1
-removeLife
-  rotate: false
-  xy: 925, 142
-  size: 90, 90
-  orig: 90, 90
-  offset: 0, 0
-  index: -1
-removeScore
-  rotate: false
-  xy: 925, 50
-  size: 90, 90
-  orig: 90, 90
-  offset: 0, 0
-  index: -1
 rotation
   rotate: false
-  xy: 825, 108
+  xy: 921, 117
   size: 98, 124
   orig: 98, 124
   offset: 0, 0
   index: -1
 shine
   rotate: false
-  xy: 2, 214
+  xy: 260, 204
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 sideFrameLeft0
   rotate: false
-  xy: 2, 472
+  xy: 2, 473
   size: 204, 549
   orig: 204, 549
   offset: 0, 0
   index: -1
 sideFrameRight0
   rotate: false
-  xy: 208, 472
+  xy: 208, 473
   size: 204, 549
   orig: 204, 549
   offset: 0, 0
   index: -1
+snowflake2
+  rotate: false
+  xy: 990, 370
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+strip
+  rotate: false
+  xy: 793, 171
+  size: 3, 32
+  orig: 3, 32
+  offset: 0, 0
+  index: -1
 timeCold
   rotate: false
-  xy: 896, 892
+  xy: 896, 893
   size: 125, 129
   orig: 125, 129
   offset: 0, 0
   index: -1
-timeSpeed
-  rotate: false
-  xy: 820, 346
-  size: 120, 115
-  orig: 120, 115
-  offset: 0, 0
-  index: -1
 title
   rotate: false
-  xy: 414, 569
+  xy: 414, 570
   size: 480, 200
   orig: 480, 200
   offset: 0, 0
   index: -1
 warp
   rotate: false
-  xy: 930, 469
+  xy: 930, 470
   size: 74, 121
   orig: 74, 121
+  offset: 0, 0
+  index: -1
+
+game_atlas2.png
+size: 512,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+minCircle0
+  rotate: false
+  xy: 124, 7
+  size: 112, 110
+  orig: 112, 110
+  offset: 0, 0
+  index: -1
+pauseClick
+  rotate: false
+  xy: 422, 44
+  size: 80, 73
+  orig: 80, 73
+  offset: 0, 0
+  index: -1
+removeLife
+  rotate: false
+  xy: 238, 27
+  size: 90, 90
+  orig: 90, 90
+  offset: 0, 0
+  index: -1
+removeScore
+  rotate: false
+  xy: 330, 27
+  size: 90, 90
+  orig: 90, 90
+  offset: 0, 0
+  index: -1
+timeSpeed
+  rotate: false
+  xy: 2, 2
+  size: 120, 115
+  orig: 120, 115
   offset: 0, 0
   index: -1

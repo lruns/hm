@@ -1,5 +1,5 @@
 info face="Atiba Cyrillic" size=32 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=1,1,1,1 spacing=-2,-2
-common lineHeight=41 base=30 scaleW=512 scaleH=512 pages=1 packed=0
+common lineHeight=41 base=30 scaleW=512 scaleH=256 pages=1 packed=0
 page id=0 file="title32.png"
 chars count=140
 char id=10      x=0    y=0    width=0    height=0    xoffset=0    yoffset=0    xadvance=0    page=0    chnl=0 
@@ -144,64 +144,64 @@ char id=1102    x=109  y=124  width=27   height=21   xoffset=0    yoffset=8    x
 char id=1103    x=136  y=124  width=22   height=21   xoffset=0    yoffset=8    xadvance=21   page=0    chnl=0 
 kernings count=62
 kerning first=107 second=117 amount=-1
-kerning first=115 second=99 amount=-1
+kerning first=70 second=65 amount=-2
 kerning first=120 second=103 amount=-1
+kerning first=69 second=103 amount=-1
 kerning first=39 second=115 amount=-5
 kerning first=114 second=115 amount=-1
-kerning first=80 second=111 amount=-3
+kerning first=84 second=97 amount=-6
 kerning first=84 second=79 amount=-1
-kerning first=80 second=101 amount=-3
+kerning first=84 second=101 amount=-6
 kerning first=79 second=84 amount=-1
 kerning first=119 second=106 amount=-2
 kerning first=114 second=111 amount=-1
-kerning first=84 second=111 amount=-6
 kerning first=117 second=106 amount=-4
-kerning first=84 second=121 amount=-7
-kerning first=84 second=97 amount=-6
+kerning first=84 second=99 amount=-7
 kerning first=80 second=114 amount=-3
 kerning first=69 second=97 amount=-1
-kerning first=84 second=99 amount=-7
-kerning first=114 second=100 amount=-1
+kerning first=115 second=99 amount=-1
 kerning first=120 second=100 amount=-1
+kerning first=80 second=101 amount=-3
 kerning first=120 second=101 amount=-1
-kerning first=69 second=103 amount=-1
+kerning first=70 second=111 amount=-3
 kerning first=80 second=115 amount=-3
 kerning first=70 second=97 amount=-3
-kerning first=70 second=65 amount=-2
-kerning first=101 second=106 amount=-3
-kerning first=116 second=101 amount=-1
-kerning first=114 second=103 amount=-1
 kerning first=107 second=111 amount=-1
+kerning first=116 second=101 amount=-1
+kerning first=69 second=121 amount=-1
+kerning first=114 second=103 amount=-1
+kerning first=116 second=111 amount=-1
 kerning first=69 second=115 amount=-2
-kerning first=70 second=111 amount=-3
-kerning first=70 second=114 amount=-3
 kerning first=84 second=115 amount=-6
 kerning first=84 second=114 amount=-6
-kerning first=84 second=117 amount=-6
-kerning first=111 second=120 amount=-1
-kerning first=69 second=121 amount=-1
-kerning first=69 second=99 amount=-2
-kerning first=116 second=111 amount=-1
-kerning first=70 second=117 amount=-3
 kerning first=69 second=117 amount=-1
+kerning first=101 second=106 amount=-3
+kerning first=111 second=120 amount=-1
+kerning first=84 second=121 amount=-7
+kerning first=69 second=99 amount=-2
+kerning first=80 second=97 amount=-3
+kerning first=70 second=117 amount=-3
+kerning first=114 second=100 amount=-1
 kerning first=116 second=103 amount=-1
 kerning first=120 second=99 amount=-1
+kerning first=80 second=111 amount=-3
 kerning first=105 second=106 amount=-4
 kerning first=70 second=101 amount=-3
 kerning first=69 second=106 amount=-3
 kerning first=97 second=106 amount=-4
-kerning first=80 second=97 amount=-3
 kerning first=114 second=101 amount=-1
-kerning first=84 second=101 amount=-6
+kerning first=84 second=65 amount=-3
 kerning first=114 second=99 amount=-1
 kerning first=69 second=122 amount=-1
 kerning first=69 second=100 amount=-2
 kerning first=116 second=99 amount=-1
 kerning first=120 second=97 amount=-1
-kerning first=84 second=65 amount=-3
+kerning first=84 second=111 amount=-6
 kerning first=116 second=97 amount=-1
 kerning first=111 second=106 amount=-5
 kerning first=106 second=101 amount=-1
+kerning first=70 second=114 amount=-3
+kerning first=84 second=117 amount=-6
 kerning first=114 second=97 amount=-1
 kerning first=106 second=97 amount=-1
 kerning first=114 second=114 amount=-1

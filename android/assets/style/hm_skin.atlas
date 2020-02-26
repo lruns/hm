@@ -4,16 +4,23 @@ size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+BigFont
+  rotate: false
+  xy: 1, 187
+  size: 512, 256
+  orig: 512, 256
+  offset: 0, 0
+  index: -1
 Window
   rotate: false
-  xy: 515, 487
+  xy: 515, 523
   size: 300, 500
   orig: 300, 500
   offset: 0, 0
   index: -1
 background
   rotate: false
-  xy: 947, 957
+  xy: 515, 233
   size: 30, 30
   split: 5, 5, 5, 5
   orig: 30, 30
@@ -21,7 +28,7 @@ background
   index: -1
 button
   rotate: false
-  xy: 1, 153
+  xy: 1, 125
   size: 200, 60
   split: 66, 67, 20, 20
   pad: 17, 17, 11, 11
@@ -30,84 +37,77 @@ button
   index: -1
 cancel
   rotate: false
-  xy: 1, 91
+  xy: 1, 63
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
+casual16
+  rotate: false
+  xy: 1, 445
+  size: 512, 64
+  orig: 512, 64
+  offset: 0, 0
+  index: -1
 casual20
   rotate: false
-  xy: 515, 229
+  xy: 515, 265
   size: 128, 256
   orig: 128, 256
   offset: 0, 0
   index: -1
-casual24
-  rotate: false
-  xy: 1, 859
-  size: 512, 128
-  orig: 512, 128
-  offset: 0, 0
-  index: -1
 checkbox_off
   rotate: false
-  xy: 1, 61
+  xy: 947, 995
   size: 28, 28
   orig: 28, 28
   offset: 0, 0
   index: -1
 checkbox_on
   rotate: false
-  xy: 63, 123
+  xy: 63, 95
   size: 28, 28
   orig: 28, 28
   offset: 0, 0
   index: -1
 dote
   rotate: false
-  xy: 1, 58
+  xy: 977, 1022
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 heart
   rotate: false
-  xy: 817, 859
+  xy: 817, 895
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 hm_numbers
   rotate: false
-  xy: 817, 345
+  xy: 817, 381
   size: 32, 512
   orig: 32, 512
   offset: 0, 0
   index: -1
-kurale24
-  rotate: false
-  xy: 1, 729
-  size: 512, 128
-  orig: 512, 128
-  offset: 0, 0
-  index: -1
 ok
   rotate: false
-  xy: 203, 153
+  xy: 1, 1
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 scroll
   rotate: false
-  xy: 265, 198
+  xy: 255, 170
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 scroll_knob
   rotate: false
-  xy: 851, 842
+  xy: 645, 506
   size: 15, 15
   split: 2, 2, 2, 2
   pad: 0, 0, 0, 0
@@ -116,7 +116,7 @@ scroll_knob
   index: -1
 slider
   rotate: false
-  xy: 979, 965
+  xy: 947, 971
   size: 8, 22
   split: 2, 2, 10, 10
   pad: 0, 0, 0, 0
@@ -125,7 +125,7 @@ slider
   index: -1
 slider-before
   rotate: false
-  xy: 31, 67
+  xy: 63, 71
   size: 1, 22
   split: 0, 0, 9, 9
   pad: 0, 0, 0, 0
@@ -134,21 +134,21 @@ slider-before
   index: -1
 slider-knob
   rotate: false
-  xy: 697, 475
+  xy: 515, 221
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 slider-knob-pressed
   rotate: false
-  xy: 947, 945
+  xy: 547, 253
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 textfield
   rotate: false
-  xy: 515, 219
+  xy: 203, 125
   size: 14, 8
   split: 3, 3, 0, 7
   pad: 4, 4, 0, 6
@@ -157,7 +157,7 @@ textfield
   index: -1
 textfield-selected
   rotate: false
-  xy: 645, 425
+  xy: 851, 885
   size: 14, 8
   split: 3, 3, 0, 7
   pad: 4, 4, 0, 6
@@ -166,21 +166,21 @@ textfield-selected
   index: -1
 title32
   rotate: false
-  xy: 1, 215
+  xy: 1, 511
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 transparency
   rotate: false
-  xy: 63, 120
+  xy: 93, 122
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 window2
   rotate: false
-  xy: 645, 435
+  xy: 203, 135
   size: 50, 50
   split: 17, 18, 17, 17
   pad: 0, 49, 0, 49

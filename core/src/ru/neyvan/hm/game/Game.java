@@ -107,8 +107,8 @@ public class Game {
     }
 
     public boolean isGameFinished() {
-        //return gameData.countMove >= level.getCountOfMoves();
-        return gameData.countMove >= 5;
+        return gameData.countMove >= level.getCountOfMoves();
+        //return gameData.countMove >= 5;
     }
 
     // Change number (or surprise) for next turn. Also change time step (only for numbers).

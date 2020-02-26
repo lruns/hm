@@ -97,6 +97,7 @@ public class PlayScreen implements Screen {
 
     private boolean pause = true;
     private boolean gamePause = true;
+    private float multiplierTime = 1f;
 
     private void  init(){
         portalView = new PortalView();
@@ -151,6 +152,7 @@ public class PlayScreen implements Screen {
     }
     @Override
     public void render(float delta) {
+        delta = delta * multiplierTime;
         if(pause == true) return;
 
         if(gamePause == false) {
@@ -280,6 +282,11 @@ public class PlayScreen implements Screen {
     }
 
     public void addImpact(Impact impact, Surprise surprise){
+        for(Impact impact2 : impacts){
+            if(impact == impact2){
+                impact.end();
+            }
+        }
         impacts.add(impact);
         impact.start(surprise);
     }
@@ -404,5 +411,13 @@ public class PlayScreen implements Screen {
                 HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
             }
         },time * 0.7f);
+    }
+
+    public void changeSpeedTime(float multiplierTime) {
+        this.multiplierTime = multiplierTime;
+    }
+
+    public void resetSpeedTime() {
+        this.multiplierTime = 1f;
     }
 }

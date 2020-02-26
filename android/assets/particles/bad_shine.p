@@ -146,7 +146,7 @@ additive: false
 behind: false
 premultipliedAlpha: false
 - Image Path -
-/D:/workspace/LibGDX_programs/particle.png
+particle.png
 
 
 Untitled
