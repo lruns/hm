@@ -51,7 +51,7 @@ public class EpisodesScreen extends ScreenAdapter {
         titleStyle.background = HM.game.texture.getNinePatchDrawable("frame");
         titleStyle.font = skin.getFont("title32");
         titleStyle.fontColor = Color.WHITE;
-        title = new Label("Choose episode", titleStyle);
+        title = new Label(HM.game.bundle.get("chooseEpisode"), titleStyle);
         title.setAlignment(Align.center);
 
         scrollTable = new EpisodesTable(skin, this);

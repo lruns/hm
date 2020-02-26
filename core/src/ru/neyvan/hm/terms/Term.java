@@ -1,5 +1,9 @@
 package ru.neyvan.hm.terms;
 
+import java.util.List;
+
+import ru.neyvan.hm.levels.Check;
+
 /**
  * Created by AndyGo on 08.01.2018.
  */
@@ -14,4 +18,6 @@ public abstract class Term  {
         return ID;
     }
     public abstract boolean checkCondition(int numberToCheck);
+
+    public abstract String printDescription();
 }

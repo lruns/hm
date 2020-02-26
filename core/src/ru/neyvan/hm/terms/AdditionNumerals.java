@@ -1,5 +1,7 @@
 package ru.neyvan.hm.terms;
 
+import ru.neyvan.hm.HM;
+
 /**
  * Created by AndyGo on 19.01.2018.
  */
@@ -17,6 +19,8 @@ public class AdditionNumerals extends Term{
         return ideal == SumOfDigits(numberToCheck);
     }
 
+
+
     private int SumOfDigits (int n)
     {
         int s = 0;
@@ -29,5 +33,10 @@ public class AdditionNumerals extends Term{
     }
     public int getIdeal(){
         return ideal;
+    }
+
+    @Override
+    public String printDescription() {
+        return HM.game.bundle.format("additionNumerals", ideal);
     }
 }

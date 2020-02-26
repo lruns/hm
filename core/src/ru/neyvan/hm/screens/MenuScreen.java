@@ -66,11 +66,11 @@ public class MenuScreen extends ScreenMenuModel {
         label2 = new Label("", skin, "advira");
 
         if(HM.game.player.isPlayerExist()){
-            label1.setText("Welcome "+HM.game.player.getName()+"!");
-            label2.setText("Good luck!");
+            label1.setText(HM.game.bundle.format("welcome", HM.game.player.getName()));
+            label2.setText(HM.game.bundle.get("goodLuck"));
         }else{
-            label1.setText("Welcome new user!");
-            label2.setText("Glad to see you!");
+            label1.setText(HM.game.bundle.get("welcomeNewUser"));
+            label2.setText(HM.game.bundle.get("gladToSee"));
         }
         label1.pack();
         tableText.add(title).size(group.getWidth(), group.getHeight()*0.25f).row();
@@ -188,14 +188,14 @@ public class MenuScreen extends ScreenMenuModel {
     }
     private void showWindowNewName() {
         if(HM.game.player.isPlayerExist()) return;
-        WindowNewName windowNewName = new WindowNewName("New user", skin, "octagon", stage, this);
+        WindowNewName windowNewName = new WindowNewName(HM.game.bundle.get("newUser"), skin, "octagon", stage, this);
         windowNewName.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
         stage.addActor(windowNewName);
 
     }
 
     private void showWindowContinueGame() {
-        WindowContinueGame windowContinueGame = new WindowContinueGame("Continue game", skin, "octagon", stage, this);
+        WindowContinueGame windowContinueGame = new WindowContinueGame(HM.game.bundle.get("continueGame"), skin, "octagon", stage, this);
         windowContinueGame.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
         stage.addActor(windowContinueGame);
 
@@ -237,13 +237,13 @@ public class MenuScreen extends ScreenMenuModel {
     @Override
     public void back() {
         super.back();
-        Gdx.app.debug("Quit Game", "call window of exit");
-        WindowExit windowExit = new WindowExit("Quit Game", skin, "octagon", stage);
+        Gdx.app.debug(HM.game.bundle.get("quitGame"), "call window of exit");
+        WindowExit windowExit = new WindowExit(HM.game.bundle.get("quitGame"), skin, "octagon", stage);
         windowExit.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
         stage.addActor(windowExit);
     }
 
     public void updateNewName() {
-        label1.setText("Welcome "+HM.game.player.getName()+"!");
+        label1.setText(HM.game.bundle.format("welcome", HM.game.player.getName()));
     }
 }

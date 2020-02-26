@@ -19,7 +19,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 
+import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.WindowExit;
+import ru.neyvan.hm.levels.LevelNumber;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class GamePause {
@@ -29,15 +31,7 @@ public class GamePause {
     private ScrollPane scroller;
     private TextButton btnExit;
     private TextButton btnPlay;
-    private TextButton btnContinue;
-    private String infoText =
-            "Towards to space adventures! Go through the obstacles on a space plate!\n" +
-                    "The game “Flappy Space” is an arcade in the space style, where you should try to overcome as many " +
-                    "obstacles as possible on the space plate. The shields of the ship have three charges capable of protecting" +
-                    " the ship from impacts with obstacles." + "Towards to space adventures! Go through the obstacles on a space plate!\n" +
-                    "The game “Flappy Space” is an arcade in the space style, where you should try to overcome as many " +
-                    "obstacles as possible on the space plate. The shields of the ship have three charges capable of protecting" +
-                    " the ship from impacts with obstacles.";
+    private String infoText;
     private PlayScreen playScreen;
     private Stage stage;
     private Image darkBackground;
@@ -72,7 +66,7 @@ public class GamePause {
         table.setPosition((stage.getWidth() - table.getWidth()) / 2, (stage.getHeight() - table.getHeight()) / 2);
         table.pad(table.getHeight() * 0.02f, table.getWidth() * 0.2f, 0, table.getWidth() * 0.2f);
 
-        title = new Label("Pause", skin, "title");
+        title = new Label(HM.game.bundle.get("pause"), skin, "title");
         title.setAlignment(Align.center);
 
         infoScroll = new Label(infoText, skin);
@@ -85,7 +79,7 @@ public class GamePause {
         scroller.setFadeScrollBars(false);
         //scroller.setFlickScroll(false);
 
-        btnExit = new TextButton("Exit", skin);
+        btnExit = new TextButton(HM.game.bundle.get("exit"), skin);
         btnExit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -93,7 +87,7 @@ public class GamePause {
             }
         });
 
-        btnPlay = new TextButton("Play", skin);
+        btnPlay = new TextButton(HM.game.bundle.get("play"), skin);
         btnPlay.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -116,7 +110,7 @@ public class GamePause {
     }
 
     public void exit() {
-        WindowExit windowExit = new WindowExit("Quit Game", skin, "octagon", stage, playScreen);
+        WindowExit windowExit = new WindowExit(HM.game.bundle.get("quitGame"), skin, "octagon", stage, playScreen);
         windowExit.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
         stage.addActor(windowExit);
     }
@@ -125,19 +119,22 @@ public class GamePause {
         playScreen.resumeGame();
     }
 
+    public void setLevelDescription(String text){
+        infoScroll.setText(text);
+    }
 
     public void setBeginGame(){
         isBeginGame = true;
-        title.setText("Welcome");
-        btnPlay.setText("Play");
+        title.setText(HM.game.bundle.get("begin"));
+        btnPlay.setText(HM.game.bundle.get("play"));
         btnExit.setVisible(false);
         table.getCell(scroller).height((table.getHeight() * 0.68f));
     }
 
     public void setNormalGame(){
         isBeginGame = false;
-        title.setText("Pause");
-        btnPlay.setText("Continue");
+        title.setText(HM.game.bundle.get("pause"));
+        btnPlay.setText(HM.game.bundle.get("continue"));
         btnExit.setVisible(true);
         table.getCell(scroller).height((table.getHeight() * 0.6f));
     }

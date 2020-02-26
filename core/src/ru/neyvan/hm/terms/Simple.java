@@ -1,5 +1,7 @@
 package ru.neyvan.hm.terms;
 
+import ru.neyvan.hm.HM;
+
 /**
  * Created by AndyGo on 19.01.2018.
  */
@@ -20,5 +22,9 @@ public class Simple extends Term {
                 return false;
         }
         return true;
+    }
+    @Override
+    public String printDescription() {
+        return HM.game.bundle.get("simple");
     }
 }

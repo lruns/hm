@@ -148,6 +148,7 @@ public class PlayScreen implements Screen {
         gamePause = false;
         pause = false;
 
+        getGui().setLevelDescription(getGame().getLevelDescription());
         nextState(beginState, beginStateTime);
     }
     @Override

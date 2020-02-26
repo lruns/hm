@@ -49,6 +49,7 @@ public class PortalState extends State {
         }
          if(!updateLevel && inPortal()){
             core.getGame().nextLevel();
+            core.getGui().setLevelDescription(core.getGame().getLevelDescription());
             core.getGui().prepareLevel();
             updateLevel = true;
             Timer.schedule(new Timer.Task() {

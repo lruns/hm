@@ -173,4 +173,65 @@ public class Game {
     public boolean isEpisodeComplete() {
         return gameData.levelNumber.isLastLevel();
     }
+
+    // Собирает информацию о уровне для игрока
+    public String getLevelDescription() {
+        StringBuilder text = new StringBuilder();
+
+        // Информация о номере уровня
+        text.append(HM.game.bundle.format("levelNumber", gameData.levelNumber.getEpisode(), gameData.levelNumber.getLevel()));
+        text.append("\n\n");
+
+        // Показываем пройденный прогресс, если игрок продолжил игру с главного меню
+        if(gameData.countMove != 1) {
+            text.append(HM.game.bundle.format("progress", getProgress() * 100f));
+            text.append("\n\n");
+        }
+        // Введение в самом первом уровне
+        if(gameData.levelNumber.getEpisode() == 1 && gameData.levelNumber.getLevel() == 1) {
+            text.append(HM.game.bundle.get("intro"));
+            text.append("\n\n");
+            text.append(HM.game.bundle.get("howToPlay"));
+            text.append("\n\n");
+        }
+
+        // Информация о введении в игру новых сюрпризов и вариантов условий
+        text.append(HM.game.bundle.get("level"+gameData.levelNumber.getEpisode()+"."+gameData.levelNumber.getLevel()));
+        text.append("\n\n");
+
+        text.append(HM.game.bundle.get("condition"));
+        text.append("\n\n");
+
+        // Вариант появления чисел
+        if(level.isFixedCounting()){
+            text.append(HM.game.bundle.get("fixedCounting"));
+            text.append("\n");
+        }else{
+            text.append(HM.game.bundle.format("notFixedCounting", level.getFirstNumber(), level.getDeltaNumbers()));
+            text.append("\n");
+        }
+
+        // Время ходов
+        if(level.getSpeedChangeTS() == 0 && level.getAccelerationSpeedChangeTS() == 0){
+            text.append(HM.game.bundle.format("timeStepWithoutSpeed", level.getTimeStep(), level.getTimeAfterStep()));
+            text.append("\n");
+        }else{
+            if(level.getAccelerationSpeedChangeTS() != 0){
+                text.append(HM.game.bundle.format("timeStepWithAcceleration", level.getTimeStep(), level.getTimeAfterStep(),
+                        level.getSpeedChangeTS(), level.getSpeedChangeTS()+level.getAccelerationSpeedChangeTS()));
+                text.append("\n");
+            }else{
+                text.append(HM.game.bundle.format("timeStepWithSpeed", level.getTimeStep(), level.getTimeAfterStep(),
+                        level.getSpeedChangeTS()));
+                text.append("\n");
+            }
+        }
+
+        // Условия прохождения уровня
+        text.append("3. ");
+        text.append(level.getChecksOfMove().get(0).printDescription(level.getTerms(), level.getChecksOfMove()));
+        text.append("\n");
+
+        return text.toString();
+    }
 }

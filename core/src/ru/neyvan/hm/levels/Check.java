@@ -3,6 +3,7 @@ package ru.neyvan.hm.levels;
 import java.io.Serializable;
 import java.util.List;
 
+import ru.neyvan.hm.HM;
 import ru.neyvan.hm.terms.Term;
 
 /**
@@ -70,5 +71,42 @@ public class Check implements Serializable{
 
     public int getIdSecondOperand() {
         return idSecondOperand;
+    }
+
+    public String printDescription(List<Term> terms, List<Check> checks) {
+        return this.printDescription(terms, checks, 1);
+    }
+
+    public String printDescription(List<Term> terms, List<Check> checks, int iteration) {
+
+        if(terms.size() == 1) return terms.get(idFirstOperand-BORDER_ID_CHECK).printDescription();
+
+        String text = new String();
+        String text1;
+        String text2;
+        if(idFirstOperand < BORDER_ID_CHECK) text1 = checks.get(idFirstOperand).printDescription(terms, checks, iteration+1);
+        else text1 = terms.get(idFirstOperand-BORDER_ID_CHECK).printDescription();
+
+        if(typeOfOperation == NOT_OPERATION){
+            text = HM.game.bundle.format("notOperation", text1);
+            return text;
+        }
+
+        if(idSecondOperand < BORDER_ID_CHECK) text2 = checks.get(idSecondOperand).printDescription(terms, checks, iteration+1);
+        else text2 = terms.get(idSecondOperand-BORDER_ID_CHECK).printDescription();
+
+
+        if(iteration != 1) text += "(";
+        switch (typeOfOperation){
+            case AND_OPERATION:
+                text = HM.game.bundle.format("andOperation", text1, text2);
+                break;
+            case OR_OPERATION:
+                text = HM.game.bundle.format("orOperation", text1, text2);
+                break;
+        }
+        if(iteration != 1) text += ")";
+
+        return text;
     }
 }

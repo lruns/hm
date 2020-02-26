@@ -50,6 +50,7 @@ import ru.neyvan.hm.actors.LifesBox;
 import ru.neyvan.hm.actors.ScoreBox;
 import ru.neyvan.hm.actors.Shine;
 import ru.neyvan.hm.actors.StreamEnergy;
+import ru.neyvan.hm.levels.LevelNumber;
 import ru.neyvan.hm.screens.MenuScreen;
 import ru.neyvan.hm.screens.PlayScreen;
 import ru.neyvan.hm.surprises.ScreenEffects;
@@ -644,5 +645,9 @@ public class GUI {
 
     public void stopScreenEffect() {
         isScreenEffect = false;
+    }
+
+    public void setLevelDescription(String text) {
+        gamePause.setLevelDescription(text);
     }
 }

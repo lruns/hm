@@ -5,6 +5,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.I18NBundle;
+
+import java.util.Locale;
 
 import ru.neyvan.hm.levels.LevelNumber;
 import ru.neyvan.hm.managers.MusicManager;
@@ -30,6 +34,7 @@ public class HM extends Game {
 //	public int resolution[];
     public Settings settings;
     public final AssetManager manager = new AssetManager();
+    public I18NBundle bundle;
     public TextureManager texture;
     public ShaderManager shader;
     public SoundManager sound;
@@ -71,6 +76,11 @@ public class HM extends Game {
     }
 
     public void initManagers(){
+        FileHandle fileHandle = Gdx.files.internal("i18n/Bundle");
+        // ПОЗЖЕ УБЕРИ !!!!!!!!!!!!!!!!!!!!!
+            Locale locale = new Locale("ru");
+        //
+        bundle = I18NBundle.createBundle(fileHandle, locale);
         texture.init();
         shader.init();
         sound.init();

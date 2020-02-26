@@ -1,5 +1,7 @@
 package ru.neyvan.hm.terms;
 
+import ru.neyvan.hm.HM;
+
 /**
  * Created by AndyGo on 19.01.2018.
  */
@@ -41,4 +43,8 @@ public class ArithmeticProgression extends Term {
 //        }while (a<30);
 //        System.out.print(false);
 // }
+    @Override
+    public String printDescription() {
+        return HM.game.bundle.format("arithmeticProgression", first, difference);
+    }
 }
