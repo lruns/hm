@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -37,6 +40,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import jdk.nashorn.internal.codegen.ClassEmitter;
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.ChangeSpeedActor;
@@ -48,6 +52,7 @@ import ru.neyvan.hm.actors.Shine;
 import ru.neyvan.hm.actors.StreamEnergy;
 import ru.neyvan.hm.screens.MenuScreen;
 import ru.neyvan.hm.screens.PlayScreen;
+import ru.neyvan.hm.surprises.ScreenEffects;
 
 /**
  * Created by AndyGo on 25.11.2017.
@@ -95,6 +100,13 @@ public class GUI {
     private ImageButton.ImageButtonStyle pauseStyle;
     private TextureRegionDrawable pauseClick, pause;
     private boolean isAppear = false;
+    private boolean isScreenEffect = false;
+    private int typeScreenEffect;
+
+    private ShaderProgram colorMusicShader;
+    private ShaderProgram inversionShader;
+    private float timeColorMusicShader = 0;
+    private FrameBuffer frameBuffer;
 
 
     public GUI(final PlayScreen core) {
@@ -191,6 +203,10 @@ public class GUI {
         changeSpeedActor = new ChangeSpeedActor(1.0f);
         stage.addActor(changeSpeedActor);
         gamePause = new GamePause(core, skin, stage);
+        colorMusicShader = HM.game.shader.getColorMusicShader();
+        inversionShader = HM.game.shader.getInversionShader();
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+
         //shine = new Shine();
 
 
@@ -234,23 +250,37 @@ public class GUI {
         stage.act(delta);
     }
 
-    public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        if(core.impactsExist()){
-//            FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-//            frameBuffer.begin();
-//            stage.draw();
-//            frameBuffer.end();
-//            SpriteBatch batch = new SpriteBatch();
-//            batch.begin();
-//            batch.setShader();
-//            batch.draw(frameBuffer.getColorBufferTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//            batch.setShader(null);
-//            batch.end();
-//        }else{
+    public void render(float delta) {
+        if(isScreenEffect){
+            frameBuffer.begin();
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             stage.draw();
-//        }
+            frameBuffer.end();
+            Texture texture = frameBuffer.getColorBufferTexture();
+            TextureRegion textureRegion = new TextureRegion(texture);
+            textureRegion.flip(false, true);
+
+            stage.getBatch().begin();
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            if(typeScreenEffect == ScreenEffects.COLOR_MUSIC) {
+                timeColorMusicShader += delta;
+                colorMusicShader.begin();
+                colorMusicShader.setUniformf("time", timeColorMusicShader);
+                colorMusicShader.end();
+                stage.getBatch().setShader(colorMusicShader);
+            }else {
+                stage.getBatch().setShader(inversionShader);
+            }
+            stage.getBatch().draw(textureRegion, 0, 0, stage.getViewport().getWorldWidth(), stage.getViewport().getWorldHeight());
+            stage.getBatch().setShader(null);
+            stage.getBatch().end();
+        }else{
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            stage.draw();
+        }
     }
 
     public void prepareLevel() {
@@ -497,6 +527,9 @@ public class GUI {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
 
+        frameBuffer.dispose();
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight(), false);
+
         //Please change this bad realization of resize and reposition!!!
         gameCircle.updateSizePosition();
     }
@@ -507,6 +540,7 @@ public class GUI {
         streamEnergy.dispose();
         changeSpeedActor.dispose();
         gameCircle.dispose();
+        frameBuffer.dispose();
     }
 
     public Stage getStage() {
@@ -601,5 +635,14 @@ public class GUI {
 
     public void resetSpeedTime() {
         changeSpeedActor.stop();
+    }
+
+    public void startScreenEffect(int type) {
+        isScreenEffect = true;
+        typeScreenEffect = type;
+    }
+
+    public void stopScreenEffect() {
+        isScreenEffect = false;
     }
 }

@@ -124,6 +124,7 @@ public class EpisodesScreen extends ScreenAdapter {
     }
 
     public void startEpisode() {
+        if(clickedEpisode == null) clickedEpisode = new LevelNumber(1,1);
         mainTable.addAction(Actions.sequence(
                 Actions.fadeOut(1f),
                 Actions.run(new Runnable() {

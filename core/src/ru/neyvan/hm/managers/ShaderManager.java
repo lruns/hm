@@ -16,6 +16,8 @@ public class ShaderManager implements Manager {
     private ShaderProgram explosionShader;
     private ShaderProgram transitionShader; // transition between game and portal
     private ShaderProgram portalShader;
+    private ShaderProgram colorMusicShader;
+    private ShaderProgram inversionShader;
     @Override
     public void init() {
         ShaderProgram.pedantic = false;
@@ -50,6 +52,16 @@ public class ShaderManager implements Manager {
                 Gdx.files.internal("shaders/portal_fragment.glsl"));
         if(!portalShader.isCompiled())
             Gdx.app.log("Shader", portalShader.getLog());
+
+        colorMusicShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
+                Gdx.files.internal("shaders/color_music_fragment.glsl"));
+        if(!portalShader.isCompiled())
+            Gdx.app.log("Shader", portalShader.getLog());
+
+        inversionShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
+                Gdx.files.internal("shaders/inversion_fragment.glsl"));
+        if(!portalShader.isCompiled())
+            Gdx.app.log("Shader", portalShader.getLog());
     }
 
     public ShaderProgram getCircle() {
@@ -70,6 +82,12 @@ public class ShaderManager implements Manager {
     public ShaderProgram getPortalShader() {
         return portalShader;
     }
+    public ShaderProgram getColorMusicShader() {
+        return colorMusicShader;
+    }
+    public ShaderProgram getInversionShader() {
+        return inversionShader;
+    }
     @Override
     public void dispose() {
         circle.dispose();
@@ -78,7 +96,10 @@ public class ShaderManager implements Manager {
         explosionShader.dispose();
         transitionShader.dispose();
         portalShader.dispose();
+        colorMusicShader.dispose();
+        inversionShader.dispose();
     }
+
 
 
 }

@@ -172,7 +172,7 @@ public class PlayScreen implements Screen {
 
         if(portalState.isTransition()){
             firstFrameBuffer.begin();
-            gui.render();
+            gui.render(delta);
             firstFrameBuffer.end();
             secondFrameBuffer.begin();
             portalView.render(delta);
@@ -188,7 +188,7 @@ public class PlayScreen implements Screen {
         } else if(portalState.inPortal()){
             portalView.render(delta);
         } else{
-            gui.render();
+            gui.render(delta);
         }
 
     }
