@@ -228,7 +228,7 @@ public class Game {
         }
 
         // Условия прохождения уровня
-        text.append("3. ");
+        text.append(HM.game.bundle.get("conditionLevelComplete"));
         text.append(level.getChecksOfMove().get(0).printDescription(level.getTerms(), level.getChecksOfMove()));
         text.append("\n");
 

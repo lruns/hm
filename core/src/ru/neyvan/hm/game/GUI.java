@@ -44,6 +44,7 @@ import jdk.nashorn.internal.codegen.ClassEmitter;
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.ChangeSpeedActor;
+import ru.neyvan.hm.actors.Explose;
 import ru.neyvan.hm.actors.GameCircle;
 import ru.neyvan.hm.actors.LevelInfoBox;
 import ru.neyvan.hm.actors.LifesBox;
@@ -96,6 +97,7 @@ public class GUI {
     private GamePause gamePause;
 
     private ChangeSpeedActor changeSpeedActor;
+    private Explose explose;
 
 
     private ImageButton.ImageButtonStyle pauseStyle;
@@ -203,6 +205,8 @@ public class GUI {
         stage.addActor(showInfo);
         changeSpeedActor = new ChangeSpeedActor(1.0f);
         stage.addActor(changeSpeedActor);
+        explose = new Explose(1.0f);
+        stage.addActor(explose);
         gamePause = new GamePause(core, skin, stage);
         colorMusicShader = HM.game.shader.getColorMusicShader();
         inversionShader = HM.game.shader.getInversionShader();
@@ -424,6 +428,11 @@ public class GUI {
 //        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
     }
 
+    public void colorTimeBar(float duration, Color color) {
+        gameCircle.glowBar(duration, color);
+//        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
+    }
+
 
     public void toGamePause() {
         gamePause.appear(0.5f);
@@ -514,7 +523,14 @@ public class GUI {
 
     }
 
-    public void explose() {
+    public void explose(Symbol symbol, float duration) {
+        gameCircle.explose(symbol, duration);
+        explose.setEffectPosition(gameCircle.getX()+gameCircle.getWidth()/2, gameCircle.getY()+gameCircle.getHeight()/2);
+        explose.start();
+    }
+    public void explose(float duration) {
+        explose.setEffectPosition(gameCircle.getX()+gameCircle.getWidth()/2, gameCircle.getY()+gameCircle.getHeight()/2);
+        explose.start();
     }
 
     public void hideChance() {

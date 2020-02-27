@@ -292,6 +292,15 @@ public class PlayScreen implements Screen {
         impact.start(surprise);
     }
 
+    public void resetAllImpacts() {
+        impactIterator = impacts.iterator();
+        while(impactIterator.hasNext()){
+            impact = impactIterator.next();
+            impact.end();
+            impactIterator.remove();
+        }
+    }
+
 
     public State getState() {
         return state;
@@ -421,4 +430,6 @@ public class PlayScreen implements Screen {
     public void resetSpeedTime() {
         this.multiplierTime = 1f;
     }
+
+
 }

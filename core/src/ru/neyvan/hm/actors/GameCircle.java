@@ -2,6 +2,8 @@ package ru.neyvan.hm.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -75,7 +77,6 @@ public class GameCircle extends Group {
                 core.clickOnDisplay();
             }
         });
-
     }
 
     public void setImages(int i_appearance){
@@ -164,5 +165,9 @@ public class GameCircle extends Group {
     // is very bad realization, but I not have time for something better
     public void updateSizePosition(){
 
+    }
+
+    public void explose(Symbol symbol, float duration) {
+        symbolText.setSymbol(symbol, duration);
     }
 }
