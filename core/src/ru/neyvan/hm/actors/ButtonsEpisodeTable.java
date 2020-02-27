@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import ru.neyvan.hm.HM;
-import ru.neyvan.hm.Player;
 import ru.neyvan.hm.screens.EpisodesScreen;
 
 /**

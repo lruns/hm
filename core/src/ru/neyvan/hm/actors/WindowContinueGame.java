@@ -1,6 +1,5 @@
 package ru.neyvan.hm.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
 import ru.neyvan.hm.HM;
-import ru.neyvan.hm.game.GameDataLoader;
 import ru.neyvan.hm.screens.EpisodesScreen;
 import ru.neyvan.hm.screens.MenuScreen;
 import ru.neyvan.hm.screens.PlayScreen;

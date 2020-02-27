@@ -3,10 +3,8 @@ package ru.neyvan.hm;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-import ru.neyvan.hm.game.GameDataLoader;
 import ru.neyvan.hm.levels.LevelNumber;
 
-import static ru.neyvan.hm.Constants.MAX_EPISODE;
 import static ru.neyvan.hm.Constants.PLAYER_PATH;
 
 /**

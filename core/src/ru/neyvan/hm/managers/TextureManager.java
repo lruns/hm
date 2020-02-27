@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
+import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 
 /**
@@ -67,14 +68,18 @@ public class TextureManager implements Manager{
         gameBackground = new Texture("backdrops/backdrop"+i+".jpg");
         return gameBackground;
     }
-    public void setEpisodesImages(int maxCount){
-        episodesImage = new Texture[maxCount];
-        for (int i=0; i<maxCount; i++){
-            episodesImage[i] = new Texture("minEpisodes/episode"+i+".jpg");
+    public void setEpisodesImages(){
+        episodesImage = new Texture[Constants.MAX_EPISODE];
+        for (int i=1; i<=Constants.MAX_EPISODE; i++){
+            episodesImage[i-1] = new Texture("episodes_images/episode"+i+".jpg");
         }
     }
     public Texture getEpisodesImage(int i){
-        return episodesImage[i];
+        if(i <= 0 || i > episodesImage.length){
+            Gdx.app.error("TextureManager.getEpisodeImage", "such episode not exist: "+i+", problem solved by install episodeImage0");
+            return episodesImage[0];
+        }
+        return episodesImage[i-1];
     }
     public void disposeEpisodesImages(){
         for (int i=0; i<episodesImage.length; i++){

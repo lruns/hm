@@ -18,7 +18,6 @@ import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.WindowContinueGame;
 import ru.neyvan.hm.actors.WindowExit;
 import ru.neyvan.hm.actors.WindowNewName;
-import ru.neyvan.hm.game.GameDataLoader;
 
 /**
  * Created by AndyGo on 08.07.2017.

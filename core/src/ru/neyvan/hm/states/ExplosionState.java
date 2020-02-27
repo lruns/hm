@@ -2,7 +2,6 @@ package ru.neyvan.hm.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.Timer;
 
 import ru.neyvan.hm.screens.PlayScreen;
 

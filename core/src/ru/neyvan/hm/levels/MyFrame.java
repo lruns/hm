@@ -1,8 +1,6 @@
 package ru.neyvan.hm.levels;
 
 
-import com.badlogic.gdx.utils.GdxRuntimeException;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;

@@ -43,6 +43,7 @@ public class EpisodesScreen extends ScreenAdapter {
         stage = new Stage(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
                 Constants.MAX_WIDTH, Constants.MAX_HEIGHT));
         skin = HM.game.texture.skin;
+        HM.game.texture.setEpisodesImages();
 
         mainTable = new Table();
         mainTable.setFillParent(true);
@@ -57,6 +58,7 @@ public class EpisodesScreen extends ScreenAdapter {
         scrollTable = new EpisodesTable(skin, this);
         scrollPane = new ScrollPane(scrollTable);
         scrollPane.setScrollingDisabled(true, false);
+        scrollPane.scrollTo(0,0,0,scrollPane.getScrollHeight());
 
         buttonsTable = new ButtonsEpisodeTable(skin, this);
         buttonsTable.setBackground(HM.game.texture.getNinePatchDrawable("frame"));
@@ -101,6 +103,7 @@ public class EpisodesScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+        HM.game.texture.disposeEpisodesImages();
     }
 
     public void backToMenu() {

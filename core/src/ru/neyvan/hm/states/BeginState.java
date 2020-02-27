@@ -2,8 +2,6 @@ package ru.neyvan.hm.states;
 
 import com.badlogic.gdx.Gdx;
 
-import java.util.Timer;
-
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class BeginState extends State{

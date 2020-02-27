@@ -2,7 +2,6 @@ package ru.neyvan.hm.states;
 
 import com.badlogic.gdx.Gdx;
 
-import ru.neyvan.hm.Player;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class LoseState extends State {

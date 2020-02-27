@@ -3,16 +3,12 @@ package ru.neyvan.hm.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
-import java.util.Iterator;
-
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
-import ru.neyvan.hm.Player;
 import ru.neyvan.hm.levels.Check;
 import ru.neyvan.hm.levels.Level;
 import ru.neyvan.hm.levels.LevelLoader;
 import ru.neyvan.hm.levels.LevelNumber;
-import ru.neyvan.hm.screens.PlayScreen;
 
 
 public class Game {

@@ -10,13 +10,11 @@ import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
 
-import ru.neyvan.hm.levels.LevelNumber;
 import ru.neyvan.hm.managers.MusicManager;
 import ru.neyvan.hm.managers.ShaderManager;
 import ru.neyvan.hm.managers.SoundManager;
 import ru.neyvan.hm.managers.TextureManager;
 import ru.neyvan.hm.screens.MenuScreen;
-import ru.neyvan.hm.screens.PlayScreen;
 import ru.neyvan.hm.screens.WelcomeScreen;
 
 /**
