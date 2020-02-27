@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -154,12 +155,14 @@ public class GameCircle extends Group {
 
     public void glowBar(float duration, Color color) {
         circleBar.setColor(color);
-        Timer.schedule(new Timer.Task() {
+        RunnableAction run = new RunnableAction();
+        run.setRunnable(new Runnable() {
             @Override
             public void run() {
                 circleBar.setColor();
             }
-        }, duration);
+        });
+        addAction(Actions.sequence(Actions.delay(duration), run));
     }
 
     // is very bad realization, but I not have time for something better
