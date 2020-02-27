@@ -7,6 +7,10 @@ import ru.neyvan.hm.levels.Difficult;
  */
 
 public class Constants {
+    public static String VERSION = "1.0.0 alpha";
+    public static String WEBSITE = "www.neyvan.ru";
+    public static String EMAIL = "neyvan.development@gmail.com";
+
     public static int SCORE_DELTA = 50; // add (or remove) for every true(false) turn and multiplied
                         // in game to episode number -> you can have 50, 100, 150 ...
 

@@ -14,7 +14,6 @@ import ru.neyvan.hm.screens.EpisodesScreen;
  * Created by AndyGo on 19.11.2017.
  */
 public class ButtonsEpisodeTable extends com.badlogic.gdx.scenes.scene2d.ui.Table {
-    private static final String EP = "Episode: ", NUM = "Number of levels: ", DIF = "Difficult: ";
     private Label epizod;
     private Label levels;
     private Label difficult;
@@ -30,8 +29,8 @@ public class ButtonsEpisodeTable extends com.badlogic.gdx.scenes.scene2d.ui.Tabl
         levels = new Label("", skin, "advira");
         difficult = new Label("", skin, "advira");
         closed = new Label("", skin, "advira");
-        btnBack = new TextButton("Back", skin);
-        btnStart = new TextButton("Start", skin);
+        btnBack = new TextButton(HM.game.bundle.get("back"), skin);
+        btnStart = new TextButton(HM.game.bundle.get("start"), skin);
 
         add(epizod);
         add(levels).row();
@@ -44,9 +43,9 @@ public class ButtonsEpisodeTable extends com.badlogic.gdx.scenes.scene2d.ui.Tabl
     }
 
     public void updateInfo() {
-        epizod.setText(EP +(parent.getClickedEpisode().getEpisode()));
-        levels.setText(NUM+(parent.getClickedEpisode().getLevelsSize()));
-        difficult.setText(DIF+parent.getClickedEpisode().getDifficult());
+        epizod.setText(HM.game.bundle.format("episode", parent.getClickedEpisode().getEpisode()));
+        levels.setText(HM.game.bundle.format("numLevels", parent.getClickedEpisode().getLevelsSize()));
+        difficult.setText(HM.game.bundle.format("diffucult", parent.getClickedEpisode().printDiffcult()));
         btnStart.setDisabled(!HM.game.player.isOpened(parent.getClickedEpisode()));
     }
 

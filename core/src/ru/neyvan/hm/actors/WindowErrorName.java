@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
+import ru.neyvan.hm.HM;
+
 /**
  * Created by AndyGo on 29.10.2017.
  */
@@ -15,18 +17,17 @@ import com.badlogic.gdx.utils.Align;
 public class WindowErrorName extends Window{
     Label info;
     TextButton btnOk;
-    String infoForRename = "Empty field! Enter your correct name. For example, John.";
-    String infoForNewUser = "Empty field! Enter your name to create a new user profile for storing high score data and games in progress.";
 
     public WindowErrorName(String title, Skin skin,  boolean isRename, float prefWidth) {
         super(title, skin, "octagon");
         getTitleLabel().setAlignment(Align.center);
         setModal(true);
 
-        info = new Label(isRename ? infoForRename : infoForNewUser, skin, "advira");
+        info = new Label(isRename ? HM.game.bundle.get("errorInfoForRename") :
+                HM.game.bundle.get("errorInfoForNewUser") , skin, "advira");
         info.setWrap(true);
 
-        btnOk = new TextButton("Ok", skin);
+        btnOk = new TextButton(HM.game.bundle.get("ok"), skin);
         btnOk.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

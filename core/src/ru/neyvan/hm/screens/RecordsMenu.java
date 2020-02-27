@@ -29,7 +29,8 @@ public class RecordsMenu extends ScreenMenuModel {
         if(newRecordsman){
             //players[HM.game.records.getNewRecordsman()].setText((FS.game.records.getNewRecordsman()+1)+". "+FS.game.records.getName(FS.game.records.getNewRecordsman()));
         }
-        title = new Label("Records", skin, "title");
+        title = new Label(HM.game.bundle.get("recordTitle"), skin, "title");
+        title.setWrap(true);
         title.setAlignment(Align.center);
 
         players = new Label[Records.MAX_RECORDSMEN];
@@ -39,23 +40,23 @@ public class RecordsMenu extends ScreenMenuModel {
         table.setBackground("background");
         table.setSize(stage.getWidth()*0.7f, stage.getWidth()*1.19f);
         table.setPosition(stage.getWidth(), posY(table, 0.5f));
-        table.add(title).colspan(2).expand(); table.row();
+        table.add(title).colspan(2).width(table.getWidth()).fillY(); table.row();
 
-        for(int i = 0; i< Records.MAX_RECORDSMEN; i++){
-            players[i] = new Label((i+1)+". "+ HM.game.records.getName(i), skin);
-            players[i].setAlignment(Align.center);
-            records[i] = new Label(Integer.toString(HM.game.records.getRecord(i)), skin);
-            records[i].setAlignment(Align.center);
-            table.add(players[i]).expand().fillX(); table.add(records[i]).expand().fillX(); table.row();
-        }
-        btnBack = new TextButton("Back", skin);
+//        for(int i = 0; i< Records.MAX_RECORDSMEN; i++){
+//            players[i] = new Label((i+1)+". "+ HM.game.records.getName(i), skin);
+//            players[i].setAlignment(Align.center);
+//            records[i] = new Label(Integer.toString(HM.game.records.getRecord(i)), skin);
+//            records[i].setAlignment(Align.center);
+//            table.add(players[i]).expand().fillX(); table.add(records[i]).expand().fillX(); table.row();
+//        }
+        btnBack = new TextButton(HM.game.bundle.get("back"), skin);
         btnBack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 end();
             }
         });
-        table.add(btnBack).colspan(2).expand(); table.row();
+        table.add(btnBack).colspan(2).expandX(); table.row();
         stage.addActor(table);
 
 

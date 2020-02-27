@@ -7,8 +7,7 @@ import ru.neyvan.hm.screens.PlayScreen;
 public class FullFreezingState extends State {
 
 
-    // ЭТО СОСТОЯНИЕ ПОД ВОПРОСОМ!!!
-
+    // ДОДЕЛАТЬ В СЛЕДУЮЩИХ ВЕРСИЯХ
 
     public FullFreezingState(PlayScreen core) {
         super(core);

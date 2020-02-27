@@ -13,25 +13,22 @@ import com.badlogic.gdx.utils.Align;
 
 import ru.neyvan.hm.HM;
 
+import static ru.neyvan.hm.Constants.EMAIL;
+import static ru.neyvan.hm.Constants.VERSION;
+import static ru.neyvan.hm.Constants.WEBSITE;
+
 /**
  * Created by AndyGo on 13.10.2017.
  */
 
 public class InfoMenu extends ScreenMenuModel {
-    private Label title, infoMain, infoScroll;
+    private Label title, infoScroll;
     private Table table;
     private Table scrollTable;
     private ScrollPane scroller;
     private TextButton btnBack;
+    private StringBuilder infoText;
     private float time;
-    private String infoText =
-            "Towards to space adventures! Go through the obstacles on a space plate!\n" +
-            "The game “Flappy Space” is an arcade in the space style, where you should try to overcome as many " +
-            "obstacles as possible on the space plate. The shields of the ship have three charges capable of protecting" +
-            " the ship from impacts with obstacles."+"Towards to space adventures! Go through the obstacles on a space plate!\n" +
-                    "The game “Flappy Space” is an arcade in the space style, where you should try to overcome as many " +
-                    "obstacles as possible on the space plate. The shields of the ship have three charges capable of protecting" +
-                    " the ship from impacts with obstacles.";
 
     public InfoMenu() {
         super();
@@ -41,12 +38,24 @@ public class InfoMenu extends ScreenMenuModel {
         table.setPosition(posX(table, 0.5f), -table.getHeight());
         table.pad(table.getHeight()*0.02f, table.getWidth()*0.2f, 0, table.getWidth()*0.2f);
 
-        title = new Label("Info", skin, "title");
+        title = new Label(HM.game.bundle.get("infoTitle"), skin, "title");
         title.setAlignment(Align.center);
 
-        infoMain = new Label("Website: www.elsohome.ru \n"+ "Version: 1.0.0", skin);
+        StringBuilder infoText = new StringBuilder();
+        infoText.append(HM.game.bundle.format("versionInfo", VERSION));
+        infoText.append("\n\n");
+        infoText.append(HM.game.bundle.get("intro"));
+        infoText.append("\n\n");
+        infoText.append(HM.game.bundle.get("intro2"));
+        infoText.append("\n\n");
+        infoText.append(HM.game.bundle.get("howToPlay"));
+        infoText.append("\n\n");
+        infoText.append(HM.game.bundle.get("howToPlay2"));
+        infoText.append("\n\n");
+        infoText.append(HM.game.bundle.format("infoAbout", WEBSITE, EMAIL));
+        infoText.append("\n\n");
 
-        infoScroll = new Label(infoText, skin);
+        infoScroll = new Label(infoText.toString(), skin);
         infoScroll.setWrap(true);
 
         scrollTable = new Table();
@@ -56,7 +65,7 @@ public class InfoMenu extends ScreenMenuModel {
         scroller.setFadeScrollBars(false);
         //scroller.setFlickScroll(false);
 
-        btnBack = new TextButton("Back", skin);
+        btnBack = new TextButton(HM.game.bundle.get("back"), skin);
         btnBack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -66,8 +75,7 @@ public class InfoMenu extends ScreenMenuModel {
 
 
         table.add(title).padBottom(table.getHeight()*0.05f).expand().row();
-        table.add(infoMain).height(infoMain.getHeight()).width(table.getWidth()*0.6f).row();
-        table.add(scroller).height(table.getHeight()*0.7f-infoMain.getHeight()).width(table.getWidth()*0.6f).row();
+        table.add(scroller).height(table.getHeight()*0.7f).width(table.getWidth()*0.6f).row();
         table.add(btnBack).expand();
         stage.addActor(table);
 
@@ -104,3 +112,6 @@ public class InfoMenu extends ScreenMenuModel {
         super.back(); end();
     }
 }
+
+
+

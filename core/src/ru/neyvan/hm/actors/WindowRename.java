@@ -28,10 +28,10 @@ public class WindowRename extends Window{
         getTitleLabel().setAlignment(Align.center);
         setModal(true);
 
-        info = new Label("Please enter your new name", skin, "advira");
+        info = new Label(HM.game.bundle.get("newRename"), skin, "advira");
         info.setWrap(false);
 
-        textField = new TextField("Your New Name", skin);
+        textField = new TextField(HM.game.bundle.get("yourRename"), skin);
         textField.setMaxLength(15);
         textField.setOnlyFontChars(true);
         textField.setAlignment(Align.center);
@@ -39,20 +39,20 @@ public class WindowRename extends Window{
         textField.getOnscreenKeyboard().show(true);
         textField.setSelection(0, textField.getMaxLength());
 
-        btnOk = new ImageTextButton("Enter", skin, "ok");
+        btnOk = new ImageTextButton(HM.game.bundle.get("enter"), skin, "ok");
         btnOk.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(HM.game.player.writeName(textField.getText())){
                     remove();
                 }else {
-                    WindowErrorName windowError = new WindowErrorName("Enter Name!", skin, true, stage.getWidth()*0.5f);
+                    WindowErrorName windowError = new WindowErrorName(HM.game.bundle.get("errorNameTitle"), skin, true, stage.getWidth()*0.5f);
                     windowError.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
                     stage.addActor(windowError);
                 }
             }
         });
-        btnCancel = new ImageTextButton("Cancel", skin, "cancel");
+        btnCancel = new ImageTextButton(HM.game.bundle.get("cancel"), skin, "cancel");
         btnCancel.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

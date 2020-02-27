@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
+import ru.neyvan.hm.HM;
 import ru.neyvan.hm.screens.PlayScreen;
 
 /**
@@ -32,10 +33,10 @@ public class WindowExit extends Window {
         getTitleLabel().setAlignment(Align.center);
         setModal(true);
 
-        info = new Label("Are you sure you want to exit?", skin, "advira");
+        info = new Label(HM.game.bundle.get("exitQuestion"), skin, "advira");
         info.setWrap(true);
 
-        btnOk = new ImageTextButton("Enter", skin, "ok");
+        btnOk = new ImageTextButton(HM.game.bundle.get("yes"), skin, "ok");
         btnOk.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -44,7 +45,7 @@ public class WindowExit extends Window {
                 remove();
             }
         });
-        btnCancel = new ImageTextButton("Cancel", skin, "cancel");
+        btnCancel = new ImageTextButton(HM.game.bundle.get("no"), skin, "cancel");
         btnCancel.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

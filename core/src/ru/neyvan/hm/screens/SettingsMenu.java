@@ -30,10 +30,10 @@ public class SettingsMenu extends ScreenMenuModel{
     public SettingsMenu(){
         super();
 
-        title = new Label("Settings", skin, "title");
+        title = new Label(HM.game.bundle.get("settings"), skin, "title");
         title.setAlignment(Align.center);
 
-        checkMusic = new CheckBox("Music", skin);
+        checkMusic = new CheckBox(HM.game.bundle.get("music"), skin);
         checkMusic.setChecked(HM.game.settings.isMusic);
         checkMusic.addListener(new ChangeListener() {
             @Override
@@ -56,7 +56,7 @@ public class SettingsMenu extends ScreenMenuModel{
             }
         });
 
-        checkSound = new CheckBox("Sound", skin);
+        checkSound = new CheckBox(HM.game.bundle.get("sound"), skin);
         checkSound.setChecked(HM.game.settings.isSound);
         checkSound.addListener(new ChangeListener() {
             @Override
@@ -73,7 +73,7 @@ public class SettingsMenu extends ScreenMenuModel{
             }
         });
 
-        checkWelcome = new CheckBox("Welcome Screen", skin);
+        checkWelcome = new CheckBox(HM.game.bundle.get("welcomeScreen"), skin);
         checkWelcome.setChecked(HM.game.settings.welcome);
         checkWelcome.addListener(new ChangeListener() {
             @Override
@@ -82,17 +82,17 @@ public class SettingsMenu extends ScreenMenuModel{
             }
         });
 
-        btnChangeName = new TextButton("Change name", skin);
+        btnChangeName = new TextButton(HM.game.bundle.get("rename"), skin);
         btnChangeName.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                WindowRename windowNewName = new WindowRename("Rename", skin, "octagon", stage);
+                WindowRename windowNewName = new WindowRename(HM.game.bundle.get("rename"), skin, "octagon", stage);
                 windowNewName.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
                 stage.addActor(windowNewName);
             }
         });
 
-        btnBack = new TextButton("Back", skin);
+        btnBack = new TextButton(HM.game.bundle.get("back"), skin);
         btnBack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

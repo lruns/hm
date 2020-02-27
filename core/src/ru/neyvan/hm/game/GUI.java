@@ -301,7 +301,7 @@ public class GUI {
         gameCircle.setImages(i);
 
         updateLife();
-        updateScore();
+        scoreBox.setBeginScore(core.getGame().getScore());
         updateLevelInfo();
 
     }
@@ -445,23 +445,23 @@ public class GUI {
     }
 
     public void showStart(final float time) {
-        settingShowInfo("Start game!", time);
+        settingShowInfo(HM.game.bundle.get("startGame"), time);
     }
     public void showLose(float time) {
-        settingShowInfo("Game over!", time);
+        settingShowInfo(HM.game.bundle.get("gameOver"), time);
     }
     public void showWin(float time) {
-        settingShowInfo("Level complete!", time);
+        settingShowInfo(HM.game.bundle.get("levelComplete"), time);
     }
     public void showEpisodeComplete(float time) {
-        settingShowInfo("All episode complete!", time);
+        settingShowInfo(HM.game.bundle.get("allEpisodeComplete"), time);
     }
     public void showAllGameComplete(float time) {
-        settingShowInfo("You complete all game!", time);
+        settingShowInfo(HM.game.bundle.get("allGameComplete"), time);
     }
     public void showHelp(float time, boolean checkClick) {
-        if(checkClick) settingShowInfo("Click!", time, true);
-        else  settingShowInfo("Not Click!", time, true);
+        if(checkClick) settingShowInfo(HM.game.bundle.get("click"), time, true);
+        else  settingShowInfo(HM.game.bundle.get("noclick"), time, true);
     }
 
     private void settingShowInfo(String text, float time){

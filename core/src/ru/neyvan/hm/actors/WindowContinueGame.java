@@ -31,11 +31,11 @@ public class WindowContinueGame extends Window {
         setModal(true);
 
         this.parent = this;
-        info = new Label("Do you want to continue game?", skin, "advira");
+        info = new Label(HM.game.bundle.get("continueGameTitle"), skin, "advira");
         info.setWrap(true);
         info.setAlignment(Align.center);
 
-        btnContinue = new ImageTextButton("Continue", skin, "ok");
+        btnContinue = new ImageTextButton(HM.game.bundle.get("continue"), skin, "ok");
         btnContinue.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -43,7 +43,7 @@ public class WindowContinueGame extends Window {
                 remove();
             }
         });
-        btnCancel = new ImageTextButton("Cancel", skin, "cancel");
+        btnCancel = new ImageTextButton(HM.game.bundle.get("cancel"), skin, "cancel");
         btnCancel.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -51,19 +51,19 @@ public class WindowContinueGame extends Window {
             }
         });
 
-        btnNewGame = new ImageTextButton("New game", skin);
+        btnNewGame = new ImageTextButton(HM.game.bundle.get("newGame"), skin);
         btnNewGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                final Window windowAsk = new Window("New game", skin, "octagon");
+                final Window windowAsk = new Window(HM.game.bundle.get("newGame"), skin, "octagon");
                 windowAsk.getTitleLabel().setAlignment(Align.center);
                 windowAsk.setModal(true);
 
-                Label info2 = new Label("Are you sure you want to create new game (old game will be deleted)?", skin, "advira");
+                Label info2 = new Label(HM.game.bundle.get("newGameDanger"), skin, "advira");
                 info2.setWrap(true);
                 info2.setAlignment(Align.center);
 
-                Button btnOk2 = new ImageTextButton("Yes", skin, "ok");
+                Button btnOk2 = new ImageTextButton(HM.game.bundle.get("yes"), skin, "ok");
                 btnOk2.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -73,7 +73,7 @@ public class WindowContinueGame extends Window {
                         windowAsk.remove();
                     }
                 });
-                Button btnCancel2 = new ImageTextButton("No", skin, "cancel");
+                Button btnCancel2 = new ImageTextButton(HM.game.bundle.get("no"), skin, "cancel");
                 btnCancel2.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {

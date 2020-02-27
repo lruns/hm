@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
+import ru.neyvan.hm.HM;
+
 /**
  * Created by AndyGo on 11.03.2018.
  */
@@ -43,7 +45,7 @@ public class LifesBox extends Actor {
         switch (lifes) {
             case 0:
                 dead = true;
-                text = "Dead";
+                text = HM.game.bundle.get("dead");
                 layout.setText(font, text);
                 float x = (getWidth() - layout.width) / 2;
                 float y = layout.height + (getHeight() - layout.height) / 2;

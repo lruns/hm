@@ -42,7 +42,7 @@ public class Player {
         return true;
     }
     private boolean isErrorName(String name){
-        return name.equals("Your Name") || name.equals("Your New Name") || name.trim().isEmpty();
+        return name.equals(HM.game.bundle.get("yourName")) || name.equals(HM.game.bundle.get("yourRename")) || name.trim().isEmpty();
     }
 
     public boolean isPlayerExist() {

@@ -1,6 +1,7 @@
 package  ru.neyvan.hm.levels;
 
 import ru.neyvan.hm.Constants;
+import ru.neyvan.hm.HM;
 
 public class LevelNumber {
 	private int episode;
@@ -39,6 +40,9 @@ public class LevelNumber {
 
 	public Difficult getDifficult() {
 		return Constants.DIFFICULTS[episode-1];
+	}
+	public String printDiffcult(){
+		return HM.game.bundle.get(Constants.DIFFICULTS[episode-1].name());
 	}
 
 	// Return true, if is last level of someone episode
