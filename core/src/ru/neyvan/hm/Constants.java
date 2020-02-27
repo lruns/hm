@@ -11,8 +11,8 @@ public class Constants {
     public static String WEBSITE = "www.neyvan.ru";
     public static String EMAIL = "neyvan.development@gmail.com";
 
-    public static int SCORE_DELTA = 50; // add (or remove) for every true(false) turn and multiplied
-                        // in game to episode number -> you can have 50, 100, 150 ...
+    public static int SCORE_DELTA = 10; // add (or remove) for every true(false) turn and multiplied
+                        // in game to episode number -> you can have 10, 20, 30 ...
 
     // Smaller screen height - screen resolution (15:9)
     public static int MIN_WIDTH = 480;

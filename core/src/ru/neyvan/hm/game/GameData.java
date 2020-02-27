@@ -13,6 +13,7 @@ public class GameData {
 
     public int lifes;
     public int score;
+    public int accumulatedScore;
 
     public int number;
     public LevelNumber levelNumber;
@@ -23,6 +24,8 @@ public class GameData {
     public int countEffects;
     public float accelerationSpeedChangeTS, speedChangeTS, timeStep, timeAfterStep;
     public ArrayList<Surprise> surprises;
+    public ArrayList<Integer> places;
+
 
     public GameData(){
         //not used!!! Only for json serialization
@@ -32,6 +35,7 @@ public class GameData {
         nextLevel(level);
         lifes = 5;
         score = 0;
+        accumulatedScore = 0;
     }
 
     public void nextLevel(Level level){
@@ -42,6 +46,7 @@ public class GameData {
         accelerationSpeedChangeTS = level.getAccelerationSpeedChangeTS();
         currentSymbol = new Symbol(level.getFirstNumber());
         surprises = level.getSurprises();
+        places = level.getListOfPlacesSurp();
         countMove = 0;
         countEffects = 0;
         if (level.isFixedCounting()) {

@@ -72,6 +72,9 @@ public class WaitState extends State{
                         core.getGui().updateLife();
                     }else{
                         core.getGame().increaseScore(cat.getNumber());
+                        if(core.getGame().isAccumulatedScoreLimit()){
+                            core.getGui().updateLife();
+                        }
                         core.getGui().updateScore();
                     }
                 }else if(surprise instanceof ChangeSpeedTime){
@@ -108,6 +111,9 @@ public class WaitState extends State{
             //number is pressed by player and number is true => player did correct solution
             core.getGui().congratulation( glowTime());
             core.getGame().increaseScore();
+            if(core.getGame().isAccumulatedScoreLimit()){
+                core.getGui().updateLife();
+            }
             core.getGui().updateScore();
             Gdx.app.debug("Wait.displayClicked", "Clicked good number: " + symbol.getNumber());
         } else {
@@ -135,6 +141,9 @@ public class WaitState extends State{
                 //number is not pressed by player and number is false => player did correct solution
                 core.getGui().congratulation(glowTime());
                 core.getGame().increaseScore();
+                if(core.getGame().isAccumulatedScoreLimit()){
+                    core.getGui().updateLife();
+                }
                 core.getGui().updateScore();
                 Gdx.app.debug("Wait.displayNotClicked", "Missed bad number: " + symbol.getNumber());
             }else{

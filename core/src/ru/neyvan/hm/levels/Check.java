@@ -1,5 +1,7 @@
 package ru.neyvan.hm.levels;
 
+import com.badlogic.gdx.Gdx;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,7 +13,7 @@ import ru.neyvan.hm.terms.Term;
  */
 
 public class Check implements Serializable{
-    public static final int AND_OPERATION = 1, OR_OPERATION = 2, NOT_OPERATION = 3;
+    public static final int  OR_OPERATION = 1, AND_OPERATION = 2, NOT_OPERATION = 3;
     private static final int BORDER_ID_CHECK = 97;
     private static final int BORDER_ID_TERM = 122;
     private int ID; //byte 0-10;
@@ -34,8 +36,17 @@ public class Check implements Serializable{
     }
     private boolean b1, b2;
     public void makeOperation(List<Term> terms, List<Check> checks, int currentNumber){
-        if(idFirstOperand < BORDER_ID_CHECK) b1 = checks.get(idFirstOperand).getResult();
-        else b1 = terms.get(idFirstOperand-BORDER_ID_CHECK).checkCondition(currentNumber);
+        Gdx.app.debug("type of operation", typeOfOperation+"");
+        if(idFirstOperand < BORDER_ID_CHECK){
+            Gdx.app.debug("b1", "check");
+            b1 = checks.get(idFirstOperand).getResult();
+        }
+        else{
+            Gdx.app.debug("b1", "term");
+            b1 = terms.get(idFirstOperand-BORDER_ID_CHECK).checkCondition(currentNumber);
+        }
+
+
 
         if(typeOfOperation == NOT_OPERATION){
             result = !b1;
@@ -44,6 +55,9 @@ public class Check implements Serializable{
 
         if(idSecondOperand < BORDER_ID_CHECK) b2 = checks.get(idSecondOperand).getResult();
         else b2 = terms.get(idSecondOperand-BORDER_ID_CHECK).checkCondition(currentNumber);
+
+        Gdx.app.debug("b1", b1+"");
+        Gdx.app.debug("b2", b2+"");
 
         switch (typeOfOperation){
             case AND_OPERATION:
@@ -99,10 +113,10 @@ public class Check implements Serializable{
         if(iteration != 1) text += "(";
         switch (typeOfOperation){
             case AND_OPERATION:
-                text = HM.game.bundle.format("andOperation", text1, text2);
+                text += HM.game.bundle.format("andOperation", text1, text2);
                 break;
             case OR_OPERATION:
-                text = HM.game.bundle.format("orOperation", text1, text2);
+                text += HM.game.bundle.format("orOperation", text1, text2);
                 break;
         }
         if(iteration != 1) text += ")";

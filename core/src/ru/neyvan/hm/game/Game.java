@@ -3,6 +3,8 @@ package ru.neyvan.hm.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
+import java.util.Iterator;
+
 import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.levels.Check;
@@ -69,26 +71,35 @@ public class Game {
         return  0.5f * gameData.timeAfterStep;
     }
     public float getProgress(){
-        Gdx.app.debug("Progress:", " "+ (float) gameData.countMove / level.getCountOfMoves());
-        return  (float) gameData.countMove / level.getCountOfMoves();
+        if(level.isFixedCounting()){
+            Gdx.app.debug("Progress:", " " + (float) gameData.countMove / level.getFixedNumbers().size());
+            return (float) gameData.countMove / level.getFixedNumbers().size();
+        }else {
+            Gdx.app.debug("Progress:", " " + (float) gameData.countMove / level.getCountOfMoves());
+            return (float) gameData.countMove / level.getCountOfMoves();
+        }
     }
     public void increaseLifes(int delta) {
         gameData.lifes += Math.abs(delta);
     }
     public void increaseScore() {
         gameData.score += gameData.levelNumber.getEpisode() * Constants.SCORE_DELTA;
+        gameData.accumulatedScore += gameData.levelNumber.getEpisode() * Constants.SCORE_DELTA;
     }
     public void increaseScore(int delta) {
         gameData.score += Math.abs(delta);
+        gameData.accumulatedScore += Math.abs(delta);
     }
     public void decreaseLifes(int delta) {
         gameData.lifes -= Math.abs(delta);
     }
     public void decreaseScore() {
         gameData.score -= gameData.levelNumber.getEpisode() * Constants.SCORE_DELTA;
+        gameData.accumulatedScore -= gameData.levelNumber.getEpisode() * Constants.SCORE_DELTA;
     }
     public void decreaseScore(int delta) {
         gameData.score -= Math.abs(delta);
+        gameData.accumulatedScore -= Math.abs(delta);
     }
 
     public boolean checkClick() {
@@ -99,14 +110,20 @@ public class Game {
     }
 
     public boolean isPlayerLose() {
-        return  gameData.lifes <= 0;
+        //return gameData.lifes <= 0;
+        return  false;
     }
 
     public boolean isGameFinished() {
-        return gameData.countMove >= level.getCountOfMoves();
+        if(level.isFixedCounting()){
+            return gameData.countMove >= level.getFixedNumbers().size();
+        }else{
+            return gameData.countMove >= level.getCountOfMoves();
+        }
         //return gameData.countMove >= 5;
     }
 
+    private Iterator<Integer> placeIterator;
     // Change number (or surprise) for next turn. Also change time step (only for numbers).
     public void nextTurn() {
         if (gameData.surprises.size() != 0 && level.isRandomSurpriseMove()) {
@@ -120,18 +137,23 @@ public class Game {
         }
        // Iterator<int> placeIterator
         if (gameData.countEffects < gameData.surprises.size()) {
-            for (int place : level.getListOfPlacesSurp()) {
+            placeIterator = gameData.places.iterator();
+            while (placeIterator.hasNext()){
+                int place = placeIterator.next();
                 if (place == gameData.countMove) {
 
                     if (level.isOutOfOrderAppearanceSurprise()) {
                         int i = MathUtils.random(0, gameData.surprises.size() - 1);
                         gameData.currentSymbol.setSurprise(gameData.surprises.get(gameData.countEffects));
                         gameData.surprises.remove(i);
+                        gameData.countEffects++;
+                        placeIterator.remove();
                         Gdx.app.debug("Game.nextTurn", "Set placed out order surprise:" + gameData.currentSymbol.getSurpise().toString());
                         return;
                     }
                     gameData.currentSymbol.setSurprise(gameData.surprises.get(gameData.countEffects));
                     gameData.countEffects++;
+                    placeIterator.remove();
                     Gdx.app.debug("Game.nextTurn", "Set placed surprise:" + gameData.currentSymbol.getSurpise().toString());
                     return;
                 }
@@ -152,13 +174,14 @@ public class Game {
     public void nextLevel() {
         LevelNumber levelNumber;
         if(isEpisodeComplete()){
-            HM.game.player.completeEpisode(gameData.levelNumber);
             levelNumber = new LevelNumber(gameData.levelNumber.getEpisode()+1, 1);
+            HM.game.player.openEpisode(levelNumber);
         }else{
             levelNumber = new LevelNumber(gameData.levelNumber.getEpisode(), gameData.levelNumber.getLevel()+1);
         }
         level = levelLoader.load(levelNumber);
         gameData.nextLevel(level);
+        saveGame();
     }
 
     // Return true, if you played last level of LAST episode and won
@@ -225,9 +248,18 @@ public class Game {
 
         // Условия прохождения уровня
         text.append(HM.game.bundle.get("conditionLevelComplete"));
-        text.append(level.getChecksOfMove().get(0).printDescription(level.getTerms(), level.getChecksOfMove()));
+        text.append(level.getChecksOfMove().get(level.getChecksOfMove().size()-1).printDescription(level.getTerms(), level.getChecksOfMove()));
         text.append("\n");
 
         return text.toString();
+    }
+
+    public boolean isAccumulatedScoreLimit() {
+        if(gameData.accumulatedScore > 1000) {
+            gameData.accumulatedScore -= 1000;
+            gameData.lifes++;
+            return true;
+        }
+        return false;
     }
 }

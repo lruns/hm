@@ -67,13 +67,13 @@ public class Player {
         boolean open = false;
         if(levelNumber.getEpisode() == 1) open = preferences.getBoolean("episode"+levelNumber.getEpisode(), true);
         else open = preferences.getBoolean("episode"+levelNumber.getEpisode(), false);
-
         return open;
     }
 
     // You complete episode and open new episode
-    public void completeEpisode(LevelNumber levelNumber){
+    public void  openEpisode(LevelNumber levelNumber){
         preferences.putBoolean("episode"+levelNumber.getEpisode(), true);
+        Gdx.app.debug("openEpisode"+levelNumber.getEpisode(), preferences.getBoolean("episode"+levelNumber.getEpisode())+"");
         preferences.flush();
     }
 

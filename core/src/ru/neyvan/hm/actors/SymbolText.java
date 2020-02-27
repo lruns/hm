@@ -45,8 +45,8 @@ public class SymbolText extends Actor {
     private Color fontColor;
     private ShaderProgram fontShader;
     private ShaderProgram transitionShader;
-    private ShaderProgram burnShader;
-    private ShaderProgram explosionShader;
+ //   private ShaderProgram burnShader;
+ //   private ShaderProgram explosionShader;
     private ShaderProgram oldShader;
     private String text;
     private float duration, time, percent;
@@ -90,7 +90,7 @@ public class SymbolText extends Actor {
         layout.setText(font, text);
         fontShader = HM.game.shader.getFontShader();
         transitionShader = HM.game.shader.getFontTransitionShader();
-        explosionShader = HM.game.shader.getExplosionShader();
+ //       explosionShader = HM.game.shader.getExplosionShader();
 
         setSize(maxWidth, maxHeight);
         setSymbol(null);
@@ -146,20 +146,20 @@ public class SymbolText extends Actor {
             batch.begin();
         }else if(burn) {
 
-        }else if(explosion){
-            Gdx.gl.glActiveTexture(GL_TEXTURE1);
-            nextTextureRegion.getTexture().bind();
-
-            Gdx.gl.glActiveTexture(GL_TEXTURE0);
-            currentTextureRegion.getTexture().bind();
-
-
-
-            oldShader = batch.getShader();
-
-            batch.setShader(burnShader);
-            batch.draw(currentTextureRegion, padding, padding, getWidth()-2*padding, getHeight()-2*padding);
-            batch.setShader(oldShader);
+//        }else if(explosion){
+//            Gdx.gl.glActiveTexture(GL_TEXTURE1);
+//            nextTextureRegion.getTexture().bind();
+//
+//            Gdx.gl.glActiveTexture(GL_TEXTURE0);
+//            currentTextureRegion.getTexture().bind();
+//
+//
+//
+//            oldShader = batch.getShader();
+//
+//            batch.setShader(burnShader);
+//            batch.draw(currentTextureRegion, padding, padding, getWidth()-2*padding, getHeight()-2*padding);
+//            batch.setShader(oldShader);
         }else{
             batch.draw(currentTextureRegion, padding, padding, getWidth()-2*padding, getHeight()-2*padding);
             //batch.draw(currentTextureRegion, 0, 0, getWidth(), getHeight());
@@ -185,8 +185,7 @@ public class SymbolText extends Actor {
             transitionShader.end();
 
 
-
-            if(time <= 0){
+            if (time <= 0) {
                 currentTextureRegion = nextTextureRegion;
                 nextTextureRegion = null;
                 currentTime = 0;
@@ -194,15 +193,15 @@ public class SymbolText extends Actor {
                 burn = false;
                 explosion = false;
             }
-
-        }else if(burn) {
-
-        }else if(explosion){
-            explosionShader.begin();
-            explosionShader.setUniformf("time", time);
-            explosionShader.setUniformf("resolution", getWidth(), getHeight());
-            explosionShader.end();
         }
+//        }else if(burn) {
+//
+//        }else if(explosion){
+//            explosionShader.begin();
+//            explosionShader.setUniformf("time", time);
+//            explosionShader.setUniformf("resolution", getWidth(), getHeight());
+//            explosionShader.end();
+//        }
 
     }
 

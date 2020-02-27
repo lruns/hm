@@ -279,7 +279,7 @@ public class GUI {
 
     public void prepareLevel() {
 
-        int i = Constants.EPISODE_APPEARANCE[core.getGame().getLevelNumber().getEpisode()];
+        int i = Constants.EPISODE_APPEARANCE[core.getGame().getLevelNumber().getEpisode()-1];
 
         background.setDrawable(new TextureRegionDrawable(HM.game.texture.getGameBackground(core.getGame().getLevel().getI_background())));
         tableLeft.setBackground(new TextureRegionDrawable(HM.game.texture.atlas.findRegion("leftUI"+i)));

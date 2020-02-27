@@ -2,6 +2,7 @@ package ru.neyvan.hm.states;
 
 import com.badlogic.gdx.Gdx;
 
+import ru.neyvan.hm.HM;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class EpisodeCompleteState extends State {

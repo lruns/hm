@@ -35,6 +35,6 @@ public class LastNumeral extends Term {
 
     @Override
     public String printDescription() {
-        return HM.game.bundle.format("lastNumeral", numberPosition, lastNumeral);
+        return HM.game.bundle.format("lastNumeral", lastNumeral);
     }
 }

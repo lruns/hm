@@ -67,8 +67,8 @@ public class PlayScreen implements Screen {
     public final float winStateTime = 2f;
     public final float loseStateTime = 3f;
     public final float portalStateTime = 6f;
-    public final float allGameCompleteStateTime = 10f;
-    public final float episodeCompleteStateTime = 10f;
+    public final float allGameCompleteStateTime = 3f;
+    public final float episodeCompleteStateTime = 3f;
 
     private State state;
     private BeginState beginState;

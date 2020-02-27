@@ -861,14 +861,14 @@ public class ScreenLevelEditor extends ScreenAdapter {
                         int a6= Integer.parseInt(textField6.getText());
                         TextField textField7 = (TextField)(termBox.boxInBox.getChildren().get(1));
                         int a7= Integer.parseInt(textField7.getText());
-                        term = new LastNumeral(ID, a6, a7);
+                        term = new ArithmeticProgression(ID, a6, a7);
                         break;
                     case GeometricProgression:
                         TextField textField8 = (TextField)(termBox.boxInBox.getChildren().get(0));
                         int a8= Integer.parseInt(textField8.getText());
                         TextField textField9 = (TextField)(termBox.boxInBox.getChildren().get(1));
                         int a9 = Integer.parseInt(textField9.getText());
-                        term = new LastNumeral(ID, a8, a9);
+                        term = new GeometricProgression(ID, a8, a9);
                         break;
                 }
                 list2.add(term);

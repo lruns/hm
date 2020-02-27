@@ -13,7 +13,7 @@ public class ShaderManager implements Manager {
     private ShaderProgram circle;
     private ShaderProgram fontShader;
     private ShaderProgram fontTransitionShader;
-    private ShaderProgram explosionShader;
+   // private ShaderProgram explosionShader;
     private ShaderProgram transitionShader; // transition between game and portal
     private ShaderProgram portalShader;
     private ShaderProgram colorMusicShader;
@@ -33,13 +33,13 @@ public class ShaderManager implements Manager {
         fontTransitionShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
                 Gdx.files.internal("shaders/font_transition_fragment.glsl"));
         if (!fontTransitionShader.isCompiled()) {
-            Gdx.app.error("fontTransitionShader of Number Text", "compilation failed:\n" + explosionShader);
+            Gdx.app.error("fontTransitionShader of Number Text", "compilation failed:\n" + fontTransitionShader);
         }
-        explosionShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
-                Gdx.files.internal("shaders/explosion_fragment.glsl"));
-        if (!explosionShader.isCompiled()) {
-            Gdx.app.error("explosionShader of Number Text", "compilation failed:\n" + explosionShader);
-        }
+//        explosionShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
+//                Gdx.files.internal("shaders/explosion_fragment.glsl"));
+//        if (!explosionShader.isCompiled()) {
+//            Gdx.app.error("explosionShader of Number Text", "compilation failed:\n" + explosionShader);
+//        }
         transitionShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl"),
                 Gdx.files.internal("shaders/transition_fragment.glsl"));
         if(!transitionShader.isCompiled())
@@ -70,9 +70,9 @@ public class ShaderManager implements Manager {
     public ShaderProgram getFontShader() {
         return fontShader;
     }
-    public ShaderProgram getExplosionShader() {
-        return explosionShader;
-    }
+ //   public ShaderProgram getExplosionShader() {
+//        return explosionShader;
+ //   }
     public ShaderProgram getFontTransitionShader() {
         return fontTransitionShader;
     }
@@ -93,7 +93,7 @@ public class ShaderManager implements Manager {
         circle.dispose();
         fontShader.dispose();
         fontTransitionShader.dispose();
-        explosionShader.dispose();
+  //      explosionShader.dispose();
         transitionShader.dispose();
         portalShader.dispose();
         colorMusicShader.dispose();
