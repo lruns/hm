@@ -25,9 +25,8 @@ public class ScreenMenuModel implements Screen {
     protected boolean pause = true;
 
     public ScreenMenuModel() {
-        stage = new Stage(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
+        stage = new StageExtension(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
                 Constants.MAX_WIDTH, Constants.MAX_HEIGHT));
-
         skin = HM.game.texture.skin;
         HM.game.menuFieldPainter.create();
     }

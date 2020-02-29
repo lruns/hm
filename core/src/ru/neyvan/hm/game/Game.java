@@ -110,8 +110,8 @@ public class Game {
     }
 
     public boolean isPlayerLose() {
-        //return gameData.lifes <= 0;
-        return  false;
+        return gameData.lifes <= 0;
+        //return  false;
     }
 
     public boolean isGameFinished() {
@@ -206,19 +206,18 @@ public class Game {
             text.append(HM.game.bundle.format("progress", getProgress() * 100f));
             text.append("\n\n");
         }
-        // Введение в самом первом уровне
-        if(gameData.levelNumber.getEpisode() == 1 && gameData.levelNumber.getLevel() == 1) {
-            text.append(HM.game.bundle.get("intro"));
-            text.append("\n\n");
-            text.append(HM.game.bundle.get("howToPlay"));
-            text.append("\n\n");
-        }
 
-        // Информация о введении в игру новых сюрпризов и вариантов условий
-        text.append(HM.game.bundle.get("level"+gameData.levelNumber.getEpisode()+"."+gameData.levelNumber.getLevel()));
+        // Условия прохождения уровня
+        text.append(HM.game.bundle.get("conditionStart"));
+        text.append("\n\n");
+        text.append(HM.game.bundle.get("conditionMiddle"));
+        text.append(level.getChecksOfMove().get(level.getChecksOfMove().size()-1).printDescription(level.getTerms(), level.getChecksOfMove()));
+        text.append("\n\n");
+        text.append(HM.game.bundle.get("conditionEnd"));
         text.append("\n\n");
 
-        text.append(HM.game.bundle.get("condition"));
+        // Второстепенные условия
+        text.append(HM.game.bundle.get("alsoCondition"));
         text.append("\n\n");
 
         // Вариант появления чисел
@@ -233,23 +232,27 @@ public class Game {
         // Время ходов
         if(level.getSpeedChangeTS() == 0 && level.getAccelerationSpeedChangeTS() == 0){
             text.append(HM.game.bundle.format("timeStepWithoutSpeed", level.getTimeStep(), level.getTimeAfterStep()));
-            text.append("\n");
+            text.append("\n\n");
         }else{
             if(level.getAccelerationSpeedChangeTS() != 0){
                 text.append(HM.game.bundle.format("timeStepWithAcceleration", level.getTimeStep(), level.getTimeAfterStep(),
                         level.getSpeedChangeTS(), level.getSpeedChangeTS()+level.getAccelerationSpeedChangeTS()));
-                text.append("\n");
+                text.append("\n\n");
             }else{
                 text.append(HM.game.bundle.format("timeStepWithSpeed", level.getTimeStep(), level.getTimeAfterStep(),
                         level.getSpeedChangeTS()));
-                text.append("\n");
+                text.append("\n\n");
             }
         }
 
-        // Условия прохождения уровня
-        text.append(HM.game.bundle.get("conditionLevelComplete"));
-        text.append(level.getChecksOfMove().get(level.getChecksOfMove().size()-1).printDescription(level.getTerms(), level.getChecksOfMove()));
-        text.append("\n");
+        // Информация о введении в игру новых сюрпризов и вариантов условий
+        String newText = HM.game.bundle.get("level"+gameData.levelNumber.getEpisode()+"."+gameData.levelNumber.getLevel());
+        if(!newText.equals("")){
+            text.append(HM.game.bundle.get("levelNew"));
+            text.append("\n\n");
+            text.append(newText);
+            text.append("\n\n");
+        }
 
         return text.toString();
     }

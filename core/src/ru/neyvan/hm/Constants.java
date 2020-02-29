@@ -7,7 +7,7 @@ import ru.neyvan.hm.levels.Difficult;
  */
 
 public class Constants {
-    public static String VERSION = "1.0.0 alpha";
+    public static String VERSION = "1.0.0 beta";
     public static String WEBSITE = "www.neyvan.ru";
     public static String EMAIL = "neyvan.development@gmail.com";
 

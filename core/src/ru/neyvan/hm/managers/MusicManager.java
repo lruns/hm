@@ -2,6 +2,7 @@ package ru.neyvan.hm.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.utils.Timer;
 
 import ru.neyvan.hm.HM;
 
@@ -12,8 +13,19 @@ import ru.neyvan.hm.HM;
 public class MusicManager implements Manager{
     Music music;
     public void init(){
-        music = Gdx.audio.newMusic(Gdx.files.internal("sound_music/music1.mp3"));
-        music.setLooping(true);
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound_music/music0.mp3"));
+        music.setOnCompletionListener(new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(final Music music) {
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        if( HM.game.settings.isMusic) music.play();
+                    }
+                }, 60f);
+            }
+        });
+        //music.setLooping(true);
     }
     public void play(){
         if( HM.game.settings.isMusic) {

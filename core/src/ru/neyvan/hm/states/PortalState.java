@@ -28,7 +28,6 @@ public class PortalState extends State {
         updateLevel = false;
 
         core.getGui().disappear(transitionTime);
-        core.getGui().resetGamePause();
 
         Timer.schedule(new Timer.Task() {
             @Override
@@ -49,8 +48,8 @@ public class PortalState extends State {
         }
          if(!updateLevel && inPortal()){
             core.getGame().nextLevel();
-            core.getGui().setLevelDescription(core.getGame().getLevelDescription());
             core.getGui().prepareLevel();
+            core.getGui().resetGamePause(core.getGame().getLevelNumber(), core.getGame().getLevelDescription());
             updateLevel = true;
             Timer.schedule(new Timer.Task() {
                 @Override

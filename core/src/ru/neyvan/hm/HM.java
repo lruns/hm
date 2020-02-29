@@ -75,10 +75,9 @@ public class HM extends Game {
 
     public void initManagers(){
         FileHandle fileHandle = Gdx.files.internal("i18n/Bundle");
-        // ПОЗЖЕ УБЕРИ !!!!!!!!!!!!!!!!!!!!!
-            Locale locale = new Locale("ru");
-        //
-        bundle = I18NBundle.createBundle(fileHandle, locale);
+         //   Locale locale = new Locale("en");
+        //bundle = I18NBundle.createBundle(fileHandle, locale);
+        bundle = I18NBundle.createBundle(fileHandle);
         texture.init();
         shader.init();
         sound.init();

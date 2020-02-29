@@ -54,4 +54,9 @@ public class LevelNumber {
 	public boolean isLastGame() {
 		return episode == Constants.MAX_EPISODE && level == Constants.MAX_LEVEL[episode-1];
 	}
+
+	// Return true, if is first level of first episode
+    public boolean isFirstFirstGame() {
+		return episode == 1 && level == 1;
+    }
 }

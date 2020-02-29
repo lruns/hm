@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.WindowExit;
+import ru.neyvan.hm.levels.LevelNumber;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class GamePause {
@@ -35,7 +37,9 @@ public class GamePause {
     private Texture texture;
     private Skin skin;
 
+    private String text;
     private boolean isBeginGame;
+    private boolean isNext = false;
 
     public GamePause(PlayScreen playScreen, Skin skin, Stage stage) {
         this.playScreen = playScreen;
@@ -88,7 +92,13 @@ public class GamePause {
         btnPlay.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                play();
+                if(isNext){
+                    infoScroll.setText(text);
+                    btnPlay.setText(HM.game.bundle.get("play"));
+                    isNext = false;
+                }else {
+                    play();
+                }
             }
         });
 
@@ -103,7 +113,6 @@ public class GamePause {
         table.setDebug(false);
 
         stage.addActor(table);
-        setBeginGame();
     }
 
     public void exit() {
@@ -116,16 +125,30 @@ public class GamePause {
         playScreen.resumeGame();
     }
 
-    public void setLevelDescription(String text){
-        infoScroll.setText(text);
-    }
-
-    public void setBeginGame(){
-        isBeginGame = true;
+    public void setBeginGame(LevelNumber levelNumber, String text){
+        this.text = text;
         title.setText(HM.game.bundle.get("begin"));
-        btnPlay.setText(HM.game.bundle.get("play"));
         btnExit.setVisible(false);
+        isBeginGame = true;
         table.getCell(scroller).height((table.getHeight() * 0.68f));
+
+        if(levelNumber.isFirstFirstGame()){
+            // Введение в самом первом уровне
+            isNext = true;
+            StringBuilder textBuild = new StringBuilder();
+            textBuild.append(HM.game.bundle.get("intro"));
+            textBuild.append("\n\n");
+            textBuild.append(HM.game.bundle.get("howToPlay"));
+            textBuild.append("\n\n");
+            textBuild.append(HM.game.bundle.get("moreInfo"));
+            textBuild.append("\n\n");
+
+            infoScroll.setText(textBuild.toString());
+            btnPlay.setText(HM.game.bundle.get("next"));
+        }else {
+            infoScroll.setText(text);
+            btnPlay.setText(HM.game.bundle.get("play"));
+        }
     }
 
     public void setNormalGame(){
