@@ -4,7 +4,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
-import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 
 public class DesktopLauncher {

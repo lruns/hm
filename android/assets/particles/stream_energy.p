@@ -31,8 +31,10 @@ scaling1: 1.0
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: true
 lowMin: -10.0
@@ -77,7 +79,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 20.0
@@ -91,6 +93,8 @@ timelineCount: 3
 timeline0: 0.0
 timeline1: 0.5205479
 timeline2: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: -16.0
@@ -162,7 +166,8 @@ aligned: true
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 particle.png
 
 
@@ -199,8 +204,10 @@ scaling1: 1.0
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: true
 lowMin: -10.0
@@ -245,7 +252,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 20.0
@@ -259,6 +266,8 @@ timelineCount: 3
 timeline0: 0.0
 timeline1: 0.5205479
 timeline2: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: -16.0
@@ -330,7 +339,8 @@ aligned: true
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 particle.png
 
 
@@ -363,8 +373,10 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: false
 - Y Offset - 
@@ -400,7 +412,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 16.0
 lowMax: 16.0
 highMin: 16.0
@@ -414,6 +426,8 @@ timelineCount: 3
 timeline0: 0.0
 timeline1: 0.48630136
 timeline2: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -470,5 +484,7 @@ aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 particle.png
+

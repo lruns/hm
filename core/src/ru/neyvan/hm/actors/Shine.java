@@ -4,9 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.Gdx;
 
 import ru.neyvan.hm.HM;
-
+import ru.neyvan.hm.Constants;
 /**
  * Created by AndyGo on 12.06.2018.
  */
@@ -18,9 +19,20 @@ public class Shine extends Actor {
     private float speed;
 
     public Shine(){
-        modelEffect1 = HM.game.manager.get("particles/good_shine.p", ParticleEffect.class);
+       
+        
+
+        if(Constants.gwt){
+            modelEffect1 = new ParticleEffect();
+            modelEffect1.load(Gdx.files.internal("particles/good_shine.p"), HM.game.texture.atlas);
+            modelEffect2 = new ParticleEffect();
+            modelEffect2.load(Gdx.files.internal("particles/bad_shine.p"), HM.game.texture.atlas);
+        }
+        else{
+            modelEffect1 = HM.game.manager.get("particles/good_shine.p", ParticleEffect.class);
+            modelEffect2 = HM.game.manager.get("particles/bad_shine.p", ParticleEffect.class);
+        }
         modelEffectPool1 = new ParticleEffectPool(modelEffect1, 1, 2);
-        modelEffect2 = HM.game.manager.get("particles/bad_shine.p", ParticleEffect.class);
         modelEffectPool2 = new ParticleEffectPool(modelEffect2, 1, 2);
     }
 

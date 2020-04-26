@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.Gdx;
 
 import ru.neyvan.hm.HM;
+import ru.neyvan.hm.Constants;
 
 public class Explose extends Actor {
     private ParticleEffect exploseEffect;
@@ -19,7 +21,15 @@ public class Explose extends Actor {
 
     public Explose(float speed){
         this.speed = speed;
-        exploseEffect = HM.game.manager.get("particles/explosion.p", ParticleEffect.class);
+        if(Constants.gwt){
+            exploseEffect = new ParticleEffect();
+            exploseEffect.load(Gdx.files.internal("particles/explosion.p"), HM.game.texture.atlas);
+        }
+        else{
+            exploseEffect = HM.game.manager.get("particles/explosion.p", ParticleEffect.class);
+        }
+
+        
         exploseEffect.reset();
         exploseEffectPool = new ParticleEffectPool(exploseEffect, 1, 5);
     }

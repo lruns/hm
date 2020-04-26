@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.Gdx;
 
 import ru.neyvan.hm.HM;
+import ru.neyvan.hm.Constants;
 
 public class ChangeSpeedActor  extends Actor {
 
@@ -21,8 +23,17 @@ public class ChangeSpeedActor  extends Actor {
 
     public ChangeSpeedActor(float speed){
         this.speed = speed;
-        modelSpeedUp = HM.game.manager.get("particles/fire_speed.p", ParticleEffect.class);
-        modelSlowDown = HM.game.manager.get("particles/slow_speed.p", ParticleEffect.class);
+        
+        if(Constants.gwt){
+            modelSpeedUp = new ParticleEffect();
+            modelSpeedUp.load(Gdx.files.internal("particles/fire_speed.p"), HM.game.texture.atlas);
+            modelSlowDown = new ParticleEffect();
+            modelSlowDown.load(Gdx.files.internal("particles/slow_speed.p"), HM.game.texture.atlas);
+        }
+        else{
+            modelSpeedUp = HM.game.manager.get("particles/fire_speed.p", ParticleEffect.class);
+            modelSlowDown = HM.game.manager.get("particles/slow_speed.p", ParticleEffect.class);
+        }
         modelSpeedUp.reset();
         modelSlowDown.reset();
         modelSpeedUpPool = new ParticleEffectPool(modelSpeedUp, 1, 1);

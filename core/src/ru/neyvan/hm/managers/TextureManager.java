@@ -30,36 +30,54 @@ public class TextureManager implements Manager{
 
     @Override
     public void init() {
-        HM.game.manager.load("game_atlas.atlas", TextureAtlas.class);
-        HM.game.manager.load("shaders/shader.jpg", Texture.class);
 
-        ParticleEffectLoader.ParticleEffectParameter pep = new ParticleEffectLoader.ParticleEffectParameter();
-        pep.atlasFile = "game_atlas.atlas";
-        HM.game.manager.load("particles/stream_energy.p", ParticleEffect.class, pep);
-        HM.game.manager.load("particles/good_shine.p", ParticleEffect.class, pep);
-        HM.game.manager.load("particles/bad_shine.p", ParticleEffect.class, pep);
-        HM.game.manager.load("particles/explosion.p", ParticleEffect.class, pep);
-        HM.game.manager.load("particles/fire_speed.p", ParticleEffect.class, pep);
-        HM.game.manager.load("particles/slow_speed.p", ParticleEffect.class, pep);
+        if(Constants.gwt){
+            atlas = new TextureAtlas(Gdx.files.internal("game_atlas.atlas"));
+            skin = new Skin(Gdx.files.internal("style/hm_skin.json"));
 
-        SkinLoader.SkinParameter params = new SkinLoader.SkinParameter("style/hm_skin.atlas");
-        HM.game.manager.load("style/hm_skin.json", Skin.class, params);
-        HM.game.manager.finishLoading();
+            shaderTexture = new Texture("shaders/shader.jpg");
+            shaderTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            shaderTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-        atlas = HM.game.manager.get("game_atlas.atlas");
-        skin = HM.game.manager.get("style/hm_skin.json");
+            textureFont = new Texture(Gdx.files.internal("style/hm_numbers.png"), true);
+            textureFont.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
+            numberFont = new BitmapFont(Gdx.files.internal("style/hm_numbers.fnt"), new TextureRegion(textureFont), false);
 
-        for (Texture t : atlas.getTextures()) {
-            t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }else{
+            HM.game.manager.load("game_atlas.atlas", TextureAtlas.class);
+            HM.game.manager.load("shaders/shader.jpg", Texture.class); 
+            
+            ParticleEffectLoader.ParticleEffectParameter pep = new ParticleEffectLoader.ParticleEffectParameter();
+            pep.atlasFile = "game_atlas.atlas";
+            HM.game.manager.load("particles/stream_energy.p", ParticleEffect.class, pep);
+            HM.game.manager.load("particles/good_shine.p", ParticleEffect.class, pep);
+            HM.game.manager.load("particles/bad_shine.p", ParticleEffect.class, pep);
+            HM.game.manager.load("particles/explosion.p", ParticleEffect.class, pep);
+            HM.game.manager.load("particles/fire_speed.p", ParticleEffect.class, pep);
+            HM.game.manager.load("particles/slow_speed.p", ParticleEffect.class, pep);
+
+            SkinLoader.SkinParameter params = new SkinLoader.SkinParameter("style/hm_skin.atlas");
+            HM.game.manager.load("style/hm_skin.json", Skin.class, params);
+            HM.game.manager.finishLoading();
+
+            atlas = HM.game.manager.get("game_atlas.atlas");
+            skin = HM.game.manager.get("style/hm_skin.json");
+
+            for (Texture t : atlas.getTextures()) {
+                t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            }
+
+            shaderTexture = HM.game.manager.get("shaders/shader.jpg");
+            
+            shaderTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            shaderTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+            textureFont = new Texture(Gdx.files.internal("style/hm_numbers.png"), true);
+            textureFont.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
+            numberFont = new BitmapFont(Gdx.files.internal("style/hm_numbers.fnt"), new TextureRegion(textureFont), false);
+       
         }
-
-        textureFont = new Texture(Gdx.files.internal("style/hm_numbers.png"), true);
-        textureFont.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
-        numberFont = new BitmapFont(Gdx.files.internal("style/hm_numbers.fnt"), new TextureRegion(textureFont), false);
-
-        shaderTexture = HM.game.manager.get("shaders/shader.jpg");
-        shaderTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        shaderTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        
     }
 
 

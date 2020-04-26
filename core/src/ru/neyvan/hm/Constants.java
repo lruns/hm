@@ -1,6 +1,8 @@
 package ru.neyvan.hm;
 
 import ru.neyvan.hm.levels.Difficult;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 
 /**
  * Created by AndyGo on 04.07.2017.
@@ -10,6 +12,8 @@ public class Constants {
     public static String VERSION = "1.0.0 beta";
     public static String WEBSITE = "www.neyvan.ru";
     public static String EMAIL = "neyvan.development@gmail.com";
+
+    public static final boolean gwt = (Gdx.app.getType() == ApplicationType.WebGL);
 
     public static int SCORE_DELTA = 10; // add (or remove) for every true(false) turn and multiplied
                         // in game to episode number -> you can have 10, 20, 30 ...

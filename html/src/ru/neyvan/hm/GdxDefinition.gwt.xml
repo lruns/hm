@@ -9,4 +9,17 @@
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
 	<set-property name="user.agent" value="gecko1_8, safari"/>
 	<collapse-property name="user.agent" values="*" />
+
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.levels.Level" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.levels.Check" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.game.GameData" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.terms" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.surprises" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.impacts" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.states" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.screens" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.ParticleEffect" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.scenes.scene2d.ui.Skin" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.Texture" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.TextureAtlas" />
 </module>

@@ -16,7 +16,9 @@ import ru.neyvan.hm.managers.SoundManager;
 import ru.neyvan.hm.managers.TextureManager;
 import ru.neyvan.hm.screens.MenuScreen;
 import ru.neyvan.hm.screens.WelcomeScreen;
-
+import ru.neyvan.hm.screens.EpisodesScreen;
+import ru.neyvan.hm.screens.PlayScreen;
+import ru.neyvan.hm.levels.LevelNumber;
 /**
  * Created by AndyGo on 08.07.2017.
  */
@@ -31,7 +33,7 @@ public class HM extends Game {
 //	private String[] resname = { "hdpi", "mdpi", "ldpi" };
 //	public int resolution[];
     public Settings settings;
-    public final AssetManager manager = new AssetManager();
+    public static AssetManager manager = new AssetManager();
     public I18NBundle bundle;
     public TextureManager texture;
     public ShaderManager shader;
@@ -47,7 +49,7 @@ public class HM extends Game {
     public void create() {
         game = this;
         Gdx.input.setCatchBackKey(true);
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        Gdx.app.setLogLevel(Application.LOG_NONE);
 
         settings = new Settings();
         settings.readSettings();
@@ -63,21 +65,28 @@ public class HM extends Game {
         sound = new SoundManager();
         music = new MusicManager();
 
-        //settings.welcome = true;
+        settings.welcome = false;
         if(settings.welcome){
             setScreen(new WelcomeScreen());
         }else{
             initManagers();
-            setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
+            //setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
             //setScreen(new PlayScreen(new LevelNumber(1,1)));
+            setScreen( new EpisodesScreen());
         }
     }
 
     public void initManagers(){
+        I18NBundle.setSimpleFormatter(true);
         FileHandle fileHandle = Gdx.files.internal("i18n/Bundle");
          //   Locale locale = new Locale("en");
         //bundle = I18NBundle.createBundle(fileHandle, locale);
-        bundle = I18NBundle.createBundle(fileHandle);
+        try{
+            bundle = I18NBundle.createBundle(fileHandle);
+        }catch(Exception e){
+            bundle = I18NBundle.createBundle(fileHandle, new Locale("en"));
+        }
+        
         texture.init();
         shader.init();
         sound.init();

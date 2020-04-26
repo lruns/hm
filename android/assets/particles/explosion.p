@@ -27,8 +27,10 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: false
 - Y Offset - 
@@ -55,7 +57,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 100.0
@@ -65,6 +67,8 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -134,8 +138,8 @@ aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
-fire.png
+spriteMode: single
+- Image Paths -
 
 
 salut
@@ -169,8 +173,10 @@ scaling1: 0.0
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: false
 - Y Offset - 
@@ -197,7 +203,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 13.0
@@ -209,6 +215,8 @@ scaling1: 0.5102041
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -284,5 +292,7 @@ aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 particle.png
+

@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.Gdx;
 
 import ru.neyvan.hm.HM;
+import ru.neyvan.hm.Constants;
 
 public class StreamEnergy extends Actor {
 
@@ -20,7 +22,14 @@ public class StreamEnergy extends Actor {
 
     public StreamEnergy(float speed){
         this.speed = speed;
-        modelEffect = HM.game.manager.get("particles/stream_energy.p", ParticleEffect.class);
+        if(Constants.gwt){
+            modelEffect = new ParticleEffect();
+            modelEffect.loadEmitters(Gdx.files.internal("particles/stream_energy.p"));
+            modelEffect.loadEmitterImages(Gdx.files.internal("src"));
+        }
+        else{
+            modelEffect = HM.game.manager.get("particles/stream_energy.p", ParticleEffect.class);
+        }
         modelEffect.reset();
         modelEffectPool = new ParticleEffectPool(modelEffect, 1, 2);
     }
