@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.Input;
 
 import java.util.Locale;
 
@@ -65,14 +66,14 @@ public class HM extends Game {
         sound = new SoundManager();
         music = new MusicManager();
 
-        settings.welcome = false;
+        //settings.welcome = false;
         if(settings.welcome){
             setScreen(new WelcomeScreen());
         }else{
             initManagers();
-            //setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
+            setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
             //setScreen(new PlayScreen(new LevelNumber(1,1)));
-            setScreen( new EpisodesScreen());
+            //setScreen( new EpisodesScreen());
         }
     }
 
@@ -100,7 +101,11 @@ public class HM extends Game {
     float maxTime = 5;
     @Override
     public void render() {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        }
         super.render();
+
 //        if(Gdx.app.getLogLevel() == Application.LOG_DEBUG){
 //            timeDebug += Gdx.graphics.getDeltaTime();
 //            if(timeDebug > maxTime){
@@ -133,7 +138,7 @@ public class HM extends Game {
     public void setScreen (Screen screen) {
         if (this.screen != null){
             this.screen.hide();
-            this.screen.dispose();
+            if(!Constants.gwt) this.screen.dispose();
         }
         this.screen = screen;
         if (this.screen != null) {

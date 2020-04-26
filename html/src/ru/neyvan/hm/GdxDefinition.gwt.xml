@@ -11,8 +11,11 @@
 	<collapse-property name="user.agent" values="*" />
 
 	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.levels.Level" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.levels.LevelLoader" />
 	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.levels.Check" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.game.Symbol" />
 	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.game.GameData" />
+	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.game.GameDataLoader" />
 	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.terms" />
 	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.surprises" />
 	<extend-configuration-property name="gdx.reflect.include" value="ru.neyvan.hm.impacts" />

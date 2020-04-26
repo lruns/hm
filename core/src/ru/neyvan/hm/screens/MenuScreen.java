@@ -1,6 +1,7 @@
 package ru.neyvan.hm.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.actors.WindowContinueGame;
 import ru.neyvan.hm.actors.WindowExit;
@@ -85,7 +87,18 @@ public class MenuScreen extends ScreenMenuModel {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(HM.game.player.isGameExist()){
-                    showWindowContinueGame();
+                    if(Constants.gwt){
+                        Preferences saves = Gdx.app.getPreferences(Constants.GAME_DATA_PATH);
+                        String saveString = saves.getString("save", "null");
+                        if(saveString.equals("null")){
+                            end(DISAPPEARANCE_TO_BOTTOM, new EpisodesScreen());
+                        }else{
+                            showWindowContinueGame();
+                        }
+                    }else{
+                        showWindowContinueGame();
+                    }
+                    
                 }else{
                     end(DISAPPEARANCE_TO_BOTTOM, new EpisodesScreen());
                 }

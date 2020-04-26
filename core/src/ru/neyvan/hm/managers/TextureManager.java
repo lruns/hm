@@ -35,6 +35,10 @@ public class TextureManager implements Manager{
             atlas = new TextureAtlas(Gdx.files.internal("game_atlas.atlas"));
             skin = new Skin(Gdx.files.internal("style/hm_skin.json"));
 
+            for (Texture t : atlas.getTextures()) {
+                t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            }
+
             shaderTexture = new Texture("shaders/shader.jpg");
             shaderTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             shaderTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);

@@ -59,8 +59,8 @@ public class WelcomeScreen extends ScreenAdapter {
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        //HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
-			            HM.game.setScreen(new RecordsMenu(false));
+                        HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
+			            //HM.game.setScreen(new RecordsMenu(false));
                     }
                 })
         ));
