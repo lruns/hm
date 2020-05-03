@@ -42,6 +42,7 @@ public class EpisodesScreen extends ScreenAdapter {
     public EpisodesScreen() {
         stage = new Stage(new ExtendViewport(Constants.MIN_WIDTH, Constants.MIN_HEIGHT,
                 Constants.MAX_WIDTH, Constants.MAX_HEIGHT));
+
         skin = HM.game.texture.skin;
         HM.game.texture.setEpisodesImages();
 
@@ -66,8 +67,7 @@ public class EpisodesScreen extends ScreenAdapter {
         mainTable.add(title).expand().fillX().top().row();
         mainTable.add(scrollPane).expand().row();
         mainTable.add(buttonsTable).expand().fillX().bottom().row();
-        mainTable.setPosition(0, stage.getHeight());
-        //mainTable.setDebug(true);
+        mainTable.setDebug(false);
 
         stage.addActor(mainTable);
     }
@@ -75,7 +75,7 @@ public class EpisodesScreen extends ScreenAdapter {
     @Override
     public void show() {
         float time = 1f;
-        mainTable.addAction(Actions.moveTo(0, 0, time, Interpolation.pow2));
+        mainTable.addAction(ScreenMenuModel.move(0, stage.getHeight(), time, true, Interpolation.pow2));
         InputProcessor backProcessor = new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
@@ -97,7 +97,7 @@ public class EpisodesScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, false);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

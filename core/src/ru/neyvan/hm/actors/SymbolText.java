@@ -93,7 +93,7 @@ public class SymbolText extends Actor {
  //       explosionShader = HM.game.shader.getExplosionShader();
 
         setSize(maxWidth, maxHeight);
-        setSymbol(null);
+        //setSymbol(null);
     }
 
 
@@ -115,6 +115,7 @@ public class SymbolText extends Actor {
     // set symbol with transition
     public void setSymbol(Symbol symbol, float duration){
         //symbol = new Symbol(new Explosion());
+        if(currentTextureRegion == null) setSymbol(null);
         transition = true;
         maxTime = time = this.duration = duration;
         currentTime = 0;
@@ -132,6 +133,7 @@ public class SymbolText extends Actor {
 
     public void draw (Batch batch, float parentAlpha) {
         padding = getWidth()*0.15f;
+        if(currentTextureRegion == null) return;
         if(transition) {
             batch.end();
             batch.flush();
@@ -225,7 +227,6 @@ public class SymbolText extends Actor {
         cache.setText(layout, x, y);
 
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, (int) width, (int) height, false);
-
         frameBuffer.begin();
 
         Gdx.gl.glClearColor(1,1,1,0);

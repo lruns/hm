@@ -5,12 +5,13 @@ varying vec4 v_color;
 varying vec2 v_texCoords;
 uniform sampler2D u_texture;
 uniform vec2 resolution;
+uniform vec2 position;
 uniform float globalTime;
 uniform float deltaX;
 uniform float deltaY;
 
 void main(){
-        vec2 newFragCoord = 2.0*(gl_FragCoord.xy-resolution.xy*.5)/resolution.x;
+        vec2 newFragCoord = 2.0*((gl_FragCoord.xy-position.xy)-resolution.xy*.5)/resolution.x;
         newFragCoord.x += deltaX;
         newFragCoord.y += deltaY;
     	float a = atan(newFragCoord.x, newFragCoord.y);

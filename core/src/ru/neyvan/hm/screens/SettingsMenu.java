@@ -5,10 +5,12 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
@@ -20,11 +22,14 @@ import ru.neyvan.hm.actors.WindowRename;
  */
 
 public class SettingsMenu extends ScreenMenuModel{
+
+    private Container container;
     private Table table;
     private Label title;
     private CheckBox checkMusic, checkSound, checkWelcome;
     private Slider sliderMusic, sliderSound;
     private TextButton btnChangeName, btnBack;
+
     private float time;
 
     public SettingsMenu(){
@@ -100,34 +105,39 @@ public class SettingsMenu extends ScreenMenuModel{
             }
         });
 
+
+        container = new Container();
+        container.setFillParent(true);
+
         table = new Table(skin);
         table.setBackground("background");
-        table.setSize(stage.getWidth()*0.7f, stage.getWidth()*1.19f);
-        table.setPosition(-table.getWidth(), posY(table, 0.5f));
+        table.setDebug(false);
+        table.pad(Value.percentWidth(0.03f, container));
+        table.defaults().width(Value.percentWidth(0.4f, container)).space(Value.percentWidth(0.07f, container));
+        table.add(title).width(Value.percentWidth(0.8f, container)).colspan(2);
+        table.row();
+        table.add(checkMusic).left();
+        table.add(sliderMusic);
+        table.row();
+        table.add(checkSound).left();
+        table.add(sliderSound);
+        table.row();
+        table.add(checkWelcome).colspan(2); table.row();
+        table.add(btnChangeName).width(Value.percentWidth(0.7f, container)).colspan(2); table.row();
+        table.add(btnBack).width(Value.percentWidth(0.7f, container)).colspan(2); table.row();
 
-        table.add(title).expand().fillX().colspan(2); table.row();
-        table.add(checkMusic).expand().fillX(); table.add(sliderMusic).expand().fillX(); table.row();
-        table.add(checkSound).expand().fillX(); table.add(sliderSound).expand().fillX(); table.row();
-        table.add(checkWelcome).expand().fillX().colspan(2); table.row();
-        table.add(btnChangeName).expand().colspan(2); table.row();
-        table.add(btnBack).expand().colspan(2); table.row();
-
-        stage.addActor(table);
+        container.setActor(table);
+        stage.addActor(container);
 
     }
     public void end(){
         HM.game.settings.writeSettings();
         Gdx.input.setInputProcessor(null);
         time = 0.5f;
-        table.addAction(Actions.moveTo(-table.getWidth(), posY(table, 0.5f), time, Interpolation.circleIn));
+        container.addAction(Actions.moveTo(-stage.getWidth(), 0, time, Interpolation.circleIn));
         stage.addAction(Actions.sequence(
                 Actions.delay(time),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_FROM_RIGHT));
-                    }
-                })
+                Actions.run(() -> HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_FROM_RIGHT)))
         ));
     }
 
@@ -135,7 +145,10 @@ public class SettingsMenu extends ScreenMenuModel{
     public void show(){
         super.show();
         time = 0.5f;
-        table.addAction(Actions.moveTo(posX(table, 0.5f), posY(table, 0.5f), time, Interpolation.pow3Out));
+        container.addAction(move(
+                -stage.getWidth(), 0,
+                time, true, Interpolation.pow3Out
+        ));
     }
     @Override
     public void render(float delta) {

@@ -4,14 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.Records;
+import sun.java2d.pipe.ValidatePipe;
 
 /**
  * Created by AndyGo on 13.10.2017.
@@ -21,6 +24,7 @@ public class RecordsMenu extends ScreenMenuModel {
     private Label title, players[];
     private Label records[];
     private Table table;
+    private Container container;
     private TextButton btnBack;
     private float time;
 
@@ -36,11 +40,6 @@ public class RecordsMenu extends ScreenMenuModel {
         players = new Label[Records.MAX_RECORDSMEN];
         records = new Label[Records.MAX_RECORDSMEN];
 
-        table = new Table(skin);
-        table.setBackground("background");
-        table.setSize(stage.getWidth()*0.7f, stage.getWidth()*1.19f);
-        table.setPosition(stage.getWidth(), posY(table, 0.5f));
-        table.add(title).colspan(2).width(table.getWidth()).fillY(); table.row();
 
 //        for(int i = 0; i< Records.MAX_RECORDSMEN; i++){
 //            players[i] = new Label((i+1)+". "+ HM.game.records.getName(i), skin);
@@ -56,8 +55,22 @@ public class RecordsMenu extends ScreenMenuModel {
                 end();
             }
         });
-        table.add(btnBack).colspan(2).expandX(); table.row();
-        stage.addActor(table);
+
+
+        container = new Container();
+        container.setFillParent(true);
+
+        table = new Table(skin);
+        table.setBackground("background");
+        table.setDebug(false);
+        table.pad(Value.percentWidth(0.05f));
+        table.row().height(Value.percentHeight(0.4f, container));
+        table.add(title).width(Value.percentWidth(0.8f, container));
+        table.row();
+        table.add(btnBack);
+
+        container.setActor(table);
+        stage.addActor(container);
 
 
     }
@@ -65,15 +78,10 @@ public class RecordsMenu extends ScreenMenuModel {
     public void end(){
         Gdx.input.setInputProcessor(null);
         time = 0.5f;
-        table.addAction(Actions.moveTo(stage.getWidth(), posY(table, 0.5f), time, Interpolation.circleIn));
+        container.addAction(Actions.moveTo(stage.getWidth(), 0, time, Interpolation.circleIn));
         stage.addAction(Actions.sequence(
                 Actions.delay(time),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_FROM_LEFT));
-                    }
-                })
+                Actions.run(() -> HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_FROM_LEFT)))
         ));
     }
 
@@ -81,7 +89,10 @@ public class RecordsMenu extends ScreenMenuModel {
     public void show(){
         super.show();
         time = 0.5f;
-        table.addAction(Actions.moveTo(posX(table, 0.5f), posY(table, 0.5f), time, Interpolation.pow3Out));
+        container.addAction(move(
+                stage.getWidth(), 0,
+                time, true, Interpolation.pow3Out
+        ));
     }
     @Override
     public void render(float delta) {

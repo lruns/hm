@@ -49,7 +49,7 @@ public class ScreenTransition {
     }
 
     public void resize(int width, int height){
-        batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+        //batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
         this.width = width;
         this.height = height;
         shader.begin();

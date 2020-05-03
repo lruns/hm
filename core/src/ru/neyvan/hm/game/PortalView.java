@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import ru.neyvan.hm.HM;
 
@@ -17,9 +18,8 @@ public class PortalView {
     float time;
     float deltaX;
     float deltaY;
-    float width;
-    float height;
-
+    float width, height;
+    float x,y;
 
     public PortalView() {
         batch = new SpriteBatch();
@@ -44,17 +44,18 @@ public class PortalView {
         shader.end();
 
         batch.begin();
-        batch.draw(texture, 0, 0, width, height);
+        batch.draw(texture, x, y, width, height);
         batch.end();
 
     }
 
-    public void resize(int width, int height){
+    public void resize(Stage stage, int width, int height ){
         this.width = width;
         this.height = height;
-        batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
         shader.begin();
-        shader.setUniformf("resolution", width, height);
+        shader.setUniformf("resolution", stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
+        shader.setUniformf("position", 0.5f*(width-stage.getViewport().getScreenWidth()),
+                0.5f*(height-stage.getViewport().getScreenHeight()));
         shader.end();
     }
 

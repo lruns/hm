@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.Input;
 
@@ -16,6 +18,7 @@ import ru.neyvan.hm.managers.ShaderManager;
 import ru.neyvan.hm.managers.SoundManager;
 import ru.neyvan.hm.managers.TextureManager;
 import ru.neyvan.hm.screens.MenuScreen;
+import ru.neyvan.hm.screens.TestScreen;
 import ru.neyvan.hm.screens.WelcomeScreen;
 import ru.neyvan.hm.screens.EpisodesScreen;
 import ru.neyvan.hm.screens.PlayScreen;
@@ -50,7 +53,7 @@ public class HM extends Game {
     public void create() {
         game = this;
         Gdx.input.setCatchBackKey(true);
-        Gdx.app.setLogLevel(Application.LOG_NONE);
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         settings = new Settings();
         settings.readSettings();
@@ -66,13 +69,22 @@ public class HM extends Game {
         sound = new SoundManager();
         music = new MusicManager();
 
-        //settings.welcome = false;
+//        final Button button = new Button();
+//        button.addListener(e -> {
+//            Gdx.app.log("sdfds", "hh");
+//            return true;
+//        });
+//        initManagers();
+//        setScreen(new TestScreen());
+
+
+//        //settings.welcome = false;
         if(settings.welcome){
             setScreen(new WelcomeScreen());
         }else{
             initManagers();
-            setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
-            //setScreen(new PlayScreen(new LevelNumber(1,1)));
+            //setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
+            setScreen(new PlayScreen(new LevelNumber(1,1)));
             //setScreen( new EpisodesScreen());
         }
     }
@@ -101,11 +113,10 @@ public class HM extends Game {
     float maxTime = 5;
     @Override
     public void render() {
+        super.render();
         if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
-        super.render();
-
 //        if(Gdx.app.getLogLevel() == Application.LOG_DEBUG){
 //            timeDebug += Gdx.graphics.getDeltaTime();
 //            if(timeDebug > maxTime){

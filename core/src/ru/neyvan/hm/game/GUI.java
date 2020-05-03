@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -46,9 +47,7 @@ import ru.neyvan.hm.levels.LevelNumber;
 import ru.neyvan.hm.screens.PlayScreen;
 import ru.neyvan.hm.surprises.ScreenEffects;
 
-/**
- * Created by AndyGo on 25.11.2017.
- */
+
 public class GUI {
     private PlayScreen core;
     private Stage stage;
@@ -59,8 +58,10 @@ public class GUI {
      ***********************************/
     private Image background;
 
+    private Table table; // consist next game elements
+
     //top
-    private Group panel;
+    private HorizontalGroup panel;
     private LifesBox lifesBox;
     private LevelInfoBox levelInfoBox;
     private ScoreBox scoreBox;
@@ -116,6 +117,9 @@ public class GUI {
         background.setFillParent(true);
         background.setScaling(Scaling.fill);
 
+        table = new Table();
+        table.setFillParent(true);
+        table.setDebug(true);
 
         // Top Scene
 
@@ -146,8 +150,9 @@ public class GUI {
             }
         });
 
-        panel = new Group();
-        panel.addActor(tableLeft); panel.addActor(btnPause);
+        panel = new HorizontalGroup();
+        panel.addActor(tableLeft);
+        panel.addActor(btnPause);
 
         // Middle Scene
 
@@ -177,14 +182,23 @@ public class GUI {
         gameCircle.setColor(1,1,1,0);
         bar.setVisible(false);
 
+
         stage.addActor(background);
         stage.addActor(streamEnergy);
-        stage.addActor(panel);
-        stage.addActor(leftFrame);
-        stage.addActor(rightFrame);
-        stage.addActor(gameCircle);
-        stage.addActor(bar);
-        initSizeAndReposition();
+
+        table.row();
+        table.add(panel).colspan(3);
+        table.row();
+        table.add(leftFrame);
+        table.add(gameCircle);
+        table.add(rightFrame);
+        table.row();
+        table.add(bar).colspan(3);
+
+        stage.addActor(table);
+
+        //initSizeAndReposition();
+
 
         // ******* Another ***********//
 
@@ -200,9 +214,12 @@ public class GUI {
         gamePause = new GamePause(core, skin, stage);
         colorMusicShader = HM.game.shader.getColorMusicShader();
         inversionShader = HM.game.shader.getInversionShader();
-        frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, stage.getViewport().getScreenWidth(),
+                stage.getViewport().getScreenHeight(), false);
 
         //shine = new Shine();
+
+
 
 
     }
@@ -224,12 +241,6 @@ public class GUI {
 
         bar.setSize(0.58f * stage.getWidth(), 0.075f * stage.getWidth());
 
-
-//            panel.setPosition(0, stage.getHeight() - panel.getHeight());
-//            btnPause.setPosition(panel.getWidth() - btnPause.getWidth(), panel.getHeight()-btnPause.getHeight());
-//            leftFrame.setPosition(stage.getWidth()*0.0625f, (stage.getHeight()-leftFrame.getHeight())/2);
-//            rightFrame.setPosition(stage.getWidth()*0.53f, (stage.getHeight()-rightFrame.getHeight())/2);
-//            bar.setPosition((stage.getWidth()-bar.getWidth())/2, stage.getHeight()*0.1f);
         panel.setPosition(0, stage.getHeight());
         btnPause.setPosition(panel.getWidth() - btnPause.getWidth(), panel.getHeight()-btnPause.getHeight());
         leftFrame.setPosition(-leftFrame.getWidth(), (stage.getHeight()-leftFrame.getHeight())/2);
@@ -338,8 +349,6 @@ public class GUI {
     public void updateProgress(){
         bar.setValue(core.getGame().getProgress());
     }
-
-
 
     public void appear(float time){
         if(isAppear) return;
@@ -538,6 +547,10 @@ public class GUI {
         frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight(), false);
 
         //Please change this bad realization of resize and reposition!!!
+//        if(isAppear) {
+//            isAppear = false;
+//            appear(0);
+//        }
         gameCircle.updateSizePosition();
     }
 

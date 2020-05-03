@@ -110,17 +110,18 @@ public class Game {
     }
 
     public boolean isPlayerLose() {
-        return gameData.lifes <= 0;
-        //return  false;
+        //return gameData.lifes <= 0;
+        return  false;
     }
 
     public boolean isGameFinished() {
-        if(level.isFixedCounting()){
-            return gameData.countMove >= level.getFixedNumbers().size();
-        }else{
-            return gameData.countMove >= level.getCountOfMoves();
-        }
-        //return gameData.countMove >= 5;
+        return gameData.countMove >= 10;
+//        if(level.isFixedCounting()){
+//            return gameData.countMove >= level.getFixedNumbers().size();
+//        }else{
+//            return gameData.countMove >= level.getCountOfMoves();
+//        }
+//
     }
 
     private Iterator<Integer> placeIterator;

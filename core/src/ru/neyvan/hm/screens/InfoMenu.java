@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
@@ -23,6 +25,7 @@ import static ru.neyvan.hm.Constants.WEBSITE;
 
 public class InfoMenu extends ScreenMenuModel {
     private Label title, infoScroll;
+    private Container container;
     private Table table;
     private Table scrollTable;
     private ScrollPane scroller;
@@ -32,11 +35,13 @@ public class InfoMenu extends ScreenMenuModel {
 
     public InfoMenu() {
         super();
+
+        container = new Container();
+        container.setFillParent(true);
+
         table = new Table(skin);
-        table.setBackground("Window"); //table.debug();
-        table.setSize(stage.getWidth()*1f, stage.getWidth()*1.667f);
-        table.setPosition(posX(table, 0.5f), -table.getHeight());
-        table.pad(table.getHeight()*0.02f, table.getWidth()*0.2f, 0, table.getWidth()*0.2f);
+        table.setBackground("Window");
+        table.setDebug(false);
 
         title = new Label(HM.game.bundle.get("infoTitle"), skin, "title");
         title.setAlignment(Align.center);
@@ -59,7 +64,7 @@ public class InfoMenu extends ScreenMenuModel {
         infoScroll.setWrap(true);
 
         scrollTable = new Table();
-        scrollTable.add(infoScroll).width(table.getWidth() * 0.55f);
+        scrollTable.add(infoScroll).width(Value.percentWidth(0.55f, table));
         scroller = new ScrollPane(scrollTable, skin);
         scroller.setScrollingDisabled(true, false);
         scroller.setFadeScrollBars(false);
@@ -73,11 +78,13 @@ public class InfoMenu extends ScreenMenuModel {
             }
         });
 
-
-        table.add(title).padBottom(table.getHeight()*0.05f).expand().row();
-        table.add(scroller).height(table.getHeight()*0.7f).width(table.getWidth()*0.6f).row();
+        table.add(title).padBottom(Value.percentHeight(0.05f, table)).expand().row();
+        table.add(scroller).height(Value.percentHeight(0.7f, table))
+                .width(Value.percentWidth(0.6f, table)).row();
         table.add(btnBack).expand();
-        stage.addActor(table);
+
+        container.setActor(table);
+        stage.addActor(container);
 
 
 
@@ -85,31 +92,32 @@ public class InfoMenu extends ScreenMenuModel {
     public void end(){
         Gdx.input.setInputProcessor(null);
         time = 0.5f;
-        table.addAction(Actions.moveTo(posX(table, 0.5f), -table.getHeight(), time, Interpolation.circleIn));
+        container.addAction(Actions.moveTo(0, -stage.getHeight(), time, Interpolation.circleIn));
         stage.addAction(Actions.sequence(
                 Actions.delay(time),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_FROM_TOP));
-                    }
-                })
+                Actions.run(() -> HM.game.setScreen(new MenuScreen(MenuScreen.APPEARANCE_FROM_TOP)))
         ));
     }
     @Override
     public void show(){
         super.show();
         time = 0.5f;
-        table.addAction(Actions.moveTo(posX(table, 0.5f), posY(table, 0.5f), time, Interpolation.pow3Out));
-    }
-    @Override
-    public void render(float delta) {
-        super.render(delta);
+        container.addAction(move(
+                0, -stage.getHeight(),
+                time, true, Interpolation.pow3Out
+        ));
     }
 
     @Override
     public void back() {
         super.back(); end();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        table.setSize(stage.getWidth()*1f, stage.getWidth()*1.667f);
+        table.pad(table.getHeight()*0.02f, table.getWidth()*0.2f, 0, table.getWidth()*0.2f);
     }
 }
 

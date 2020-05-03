@@ -171,22 +171,22 @@ public class PlayScreen implements Screen {
             gui.updateGamePause(delta);
         }
 
-        if(portalState.isTransition()){
-            firstFrameBuffer.begin();
-            gui.render(delta);
-            firstFrameBuffer.end();
-            secondFrameBuffer.begin();
-            portalView.render(delta);
-            secondFrameBuffer.end();
-            // render transition effect to screen
-            if(portalState.isEnteringToPortal())
-                screenTransition.render(firstFrameBuffer.getColorBufferTexture(),
-                    secondFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
-            else
-                screenTransition.render(secondFrameBuffer.getColorBufferTexture(),
-                        firstFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
-
-        } else if(portalState.inPortal()){
+//        if(portalState.isTransition()){
+//            firstFrameBuffer.begin();
+//            gui.render(delta);
+//            firstFrameBuffer.end();
+//            secondFrameBuffer.begin();
+//            portalView.render(delta);
+//            secondFrameBuffer.end();
+//            // render transition effect to screen
+//            if(portalState.isEnteringToPortal())
+//                screenTransition.render(firstFrameBuffer.getColorBufferTexture(),
+//                    secondFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
+//            else
+//                screenTransition.render(secondFrameBuffer.getColorBufferTexture(),
+//                        firstFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
+//
+        if(portalState.inPortal()){
             portalView.render(delta);
         } else{
             gui.render(delta);
@@ -198,12 +198,12 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         gui.resize(width, height);
-        screenTransition.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        portalView.resize(width, height);
+        screenTransition.resize(width, height);
+        portalView.resize(gui.getStage(), width, height);
         if(firstFrameBuffer != null) firstFrameBuffer.dispose();
         if(secondFrameBuffer != null) secondFrameBuffer.dispose();
-        firstFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-        secondFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+        firstFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, width, height, false);
+        secondFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, width, height, false);
     }
 
     //pause only for game

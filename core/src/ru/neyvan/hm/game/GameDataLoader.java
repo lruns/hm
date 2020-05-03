@@ -36,6 +36,7 @@ public class GameDataLoader {
         if(Constants.gwt){
             Preferences saves = Gdx.app.getPreferences(Constants.GAME_DATA_PATH);
             saves.putString("save", Base64Coder.encodeString(json.prettyPrint(gameData)));
+            saves.flush();
         }else{
             fileHandle = Gdx.files.local(Constants.GAME_DATA_PATH);
             fileHandle.writeString(Base64Coder.encodeString(json.prettyPrint(gameData)),false);
