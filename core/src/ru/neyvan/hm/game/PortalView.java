@@ -19,7 +19,8 @@ public class PortalView {
     float deltaX;
     float deltaY;
     float width, height;
-    float x,y;
+    float width2, height2;
+    float x, y;
 
     public PortalView() {
         batch = new SpriteBatch();
@@ -28,7 +29,11 @@ public class PortalView {
         batch.setShader(shader);
     }
 
-    public void render(float delta) {
+    public void render(float delta){
+        this.render(delta, false);
+    }
+
+    public void render(float delta, boolean offReposition) {
         time += delta;
 
         deltaX = (float) (MathUtils.sin(time)/2.0);
@@ -41,21 +46,31 @@ public class PortalView {
         shader.setUniformf("globalTime", time);
         shader.setUniformf("deltaX", deltaX);
         shader.setUniformf("deltaY", deltaY);
+        if(offReposition){
+            shader.setUniformf("position", 0, 0);
+        }else{
+            shader.setUniformf("position", x, y);
+        }
         shader.end();
 
+
         batch.begin();
-        batch.draw(texture, x, y, width, height);
+        batch.draw(texture, 0,0, width2, height2);
         batch.end();
 
     }
 
     public void resize(Stage stage, int width, int height ){
-        this.width = width;
-        this.height = height;
+        this.width = stage.getViewport().getScreenWidth();
+        this.height = stage.getViewport().getScreenHeight();
+        this.width2 = stage.getViewport().getWorldWidth();
+        this.height2 = stage.getViewport().getWorldHeight();
+        x = 0.5f*(width-this.width);
+        y = 0.5f*(height-this.height);
+
         shader.begin();
-        shader.setUniformf("resolution", stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
-        shader.setUniformf("position", 0.5f*(width-stage.getViewport().getScreenWidth()),
-                0.5f*(height-stage.getViewport().getScreenHeight()));
+        shader.setUniformf("resolution", this.width, this.height);
+        shader.setUniformf("position",x, y);
         shader.end();
     }
 

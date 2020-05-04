@@ -115,13 +115,13 @@ public class Game {
     }
 
     public boolean isGameFinished() {
-        return gameData.countMove >= 10;
+        return gameData.countMove >= 2;
 //        if(level.isFixedCounting()){
 //            return gameData.countMove >= level.getFixedNumbers().size();
 //        }else{
 //            return gameData.countMove >= level.getCountOfMoves();
 //        }
-//
+
     }
 
     private Iterator<Integer> placeIterator;

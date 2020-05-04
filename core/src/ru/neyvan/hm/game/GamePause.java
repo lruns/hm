@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -24,9 +25,11 @@ import ru.neyvan.hm.levels.LevelNumber;
 import ru.neyvan.hm.screens.PlayScreen;
 
 public class GamePause {
-    private Label title, infoScroll;
+
+    private Container container;
     private Table table;
     private Table scrollTable;
+    private Label title, infoScroll;
     private ScrollPane scroller;
     private TextButton btnExit;
     private TextButton btnPlay;
@@ -47,6 +50,9 @@ public class GamePause {
         this.skin = skin;
         isBeginGame = true;
 
+        container = new Container();
+        container.setFillParent(true);
+
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(0, 0, 0, 0.7f);
         pixmap.fillRectangle(0,0,1,1);
@@ -56,9 +62,8 @@ public class GamePause {
         darkBackground = new Image();
         darkBackground.setColor(0,0,0,0);
         darkBackground.setDrawable(new TextureRegionDrawable(texture));
-        darkBackground.setSize(stage.getWidth(), stage.getHeight());
-        darkBackground.setPosition(0, 0);
         darkBackground.setScaling(Scaling.fill);
+        darkBackground.setFillParent(true);
         stage.addActor(darkBackground);
 
         table = new Table(skin);
@@ -112,7 +117,8 @@ public class GamePause {
         table.setColor(1,1,1,0);
         table.setDebug(false);
 
-        stage.addActor(table);
+        container.setActor(table);
+        stage.addActor(container);
     }
 
     public void exit() {

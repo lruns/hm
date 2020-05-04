@@ -332,6 +332,7 @@ public class SymbolText extends Actor {
         region.flip(false, true);
 
 //        if(disposedTexture != null) disposedTexture.getTexture().dispose();
+        if(getStage() != null) getStage().getViewport().apply();
         frameBuffer.dispose();
         pm.dispose();
 

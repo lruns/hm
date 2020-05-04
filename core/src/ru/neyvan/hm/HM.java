@@ -84,7 +84,7 @@ public class HM extends Game {
         }else{
             initManagers();
             //setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
-            setScreen(new PlayScreen(new LevelNumber(1,1)));
+            setScreen(new PlayScreen(new LevelNumber(2,1)));
             //setScreen( new EpisodesScreen());
         }
     }
@@ -153,8 +153,8 @@ public class HM extends Game {
         }
         this.screen = screen;
         if (this.screen != null) {
-            this.screen.show();
             this.screen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            this.screen.show();
         }
     }
 

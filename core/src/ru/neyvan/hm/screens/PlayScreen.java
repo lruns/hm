@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Timer;
@@ -100,12 +101,12 @@ public class PlayScreen implements Screen {
     private float multiplierTime = 1f;
 
     private void  init(){
-        portalView = new PortalView();
-        screenTransition = new ScreenTransition();
-
         initializeStatesAndImpacts();
         game = new Game();
         gui = new GUI(this);
+
+        portalView = new PortalView();
+        screenTransition = new ScreenTransition();
     }
     // New game
     public PlayScreen(LevelNumber levelNumber){
@@ -122,6 +123,7 @@ public class PlayScreen implements Screen {
         gui.prepareLevel();
 
     }
+
 
     @Override
     public void show() {
@@ -171,22 +173,27 @@ public class PlayScreen implements Screen {
             gui.updateGamePause(delta);
         }
 
-//        if(portalState.isTransition()){
-//            firstFrameBuffer.begin();
-//            gui.render(delta);
-//            firstFrameBuffer.end();
-//            secondFrameBuffer.begin();
-//            portalView.render(delta);
-//            secondFrameBuffer.end();
-//            // render transition effect to screen
-//            if(portalState.isEnteringToPortal())
-//                screenTransition.render(firstFrameBuffer.getColorBufferTexture(),
-//                    secondFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
-//            else
-//                screenTransition.render(secondFrameBuffer.getColorBufferTexture(),
-//                        firstFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
-//
-        if(portalState.inPortal()){
+        if (portalState.isTransition()) {
+
+            firstFrameBuffer.begin();
+            gui.render(delta);
+            firstFrameBuffer.end();
+
+            gui.getStage().getViewport().apply();
+            secondFrameBuffer.begin();
+            portalView.render(delta, true);
+            secondFrameBuffer.end();
+
+            // render transition effect to screen
+            gui.getStage().getViewport().apply();
+            if (portalState.isEnteringToPortal())
+                screenTransition.render(firstFrameBuffer.getColorBufferTexture(),
+                        secondFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
+            else
+                screenTransition.render(secondFrameBuffer.getColorBufferTexture(),
+                        firstFrameBuffer.getColorBufferTexture(), portalState.getTransitionProgress());
+
+        } else if(portalState.inPortal()){
             portalView.render(delta);
         } else{
             gui.render(delta);
@@ -198,12 +205,13 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         gui.resize(width, height);
-        screenTransition.resize(width, height);
+        screenTransition.resize(gui.getStage(), width, height);
         portalView.resize(gui.getStage(), width, height);
         if(firstFrameBuffer != null) firstFrameBuffer.dispose();
         if(secondFrameBuffer != null) secondFrameBuffer.dispose();
         firstFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, width, height, false);
-        secondFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, width, height, false);
+        secondFrameBuffer = new FrameBuffer(Pixmap.Format.RGB888, gui.getStage().getViewport().getScreenWidth(),
+                gui.getStage().getViewport().getScreenHeight(), false);
     }
 
     //pause only for game
@@ -431,5 +439,7 @@ public class PlayScreen implements Screen {
         this.multiplierTime = 1f;
     }
 
-
+    public boolean isGamePause() {
+        return gamePause;
+    }
 }

@@ -6,10 +6,11 @@ varying vec2 v_texCoords;
 uniform sampler2D u_texture;
 uniform sampler2D u_texture1;
 uniform vec2 resolution;
+uniform vec2 position;
 uniform float percent;
 
 void main(){
-            vec2 uv = gl_FragCoord.xy / resolution.xy;
+            vec2 uv = (gl_FragCoord.xy - position.xy) / resolution.xy;
 
             gl_FragColor = texture2D(u_texture, uv);
 
@@ -18,6 +19,7 @@ void main(){
 
             //determine the vector length of the center position
            	position.x *= resolution.x / resolution.y;
+
             float len = length(position);
             float st = step(percent, len);
 
