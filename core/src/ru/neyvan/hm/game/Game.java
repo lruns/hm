@@ -110,18 +110,22 @@ public class Game {
     }
 
     public boolean isPlayerLose() {
-        //return gameData.lifes <= 0;
-        return  false;
+        if(Constants.IMMORTALITY)
+            return  false;
+        else
+            return gameData.lifes <= 0;
     }
 
     public boolean isGameFinished() {
-        return gameData.countMove >= 2;
-//        if(level.isFixedCounting()){
-//            return gameData.countMove >= level.getFixedNumbers().size();
-//        }else{
-//            return gameData.countMove >= level.getCountOfMoves();
-//        }
-
+        if (Constants.FAST_GAME){
+            return gameData.countMove >= Constants.FAST_GAME_MAX_COUNT;
+        }else{
+            if(level.isFixedCounting()){
+                return gameData.countMove >= level.getFixedNumbers().size();
+            }else{
+                return gameData.countMove >= level.getCountOfMoves();
+            }
+        }       
     }
 
     private Iterator<Integer> placeIterator;

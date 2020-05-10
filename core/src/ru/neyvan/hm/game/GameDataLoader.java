@@ -23,6 +23,7 @@ public class GameDataLoader {
             String saveString = saves.getString("save", "null");
             GameData gameData = json.fromJson(GameData.class,
                     Base64Coder.decodeString(saveString));
+            Gdx.app.log("GameDataLoader","Game load");
             return gameData;
         }else{
             fileHandle = Gdx.files.local(Constants.GAME_DATA_PATH);
@@ -37,6 +38,7 @@ public class GameDataLoader {
             Preferences saves = Gdx.app.getPreferences(Constants.GAME_DATA_PATH);
             saves.putString("save", Base64Coder.encodeString(json.prettyPrint(gameData)));
             saves.flush();
+            Gdx.app.log("GameDataLoader","Game save");
         }else{
             fileHandle = Gdx.files.local(Constants.GAME_DATA_PATH);
             fileHandle.writeString(Base64Coder.encodeString(json.prettyPrint(gameData)),false);

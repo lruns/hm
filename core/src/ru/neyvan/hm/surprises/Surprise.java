@@ -6,7 +6,7 @@ package ru.neyvan.hm.surprises;
  */
 
 public abstract class Surprise  {
-    private final float maxTime;
+    private float maxTime;
 
     public Surprise(){this.maxTime = 1.0f;}
     public Surprise(float maxTime){

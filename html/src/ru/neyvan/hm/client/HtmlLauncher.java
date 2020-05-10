@@ -11,6 +11,8 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 
 import ru.neyvan.hm.HM;
 
@@ -71,7 +73,7 @@ public class HtmlLauncher extends GwtApplication {
         @Override
         protected void adjustMeterPanel(Panel meterPanel, Style meterStyle) {
             meterPanel.setStyleName("gdx-meter");
-            //meterPanel.addStyleName("nostripes");
+            meterPanel.addStyleName("blue");
             meterStyle.setProperty("backgroundColor", "#00008b");
             meterStyle.setProperty("backgroundImage", "none");
         }

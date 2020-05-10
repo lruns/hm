@@ -6,7 +6,7 @@ package ru.neyvan.hm.surprises;
 
 public class Explosion extends Surprise {
     private int numExplosions;
-    private final float maxTimeExplosion;
+    private float maxTimeExplosion;
     public Explosion(){super(); maxTimeExplosion = 1.0f;}
     public Explosion(float maxTime, int numExplosions) {
         super(maxTime);

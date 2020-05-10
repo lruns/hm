@@ -53,7 +53,7 @@ public class HM extends Game {
     public void create() {
         game = this;
         Gdx.input.setCatchBackKey(true);
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        Gdx.app.setLogLevel(Constants.LOG_LEVEL);
 
         settings = new Settings();
         settings.readSettings();
@@ -83,8 +83,8 @@ public class HM extends Game {
             setScreen(new WelcomeScreen());
         }else{
             initManagers();
-            //setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
-            setScreen(new PlayScreen(new LevelNumber(2,1)));
+            setScreen(new MenuScreen(MenuScreen.APPEARANCE_ELASTIC));
+            //setScreen(new PlayScreen(new LevelNumber(2,1)));
             //setScreen( new EpisodesScreen());
         }
     }

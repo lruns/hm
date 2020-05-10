@@ -1,43 +1,23 @@
 canvas {
     cursor: default;
     outline: none;
+    padding: 0px;
+    margin: 0px;
 }
 
 body {
-    background-color: #222222;
+    background-color: #191919;
+    margin: 0px;
+    padding: 0px;
 }
 
-.superdev {
-    color: rgb(37,37,37);
-    text-shadow: 0px 1px 1px rgba(250,250,250,0.1);
-    font-size: 50pt;
-    display: block;
-    position: relative;
-    text-decoration: none;
-    background-color: rgb(83,87,93);
-    box-shadow: 0px 3px 0px 0px rgb(34,34,34),
-                0px 7px 10px 0px rgb(17,17,17),
-                inset 0px 1px 1px 0px rgba(250, 250, 250, .2),
-                inset 0px -12px 35px 0px rgba(0, 0, 0, .5);
-    width: 70px;
-    height: 70px;
-    border: 0;
-    border-radius: 35px;
-    text-align: center;
-    line-height: 68px;
+.gdx-meter.blue > span {
+    background-color: #0F0C90 !important;
+    background-image: -moz-linear-gradient(top, #4087BF, #03ACFF) !important;
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #4087BF),color-stop(1, #03ACFF)) !important;
+    background-image: -webkit-linear-gradient(#4087BF, #03ACFF) !important;
 }
 
-.superdev:active {
-    box-shadow: 0px 0px 0px 0px rgb(34,34,34),
-                0px 3px 7px 0px rgb(17,17,17),
-                inset 0px 1px 1px 0px rgba(250, 250, 250, .2),
-                inset 0px -10px 35px 5px rgba(0, 0, 0, .5);
-    background-color: rgb(83,87,93);
-    top: 3px;
-    color: #fff;
-    text-shadow: 0px 0px 3px rgb(250,250,250);
-}
-
-.superdev:hover {
-    background-color: rgb(100,100,100);
+.gdx-meter { 
+    max-width: 100% !important;
 }

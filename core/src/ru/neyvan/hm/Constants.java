@@ -3,13 +3,14 @@ package ru.neyvan.hm;
 import ru.neyvan.hm.levels.Difficult;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Application;
 
 /**
  * Created by AndyGo on 04.07.2017.
  */
 
 public class Constants {
-    public static String VERSION = "1.0.0 beta";
+    public static String VERSION = "1.0.2 beta";
     public static String WEBSITE = "www.neyvan.ru";
     public static String EMAIL = "neyvan.development@gmail.com";
 
@@ -36,6 +37,14 @@ public class Constants {
 	public final static String GAME_DATA_PATH = "bubu.data";
     public final static String PLAYER_PATH = "lulu.data";
     public final static String PREFERENCES_PATH = "mumu.data";
+
+    // For development and testing
+
+    public final static boolean FAST_GAME = false;
+    public final static int FAST_GAME_MAX_COUNT = 2;
+    public final static boolean IMMORTALITY = false;
+    public final static int LOG_LEVEL = Application.LOG_NONE; 
+
 
 
 }

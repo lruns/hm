@@ -5,7 +5,7 @@ package ru.neyvan.hm.surprises;
  */
 
 public class WarpSurprise extends Surprise {
-    public final float speedWarp;
+    private float speedWarp;
 
     public WarpSurprise(){super(); speedWarp = 1.0f;}
     // speedWarp = 0.5f of scaling / 1 s

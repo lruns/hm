@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+
+import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.surprises.ScreenEffects;
 
@@ -53,11 +55,16 @@ public class ScreenTransition {
 
     public void resize(Stage stage, int width, int height){
         //batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+        if(Constants.gwt){
+            this.width2 = width;
+            this.height2 = height;
+        }else{
+            this.width2 = stage.getViewport().getWorldWidth();
+            this.height2 = stage.getViewport().getWorldHeight();
+        }
         this.width = stage.getViewport().getScreenWidth();
         this.height = stage.getViewport().getScreenHeight();
-        this.width2 = stage.getViewport().getWorldWidth();
-        this.height2 = stage.getViewport().getWorldHeight();
-
+        
         shader.begin();
         shader.setUniformf("resolution", this.width, this.height);
         shader.setUniformf("position", 0.5f*(width-this.width),

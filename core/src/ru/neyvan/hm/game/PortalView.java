@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import ru.neyvan.hm.Constants;
 import ru.neyvan.hm.HM;
 
 
@@ -61,10 +62,17 @@ public class PortalView {
     }
 
     public void resize(Stage stage, int width, int height ){
+        if(Constants.gwt){
+            this.width2 = width;
+            this.height2 = height;           
+        }else{
+            this.width2 = stage.getViewport().getWorldWidth();
+            this.height2 = stage.getViewport().getWorldHeight();
+        }
+        
         this.width = stage.getViewport().getScreenWidth();
         this.height = stage.getViewport().getScreenHeight();
-        this.width2 = stage.getViewport().getWorldWidth();
-        this.height2 = stage.getViewport().getWorldHeight();
+        
         x = 0.5f*(width-this.width);
         y = 0.5f*(height-this.height);
 

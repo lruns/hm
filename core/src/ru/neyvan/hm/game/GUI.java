@@ -1,57 +1,57 @@
-package ru.neyvan.hm.game;
+    package ru.neyvan.hm.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+    import com.badlogic.gdx.Gdx;
+    import com.badlogic.gdx.graphics.Color;
+    import com.badlogic.gdx.graphics.GL20;
+    import com.badlogic.gdx.graphics.Pixmap;
+    import com.badlogic.gdx.graphics.Texture;
+    import com.badlogic.gdx.graphics.g2d.TextureRegion;
+    import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+    import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+    import com.badlogic.gdx.math.Interpolation;
+    import com.badlogic.gdx.scenes.scene2d.Action;
+    import com.badlogic.gdx.scenes.scene2d.Actor;
+    import com.badlogic.gdx.scenes.scene2d.Group;
+    import com.badlogic.gdx.scenes.scene2d.Stage;
+    import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+    import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+    import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
+    import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
+    import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+    import com.badlogic.gdx.scenes.scene2d.ui.Button;
+    import com.badlogic.gdx.scenes.scene2d.ui.Container;
+    import com.badlogic.gdx.scenes.scene2d.ui.Image;
+    import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+    import com.badlogic.gdx.scenes.scene2d.ui.Label;
+    import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+    import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+    import com.badlogic.gdx.scenes.scene2d.ui.Table;
+    import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+    import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+    import com.badlogic.gdx.utils.Align;
+    import com.badlogic.gdx.utils.ObjectMap;
+    import com.badlogic.gdx.utils.Scaling;
+    import com.badlogic.gdx.utils.Timer;
+    import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-import ru.neyvan.hm.Constants;
-import ru.neyvan.hm.HM;
-import ru.neyvan.hm.Path;
-import ru.neyvan.hm.actors.ChangeSpeedActor;
-import ru.neyvan.hm.actors.Explose;
-import ru.neyvan.hm.actors.GameCircle;
-import ru.neyvan.hm.actors.LevelInfoBox;
-import ru.neyvan.hm.actors.LifesBox;
-import ru.neyvan.hm.actors.ScoreBox;
-import ru.neyvan.hm.actors.StreamEnergy;
-import ru.neyvan.hm.levels.LevelNumber;
-import ru.neyvan.hm.screens.PlayScreen;
-import ru.neyvan.hm.surprises.ScreenEffects;
+    import ru.neyvan.hm.Constants;
+    import ru.neyvan.hm.HM;
+    import ru.neyvan.hm.Path;
+    import ru.neyvan.hm.actors.ChangeSpeedActor;
+    import ru.neyvan.hm.actors.Explose;
+    import ru.neyvan.hm.actors.GameCircle;
+    import ru.neyvan.hm.actors.LevelInfoBox;
+    import ru.neyvan.hm.actors.LifesBox;
+    import ru.neyvan.hm.actors.ScoreBox;
+    import ru.neyvan.hm.actors.StreamEnergy;
+    import ru.neyvan.hm.levels.LevelNumber;
+    import ru.neyvan.hm.screens.PlayScreen;
+    import ru.neyvan.hm.surprises.ScreenEffects;
 
-/**
- * Created by AndyGo on 25.11.2017.
- */
-public class GUI {
+    /**
+    * Created by AndyGo on 25.11.2017.
+    */
+    public class GUI {
     private PlayScreen core;
     private Stage stage;
     private Skin skin;
@@ -222,7 +222,7 @@ public class GUI {
         rightFrame.setSize(leftFrame.getWidth(), leftFrame.getHeight());
         gameCircle.setSize(0.45f * stage.getWidth(), 0.45f*stage.getWidth());
         bar.setSize(0.58f * stage.getWidth(), 0.075f * stage.getWidth());
-  }
+    }
 
     private void initPosition(){
         //    panel.setPosition(0, stage.getHeight() - panel.getHeight());
@@ -417,18 +417,18 @@ public class GUI {
 
     public void congratulation(float duration) {
         gameCircle.glowBar(duration, Color.GREEN);
-//        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
+    //        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
     }
 
 
     public void disgrace(float duration) {
         gameCircle.glowBar(duration, Color.RED);
-//        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
+    //        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
     }
 
     public void colorTimeBar(float duration, Color color) {
         gameCircle.glowBar(duration, color);
-//        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
+    //        shine.create((int)(camera.viewportWidth / 2), (int)(camera.viewportHeight / 2), 1, 1, duration, true);
     }
 
 
@@ -548,7 +548,7 @@ public class GUI {
         frameBuffer.dispose();
         frameBuffer = new FrameBuffer(Pixmap.Format.RGB888, width, height, false);
 
-        Gdx.app.debug("GUI", "Resize completed");
+    //        Gdx.app.debug("GUI", "Resize completed");
     }
 
 
@@ -662,4 +662,4 @@ public class GUI {
     public void stopScreenEffect() {
         isScreenEffect = false;
     }
-}
+    }

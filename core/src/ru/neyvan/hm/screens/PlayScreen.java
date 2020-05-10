@@ -18,6 +18,7 @@ import java.util.List;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.game.GUI;
 import ru.neyvan.hm.game.Game;
+import ru.neyvan.hm.game.MiniGame;
 import ru.neyvan.hm.game.PortalView;
 import ru.neyvan.hm.game.ScreenTransition;
 import ru.neyvan.hm.impacts.ChangeSpeedTimeImpact;
@@ -50,8 +51,6 @@ import ru.neyvan.hm.surprises.Surprise;
 
 // This is core of game, which control game, gui and input processes
 public class PlayScreen implements Screen {
-
-
 
     private Game game;
     private GUI gui;

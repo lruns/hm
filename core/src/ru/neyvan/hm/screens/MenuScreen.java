@@ -70,13 +70,15 @@ public class MenuScreen extends ScreenMenuModel {
         title = new Image(HM.game.texture.atlas.findRegion("title"));
         label1 = new Label("", skin, "advira");
         label2 = new Label("", skin, "advira");
-        if(HM.game.player.isPlayerExist()){
-            label1.setText(HM.game.bundle.format("welcome", HM.game.player.getName()));
-            label2.setText(HM.game.bundle.get("goodLuck"));
-        }else{
-            label1.setText(HM.game.bundle.get("welcomeNewUser"));
-            label2.setText(HM.game.bundle.get("gladToSee"));
-        }
+        label1.setText(HM.game.bundle.get("welcomeEveryone"));
+        label2.setText(HM.game.bundle.get("gladToSee"));
+//        if(HM.game.player.isPlayerExist()){
+//            label1.setText(HM.game.bundle.format("welcome", HM.game.player.getName()));
+//            label2.setText(HM.game.bundle.get("goodLuck"));
+//        }else{
+//            label1.setText(HM.game.bundle.get("welcomeNewUser"));
+//            label2.setText(HM.game.bundle.get("gladToSee"));
+//        }
         label1.pack();
         tableText.add(title).size(Value.percentWidth(1, table), Value.percentWidth(0.417f, table)).row();
         tableText.add(label1).align(Align.center).row();
@@ -91,9 +93,11 @@ public class MenuScreen extends ScreenMenuModel {
                 if(HM.game.player.isGameExist()){
                     if(Constants.gwt){
                         Preferences saves = Gdx.app.getPreferences(Constants.GAME_DATA_PATH);
-                        if(saves.contains("save")){
+                        if(!saves.contains("save")){
+                            Gdx.app.log("Menu screen","Game not found");
                             end(DISAPPEARANCE_TO_BOTTOM, new EpisodesScreen());
                         }else{
+                            Gdx.app.log("Menu screen","Game opening");
                             showWindowContinueGame();
                         }
                     }else{
@@ -229,11 +233,10 @@ public class MenuScreen extends ScreenMenuModel {
     }
 
     private void showWindowNewName() {
-        if(HM.game.player.isPlayerExist()) return;
-        WindowNewName windowNewName = new WindowNewName(HM.game.bundle.get("newUser"), skin, "octagon", stage, this);
-        windowNewName.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
-        stage.addActor(windowNewName);
-
+//        if(HM.game.player.isPlayerExist()) return;
+//        WindowNewName windowNewName = new WindowNewName(HM.game.bundle.get("newUser"), skin, "octagon", stage, this);
+//        windowNewName.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
+//        stage.addActor(windowNewName);
     }
 
     private void showWindowContinueGame() {
