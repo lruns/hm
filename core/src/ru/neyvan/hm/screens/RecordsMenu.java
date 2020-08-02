@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Align;
 
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.Records;
-import sun.java2d.pipe.ValidatePipe;
 
 /**
  * Created by AndyGo on 13.10.2017.

@@ -18,7 +18,6 @@ import java.util.List;
 import ru.neyvan.hm.HM;
 import ru.neyvan.hm.game.GUI;
 import ru.neyvan.hm.game.Game;
-import ru.neyvan.hm.game.MiniGame;
 import ru.neyvan.hm.game.PortalView;
 import ru.neyvan.hm.game.ScreenTransition;
 import ru.neyvan.hm.impacts.ChangeSpeedTimeImpact;
