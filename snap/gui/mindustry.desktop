@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0.2b
+Type=Application
+Name=Happy Math
+Comment=A logic game
+Exec=happy-math
+Icon=${SNAP}/meta/gui/happy-math.png
+Categories=Game;
+Terminal=false

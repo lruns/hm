@@ -1,0 +1,110 @@
+name: happy-math
+base: core18
+adopt-info: happy-math
+summary: A logic game
+description: |
+  The idea of the game is simple. The player must keep up to click on the numbers 
+  that appear on the circle display for a limited period of time. He must do it in 
+  accordance with the conditions at the beginning of the level. Do you think it is easy?
+  Not really. The player should consider different bonuses and penalties. In addition, 
+  numbers will change faster and conditions will become more difficult with each level.
+
+grade: stable
+confinement: strict
+
+apps:
+  happy-math:
+    command: desktop-launch $SNAP/bin/launcher
+    plugs:
+    - network
+    - network-bind
+    - opengl
+    - home
+    - joystick
+    - pulseaudio
+    - desktop
+    - wayland
+    - x11
+    - desktop-legacy
+    - unity7
+    environment:
+      XDG_DATA_HOME: "$SNAP/usr/share"
+      JAVA_HOME: "$SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre/"
+      PATH: "$SNAP/bin:$PATH:$SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
+      GVFS_MOUNTABLE_DIR: "$SNAP/usr/share/gvfs/mounts"
+      GVFS_MONITOR_DIR: "$SNAP/usr/share/gvfs/remote-volume-monitors"
+      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio"
+
+parts:
+  build-trigger:
+    source: https://github.com/neyvan/hm.git
+    plugin: nil
+  happy-math:
+    after: [desktop-gtk2]
+    plugin: nil
+    override-build: |
+      # Get the latest releases json
+      echo "Get GitHub releases..."
+      wget --quiet https://api.github.com/repos/neyvan/hm/releases/latest -O releases.json
+      # Get the version from the tag_name and the download URL.
+      VERSION=$(jq . releases.json | grep tag_name | cut -d'"' -f4 | sed s'/v//')
+      JAR_URL=$(cat releases.json | jq -r ".assets[] | select(.name | test(\"jar\")) | .browser_download_url" | grep -v "server-release")
+      echo "Downloading ${JAR_URL}..."
+      wget --quiet "${JAR_URL}" -O "${SNAPCRAFT_PART_INSTALL}/happy-math.jar"
+      rm -f releases.json 2>/dev/null
+      snapcraftctl set-version "$VERSION"
+    build-packages:
+      - wget
+      - jq
+      - sed
+    stage-packages:
+      - openjdk-8-jre
+      - ca-certificates
+      - ca-certificates-java
+      - libpulse0
+      - libpulsedsp
+      - libxxf86vm1
+      - libgl1-mesa-dri
+      - libglu1-mesa
+      - libgl1-mesa-glx
+      - libgles2-mesa
+      - x11-xserver-utils
+    prime:
+        - -usr/lib/jvm/java-*/lib/security/cacerts
+        - -usr/lib/jvm/java-*/jre/lib/security/cacerts
+  launcher:
+    plugin: dump
+    source: snap/local
+    organize:
+      'launcher': 'bin/'
+      'padsp': 'bin/'
+      'sensible-browser': 'bin/'
+      'usr/lib/*/gvfs/*.so': 'usr/lib'
+      'usr/bin/xprop': 'usr/bin/xprop.disabled'
+  desktop-gtk2:
+    build-packages:
+      - build-essential
+      - libgtk2.0-dev
+    make-parameters:
+      - FLAVOR=gtk2
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: gtk
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libgtk2.0-0
+      - libgdk-pixbuf2.0-0
+      - libglib2.0-bin
+      - libgtk2.0-bin
+      - unity-gtk2-module
+      - locales-all
+      - libappindicator1
+      - xdg-user-dirs
+      - ibus-gtk
+      - libibus-1.0-5
