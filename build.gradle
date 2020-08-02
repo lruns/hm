@@ -19,7 +19,7 @@ buildscript {
 
 allprojects {
 
-    version = '1.0'
+    version = '1.0.2b'
     ext {
         appName = "Happy Math"
         gdxVersion = '1.9.10'
