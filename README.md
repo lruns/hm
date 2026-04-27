@@ -20,3 +20,44 @@ At the beginning of each level the player has game conditions by which he must n
 As well, there are surprises in the game. Surprises are good (bonuses, for example, extra lives or points, time dilation, explosion of numbers) and bad (penalties, for example, reduction of lives or points, different distortions of the game screen).
 
 Let's look at an example. Suppose that according to the game condition the numbers should be divided by 3. And game start the count from 1 and then add 2 to each next number (that is, it will be 1, 3, 5 ...). So, the player should click on 3, 9, 15, 21 and so on until the end of the game, because these numbers are divided by 3. But if the player chooses 5, then he will lose his life.
+
+## Development
+
+**Stack:** Java 17, [libGDX 1.14.0](https://libgdx.com), Gradle 8
+
+### Requirements
+
+- JDK 17+
+- Android SDK (for Android build)
+
+### Run
+
+**Desktop:**
+```bash
+gradlew lwjgl3:run
+```
+
+**Android** — open project in Android Studio and run, or:
+```bash
+gradlew android:installDebug
+```
+
+**Web (GWT):**
+```bash
+gradlew html:superDev
+```
+Then open `http://localhost:8080` in Chrome.  
+`superDev` — development mode with hot-reload: after code changes press the reload button in the browser and the game recompiles without restarting the server. For a production build use `gradlew html:dist` — result will be in `html/build/dist/`.
+
+### Level editor
+```bash
+gradlew lwjgl3:runEditor
+```
+
+> **TODO:** Figure out how saving works in the level editor — where the `.lvl` files end up and how to load them back. Check `core/src/ru/neyvan/hm/levels/` sources.
+
+## TODO
+
+- [ ] Level editor: figure out save/load flow — where levels are stored, how to load them into the game
+- [ ] Game UX overhaul: rules are too complex for a new player, nobody reads a wall of text. Need to teach the player gradually through gameplay (first level = trivial condition, difficulty grows step by step)
+- [ ] Level editor UX: needs to be usable without knowing the code
