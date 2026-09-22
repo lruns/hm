@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>itch-подобная страница-хозяин</title>
+<style>
+  body { margin:0; background:#242424; color:#fff; font:14px system-ui; }
+  .head { padding:8px 12px; }
+  #wrap { background:#000; }
+  iframe { display:block; border:0; }
+</style>
+</head>
+<body>
+<!-- The iframe attributes are copied from a real itch.io embed (html-classic):
+     same sandbox, same allow. The game is served on a DIFFERENT port = a different
+     origin, like html-classic.itch.zone inside itch.io. -->
+<div class="head">Happy Math — itch-like embed <button id="fs">fullscreen</button></div>
+<div id="wrap"><iframe id="game_drop"
+  src="http://127.0.0.1:5210/index.html"
+  width="960" height="640"
+  scrolling="no" frameborder="0"
+  allowfullscreen="true"
+  allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; clipboard-write"
+  sandbox="allow-scripts allow-same-origin allow-popups allow-modals allow-forms allow-downloads allow-pointer-lock allow-orientation-lock"></iframe></div>
+<script>
+  var wrap = document.getElementById('wrap'), f = document.getElementById('game_drop')
+  document.getElementById('fs').onclick = function () { wrap.requestFullscreen && wrap.requestFullscreen() }
+  window.__setSize = function (w, h) { f.width = w; f.height = h; f.style.width = w + 'px'; f.style.height = h + 'px' }
+  window.__fakeFull = function () { f.style.width = '100vw'; f.style.height = '100vh'; f.width = window.innerWidth; f.height = window.innerHeight }
+</script>
+</body>
+</html>

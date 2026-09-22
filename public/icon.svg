@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Happy Math: диск-самоцвет с золотой каймой, неон-треугольник и крылья.
+       Генерируется scripts/gen-app-assets.mjs — руками не править. -->
+  <defs>
+    <radialGradient id="fbg" cx="0.5" cy="0.42" r="0.82">
+      <stop offset="0"    stop-color="#192461"/>
+      <stop offset="0.45" stop-color="#0d1038"/>
+      <stop offset="1"    stop-color="#070a24"/>
+    </radialGradient>
+  </defs>
+  <rect width="128" height="128" rx="26" fill="url(#fbg)"/>
+  <defs>
+      <radialGradient id="wingFill" gradientUnits="userSpaceOnUse"
+                      cx="64" cy="64" r="51.6">
+        <!-- перо плотнее игрового (там 0.09..0.22): в 48 px бледное золото
+             растворяется при уменьшении, и от крыла остаётся сухой штрих -->
+        <stop offset="0"    stop-color="#ffd787" stop-opacity="0.86"/>
+        <stop offset="0.5"  stop-color="#ffc247" stop-opacity="0.64"/>
+        <stop offset="1"    stop-color="#ffae39" stop-opacity="0.24"/>
+      </radialGradient>
+      <radialGradient id="wingEdge" gradientUnits="userSpaceOnUse"
+                      cx="64" cy="64" r="51.6">
+        <stop offset="0"   stop-color="#fff3d0" stop-opacity="0.95"/>
+        <stop offset="0.6" stop-color="#ffc247" stop-opacity="0.85"/>
+        <stop offset="1"   stop-color="#ffc247" stop-opacity="0.25"/>
+      </radialGradient>
+      <radialGradient id="discHalo" gradientUnits="userSpaceOnUse"
+                      cx="64" cy="64" r="50.94">
+        <stop offset="0.62" stop-color="#ffc247" stop-opacity="0.22"/>
+        <stop offset="0.80" stop-color="#ffc247" stop-opacity="0.09"/>
+        <stop offset="1"    stop-color="#ffc247" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <g transform="translate(0 5.64)">
+      <circle cx="64" cy="64" r="50.94" fill="url(#discHalo)"/>
+      <path d="M40.34 89.63C9.31 77.8 11.37 47.32 12.4 16.35C16.35 37.79 37.71 62.36 40.34 89.63Z" fill="url(#wingFill)" stroke="url(#wingEdge)" stroke-width="1.48" stroke-linejoin="round"/><path d="M36.39 84.38C16.41 74.52 18.21 50.5 19.11 25.42C20.29 42.78 34.42 62.36 36.39 84.38Z" fill="url(#wingFill)" stroke="url(#wingEdge)" stroke-width="1.22" stroke-linejoin="round"/><path d="M32.45 79.12C23.52 71.23 25.05 53.67 25.81 34.49C24.23 47.77 31.13 62.36 32.45 79.12Z" fill="url(#wingFill)" stroke="url(#wingEdge)" stroke-width="0.95" stroke-linejoin="round"/><path d="M87.66 89.63C118.69 77.8 116.63 47.32 115.6 16.35C111.65 37.79 90.29 62.36 87.66 89.63Z" fill="url(#wingFill)" stroke="url(#wingEdge)" stroke-width="1.48" stroke-linejoin="round"/><path d="M91.61 84.38C111.59 74.52 109.79 50.5 108.89 25.42C107.71 42.78 93.58 62.36 91.61 84.38Z" fill="url(#wingFill)" stroke="url(#wingEdge)" stroke-width="1.22" stroke-linejoin="round"/><path d="M95.55 79.12C104.48 71.23 102.95 53.67 102.19 34.49C103.77 47.77 96.87 62.36 95.55 79.12Z" fill="url(#wingFill)" stroke="url(#wingEdge)" stroke-width="0.95" stroke-linejoin="round"/>
+      <circle cx="64" cy="64" r="32.87" fill="#0e1432"/><circle cx="64" cy="64" r="5.09" fill="#566193"/><path d="M69.62 64.1L69.51 65.12L69.21 66.12L68.73 67.03L68.09 67.85L74.75 74.11L76.42 71.97L77.67 69.55L78.46 66.95L78.75 64.25Z" fill="#2f3969" fill-opacity="0.97"/><path d="M67.86 68.08L67.09 68.69L66.23 69.16L65.3 69.47L64.33 69.61L64.87 78.73L67.41 78.36L69.86 77.54L72.12 76.32L74.14 74.72Z" fill="#2f3969" fill-opacity="0.97"/><path d="M63.8 69.62L62.84 69.5L61.91 69.22L61.05 68.78L60.27 68.2L54.21 75.04L56.25 76.56L58.52 77.7L60.96 78.44L63.48 78.75Z" fill="#354077" fill-opacity="0.97"/><path d="M60.07 68.02L59.39 67.21L58.87 66.3L58.53 65.3L58.39 64.26L49.26 64.68L49.64 67.42L50.53 70.04L51.9 72.44L53.68 74.55Z" fill="#455188" fill-opacity="0.97"/><path d="M53.68 74.55L51.9 72.44L50.53 70.04L49.64 67.42L49.26 64.68" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="0.6"/><path d="M58.38 63.93L58.5 62.86L58.82 61.83L59.33 60.88L60.01 60.04L53.53 53.6L51.73 55.8L50.39 58.29L49.55 61L49.24 63.81Z" fill="#5b6597" fill-opacity="0.97"/><path d="M49.24 63.81L49.55 61L50.39 58.29L51.73 55.8L53.53 53.6" fill="none" stroke="#ffffff" stroke-opacity="0.13" stroke-width="0.6"/><path d="M60.12 59.93L60.94 59.28L61.86 58.8L62.86 58.5L63.9 58.38L63.73 49.25L61.01 49.55L58.39 50.35L55.97 51.62L53.82 53.31Z" fill="#586295" fill-opacity="0.97"/><path d="M53.82 53.31L55.97 51.62L58.39 50.35L61.01 49.55L63.73 49.25" fill="none" stroke="#ffffff" stroke-opacity="0.13" stroke-width="0.6"/><path d="M63.93 58.38L65.05 58.48L66.13 58.8L67.13 59.33L68 60.05L74.49 53.62L72.21 51.74L69.6 50.35L66.77 49.51L63.82 49.24Z" fill="#4d578d" fill-opacity="0.97"/><path d="M63.82 49.24L66.77 49.51L69.6 50.35L72.21 51.74L74.49 53.62" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="0.6"/><path d="M67.92 59.97L68.62 60.8L69.15 61.76L69.49 62.8L69.62 63.88L78.75 63.69L78.41 60.84L77.53 58.11L76.14 55.61L74.29 53.42Z" fill="#374278" fill-opacity="0.97"/><path d="M79.48 64.03L79.35 66.04L78.95 68.01L78.3 69.92L77.41 71.73L92.17 80.22L94.03 76.43L95.39 72.42L96.22 68.28L96.5 64.06Z" fill="#3e4163" fill-opacity="0.97"/><path d="M77.36 71.83L76.32 73.37L75.11 74.78L73.74 76.03L72.23 77.11L81.28 91.53L84.45 89.26L87.33 86.63L89.87 83.67L92.04 80.43Z" fill="#383c5e" fill-opacity="0.97"/><path d="M71.48 77.55L69.79 78.36L68.02 78.95L66.18 79.32L64.32 79.48L64.67 96.5L68.59 96.18L72.43 95.39L76.16 94.14L79.71 92.46Z" fill="#3a3d60" fill-opacity="0.97"/><path d="M63.73 79.48L61.77 79.32L59.84 78.91L57.98 78.26L56.22 77.38L47.66 92.1L51.36 93.95L55.26 95.31L59.31 96.16L63.43 96.5Z" fill="#42466c" fill-opacity="0.97"/><path d="M55.78 77.12L54.2 75.99L52.78 74.67L51.54 73.18L50.49 71.56L35.63 79.87L37.83 83.28L40.45 86.4L43.43 89.17L46.74 91.54Z" fill="#4b507b" fill-opacity="0.97"/><path d="M50.58 71.72L49.74 70.03L49.12 68.26L48.71 66.42L48.53 64.55L31.52 65.16L31.9 69.09L32.75 72.94L34.07 76.67L35.82 80.2Z" fill="#5e5d78" fill-opacity="0.97"/><path d="M35.82 80.2L34.07 76.67L32.75 72.94L31.9 69.09L31.52 65.16" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="0.6"/><path d="M48.53 63.53L48.71 61.59L49.13 59.69L49.79 57.86L50.67 56.12L36.02 47.46L34.16 51.11L32.78 54.95L31.89 58.95L31.51 63.02Z" fill="#7b7480" fill-opacity="0.97"/><path d="M31.51 63.02L31.89 58.95L32.78 54.95L34.16 51.11L36.02 47.46" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.6"/><path d="M50.84 55.84L51.92 54.32L53.17 52.94L54.58 51.72L56.13 50.67L47.47 36.01L44.22 38.2L41.26 40.77L38.63 43.68L36.37 46.87Z" fill="#7b747c" fill-opacity="0.97"/><path d="M36.37 46.87L38.63 43.68L41.26 40.77L44.22 38.2L47.47 36.01" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="0.6"/><path d="M56.15 50.66L57.87 49.79L59.68 49.14L61.55 48.72L63.47 48.53L62.88 31.52L58.86 31.9L54.92 32.79L51.12 34.16L47.52 35.98Z" fill="#756e7b" fill-opacity="0.97"/><path d="M47.52 35.98L51.12 34.16L54.92 32.79L58.86 31.9L62.88 31.52" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="0.6"/><path d="M63.82 48.52L65.93 48.64L68 49.05L70 49.73L71.88 50.68L80.55 36.02L76.59 34.03L72.4 32.6L68.05 31.75L63.63 31.5Z" fill="#66657e" fill-opacity="0.97"/><path d="M63.63 31.5L68.05 31.75L72.4 32.6L76.59 34.03L80.55 36.02" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="0.6"/><path d="M72.13 50.83L73.71 51.94L75.13 53.24L76.38 54.71L77.44 56.32L92.23 47.88L90 44.5L87.37 41.41L84.38 38.68L81.07 36.34Z" fill="#464c77" fill-opacity="0.97"/><path d="M77.41 56.27L78.3 58.07L78.94 59.96L79.34 61.92L79.48 63.91L96.5 63.82L96.21 59.63L95.38 55.52L94.02 51.54L92.17 47.78Z" fill="#3f426a" fill-opacity="0.97"/>
+      <path d="M40.54 48.24A28.26 28.26 0 0 1 75.55 38.2" fill="none" stroke="#ffffff" stroke-opacity="0.30" stroke-width="2.46" stroke-linecap="round"/>
+      <circle cx="64" cy="64" r="33.85" fill="none"
+              stroke="#ffc247" stroke-opacity="0.20" stroke-width="3.29"/>
+      <circle cx="64" cy="64" r="32.87" fill="none"
+              stroke="#ffc247" stroke-opacity="0.96" stroke-width="1.81"/>
+      <path d="M56.14 48.88L56.14 79.12L78.36 64Z" fill="none" stroke="#ffc247" stroke-opacity="0.2" stroke-width="6.95" stroke-linejoin="round" stroke-linecap="round"/><path d="M56.14 48.88L56.14 79.12L78.36 64Z" fill="none" stroke="#ffce6a" stroke-opacity="0.82" stroke-width="3.17" stroke-linejoin="round" stroke-linecap="round"/><path d="M56.14 48.88L56.14 79.12L78.36 64Z" fill="none" stroke="#fff4de" stroke-opacity="0.98" stroke-width="1.29" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+</svg>

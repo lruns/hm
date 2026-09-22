@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Оверлей манифеста, подключается ТОЛЬКО флагом -PhmNoInternet (см. app/build.gradle).
+  Вырезает android.permission.INTERNET, который шаблон Capacitor ставит по умолчанию.
+  Happy Math — офлайн-игра, весь веб лежит в assets и отдаётся WebViewAssetLoader'ом.
+  ⚠ Перед публикацией такой сборки ОБЯЗАТЕЛЬНО проверить на живом устройстве, что
+  вебвью стартует (не белый экран) — на части OEM-вебвью поведение отличается.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+</manifest>

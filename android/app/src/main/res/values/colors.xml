@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- game background (#0a0a18): used for the Android 12+ system splash and the
+         window, so nothing flashes white at start or on rotation -->
+    <color name="splashBackground">#0A0A18</color>
+</resources>

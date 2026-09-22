@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="color-scheme" content="dark" />
+    <title>Happy Math</title>
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <style>
+      html, body {
+        margin: 0; padding: 0; height: 100%; overflow: hidden; background: #0a0a18;
+        overscroll-behavior: none;                /* itch iframe: do not drag the parent page */
+        -webkit-tap-highlight-color: transparent; /* mobile itch: no blue flash on tap */
+        user-select: none; -webkit-user-select: none;
+      }
+      #root { height: 100%; }
+      canvas { display: block; touch-action: manipulation; }
+      input { user-select: text; -webkit-user-select: text; } /* the name field stays editable */
+    </style>
+    <script>
+      /*
+       * Two guards that must run BEFORE the game module (needed on itch.io).
+       *
+       * 1) localStorage. On itch the game lives in a third-party iframe
+       *    (html-classic.itch.zone inside itch.io). If the player has third-party
+       *    storage disabled (Safari ITP, Chrome "block third-party cookies",
+       *    private mode), merely TOUCHING localStorage throws SecurityError. The
+       *    engine reads it in its constructor without a try, so the game would not
+       *    start at all: black screen. We swap in an in-memory shim: progress lives
+       *    for one session, but everything is playable.
+       *
+       * 2) Focus. Keys (Space/Enter/X/P/M/Esc) only reach the focused window, and on
+       *    itch the parent page holds focus by default. We grab it on the first tap
+       *    (and on load, if we really are in an iframe).
+       */
+      (function () {
+        var ok = false;
+        try {
+          var ls = window.localStorage;
+          ls.setItem('hm2.probe', '1');
+          ls.removeItem('hm2.probe');
+          ok = true;
+        } catch (e) { ok = false; }
+        if (!ok) {
+          var mem = {};
+          var shim = {
+            getItem: function (k) { k = String(k); return Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null; },
+            setItem: function (k, v) { mem[String(k)] = String(v); },
+            removeItem: function (k) { delete mem[String(k)]; },
+            clear: function () { mem = {}; },
+            key: function (i) { var ks = Object.keys(mem); return i < ks.length ? ks[i] : null; },
+            get length() { return Object.keys(mem).length; }
+          };
+          try {
+            Object.defineProperty(window, 'localStorage', { value: shim, configurable: true });
+            console.warn('[hm] localStorage недоступен — прогресс сохраняется только на эту сессию');
+          } catch (e) {
+            console.warn('[hm] localStorage недоступен и не подменяется:', e && e.message);
+          }
+        }
+      })();
+
+      (function () {
+        var grab = function () { try { window.focus(); } catch (e) { /* ok */ } };
+        var embedded = true;
+        try { embedded = window.self !== window.top; } catch (e) { embedded = true; }
+        if (embedded) window.addEventListener('load', grab);
+        window.addEventListener('pointerdown', grab, true);
+        window.addEventListener('touchstart', grab, { capture: true, passive: true });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

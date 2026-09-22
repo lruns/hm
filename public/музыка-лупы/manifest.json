@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "codec": "opus",
+  "ext": "ogg",
+  "kbps": 96,
+  "sampleRate": 48000,
+  "loopSec": 38.4,
+  "cyclesPerLoop": 2,
+  "storeDb": 14,
+  "files": {
+    "world1-calm": {
+      "bytes": 522975,
+      "peakDb": -22.6,
+      "rmsDb": -38.4
+    },
+    "world1-mid": {
+      "bytes": 577280,
+      "peakDb": -19.2,
+      "rmsDb": -37
+    },
+    "world1-storm": {
+      "bytes": 574589,
+      "peakDb": -18.6,
+      "rmsDb": -36.7
+    },
+    "menu1": {
+      "bytes": 548535,
+      "peakDb": -25.8,
+      "rmsDb": -41.9
+    },
+    "world2-calm": {
+      "bytes": 525279,
+      "peakDb": -19.6,
+      "rmsDb": -38
+    },
+    "world2-mid": {
+      "bytes": 594518,
+      "peakDb": -18.5,
+      "rmsDb": -36.3
+    },
+    "world2-storm": {
+      "bytes": 601573,
+      "peakDb": -17.9,
+      "rmsDb": -35.9
+    },
+    "menu2": {
+      "bytes": 535842,
+      "peakDb": -26.3,
+      "rmsDb": -41.8
+    },
+    "world3-calm": {
+      "bytes": 544349,
+      "peakDb": -20.9,
+      "rmsDb": -38.5
+    },
+    "world3-mid": {
+      "bytes": 555516,
+      "peakDb": -18.7,
+      "rmsDb": -37.5
+    },
+    "world3-storm": {
+      "bytes": 562618,
+      "peakDb": -18.3,
+      "rmsDb": -37.1
+    },
+    "menu3": {
+      "bytes": 566364,
+      "peakDb": -25.3,
+      "rmsDb": -42.2
+    },
+    "world4-calm": {
+      "bytes": 491616,
+      "peakDb": -22,
+      "rmsDb": -38.1
+    },
+    "world4-mid": {
+      "bytes": 505435,
+      "peakDb": -18.8,
+      "rmsDb": -37
+    },
+    "world4-storm": {
+      "bytes": 512230,
+      "peakDb": -18.3,
+      "rmsDb": -36.5
+    },
+    "menu4": {
+      "bytes": 576089,
+      "peakDb": -25.1,
+      "rmsDb": -42.3
+    },
+    "world5-calm": {
+      "bytes": 538922,
+      "peakDb": -21.8,
+      "rmsDb": -38.7
+    },
+    "world5-mid": {
+      "bytes": 554368,
+      "peakDb": -18.5,
+      "rmsDb": -36.8
+    },
+    "world5-storm": {
+      "bytes": 565444,
+      "peakDb": -17.8,
+      "rmsDb": -36.3
+    },
+    "menu5": {
+      "bytes": 545779,
+      "peakDb": -26.5,
+      "rmsDb": -42.3
+    },
+    "world5-calm-enigma": {
+      "bytes": 953706,
+      "peakDb": -22.6,
+      "rmsDb": -38
+    },
+    "world5-mid-enigma": {
+      "bytes": 971045,
+      "peakDb": -19,
+      "rmsDb": -36.6
+    },
+    "world5-storm-enigma": {
+      "bytes": 980468,
+      "peakDb": -18.5,
+      "rmsDb": -36
+    },
+    "menu1-enigma": {
+      "bytes": 966562,
+      "peakDb": -22.7,
+      "rmsDb": -40.8
+    }
+  },
+  "loopSecEnigma": 76.8
+}

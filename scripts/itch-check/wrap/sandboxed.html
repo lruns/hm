@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><title>iframe с непрозрачным origin</title>
+<style>body{margin:0;background:#111}iframe{display:block;border:0}</style></head>
+<body>
+<!-- WORST case: sandbox WITHOUT allow-same-origin, so the origin is opaque and
+     any access to localStorage throws SecurityError (that is how Safari ITP and
+     Chrome with third-party storage disabled behave).
+     We check that the game still starts on the fallback. -->
+<iframe id="game_drop" src="http://127.0.0.1:5210/index.html"
+  width="960" height="640" scrolling="no" frameborder="0"
+  sandbox="allow-scripts"></iframe>
+</body>
+</html>
