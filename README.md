@@ -5,7 +5,9 @@ A calm musical game about numbers. Tap the glowing disc when its number fits the
 melody, and each level ends with a portal into the next world.
 
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="60" alt="Get it on Google Play">](https://play.google.com/store/apps/details?id=ru.neyvan.hm)
-&nbsp; Play in the browser: **[lruns.itch.io/hm](https://lruns.itch.io/hm)**
+
+Play in the browser: **[lruns.one/hm](https://lruns.one/hm)** (also on [GitHub Pages](https://lruns.github.io/hm/)).
+[lruns.itch.io/hm](https://lruns.itch.io/hm) still hosts the previous version for now.
 
 | | | |
 |---|---|---|
@@ -26,6 +28,7 @@ melody, and each level ends with a portal into the next world.
 ```bash
 npm i
 npm run dev            # web, http://localhost:5173
+npm run build          # static web build in dist/ (this is what GitHub Pages serves)
 npm run sync           # build + copy into android/ (uses HM_LOOPS=1 for music loops)
 scripts/build-android.sh   # signed release; keys live outside the repo (see android/app/build.gradle)
 ```
@@ -36,7 +39,7 @@ Signing keys, store listings and promo material are not in this repository.
 
 Happy Math started as a paper sketch in 2016 and was released on Google Play in 2020 as a
 **libgdx** game. That code lives untouched in the branch
-[`libgdx-2020`](../../tree/libgdx-2020) (tag `v1.0.2`) for historical reference.
+[`libgdx`](https://github.com/lruns/hm/tree/libgdx) (tag `v1.0.2`) for historical reference.
 The 2026 version on `main` is a full rewrite: web first, PixiJS, music played by your answers.
 Both are published under the same app id, so the new version arrives as an update.
 
