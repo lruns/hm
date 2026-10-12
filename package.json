@@ -14,7 +14,7 @@
     "assets": "node scripts/gen-app-assets.mjs && capacitor-assets generate --android && node scripts/fix-adaptive-icon.mjs"
   },
   "dependencies": {
-    "@capacitor/android": "^8.4.2",
+    "@capacitor/android": "^8.4.3",
     "@capacitor/app": "^8.1.1",
     "@capacitor/core": "^8.4.2",
     "@capacitor/splash-screen": "^8.0.2",
